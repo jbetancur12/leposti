@@ -26,9 +26,9 @@
       "via": "prices",
       "model": "product"
     },
-    "ranges": {
+    "range": {
       "via": "prices",
-      "collection": "range"
+      "model": "range"
     }
   }
 }
