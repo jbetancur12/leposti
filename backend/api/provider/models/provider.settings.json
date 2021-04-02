@@ -35,11 +35,6 @@
     "prices": {
       "collection": "price",
       "via": "provider"
-    },
-    "dias": {
-      "type": "text",
-      "default": "lunes,martes,miercoles,jueves,viernes,sabado,domingo",
-      "required": true
     }
   }
 }

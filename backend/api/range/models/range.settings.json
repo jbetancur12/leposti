@@ -24,8 +24,8 @@
       "type": "integer"
     },
     "prices": {
-      "collection": "price",
-      "via": "range"
+      "via": "range",
+      "collection": "price"
     }
   }
 }
