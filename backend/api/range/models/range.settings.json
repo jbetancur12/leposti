@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ranges",
+  "info": {
+    "name": "range"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "nombre": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "minimo": {
+      "type": "integer",
+      "required": true
+    },
+    "maximo": {
+      "type": "integer"
+    },
+    "prices": {
+      "collection": "price",
+      "via": "ranges",
+      "dominant": true
+    }
+  }
+}
