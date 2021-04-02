@@ -24,8 +24,8 @@
       "collection": "order"
     },
     "prices": {
-      "collection": "price",
-      "via": "product"
+      "via": "product",
+      "collection": "price"
     }
   }
 }
