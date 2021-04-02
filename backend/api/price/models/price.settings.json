@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "prices",
+  "info": {
+    "name": "price"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "precio": {
+      "type": "integer",
+      "required": true
+    },
+    "iva": {
+      "type": "integer",
+      "required": true
+    },
+    "provider": {
+      "via": "prices",
+      "model": "provider"
+    },
+    "product": {
+      "via": "prices",
+      "model": "product"
+    },
+    "ranges": {
+      "via": "prices",
+      "collection": "range"
+    }
+  }
+}
