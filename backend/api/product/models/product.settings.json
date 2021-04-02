@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "name": "product",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "nombre": {
+      "type": "string",
+      "required": true
+    },
+    "providers": {
+      "via": "products",
+      "collection": "provider"
+    },
+    "orders": {
+      "via": "product",
+      "collection": "order"
+    },
+    "prices": {
+      "collection": "price",
+      "via": "product"
+    }
+  }
+}
