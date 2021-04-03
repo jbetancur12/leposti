@@ -10,7 +10,7 @@ function Page({ products }) {
   const API_URL = 'https://api.leposti.ml';
 
   const handleChangeProduct = async (e) => {
-    const res = await fetch(`${API_URL}/products/${e.id}`);
+    const res = await fetch(`https://api.leposti.ml/products/${e.id}`);
     const product = await res.json();
     const _product = { _product: e.id };
 
@@ -30,7 +30,7 @@ function Page({ products }) {
   const handleOnClick = async (e) => {
     e.preventDefault();
     const range = editorState.length;
-    const res = await fetch(`${API_URL}/prices`);
+    const res = await fetch(`https://api.leposti.ml/prices`);
     const prices = await res.json();
 
     const price = prices.filter(
@@ -68,7 +68,7 @@ function Page({ products }) {
       },
     };
 
-    // const res = await fetch(`${API_URL}/orders`, {
+    // const res = await fetch(`https://api.leposti.ml/orders`, {
     //   method: 'POST', // *GET, POST, PUT, DELETE, etc.
     //   headers: {
     //     'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ function Page({ products }) {
 }
 
 Page.getInitialProps = async (ctx) => {
-  const res = await fetch(`${API_URL}/products`);
+  const res = await fetch(`https://api.leposti.ml/products`);
   const products = await res.json();
   return { products };
 };
