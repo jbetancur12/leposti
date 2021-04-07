@@ -1,78 +1,131 @@
-import {
-  Form,
-  Select,
-  InputNumber,
-  DatePicker,
-  Switch,
-  Slider,
-  Button
-} from "antd";
-import Link from "next/link";
+import React from 'react'
+import moment from 'moment';
+import { Row, Col, Select, Form, DatePicker, Space } from 'antd';
+import ColumnGroup from 'antd/lib/table/ColumnGroup';
 
-const FormItem = Form.Item;
-const Option = Select.Option;
+const { Option } = Select;
+const FormItem = Form.Item
+const { RangePicker } = DatePicker;
 
-export default () => (
-  <div style={{ marginTop: 100 }}>
-    <Link href="/">
-      <a> Go to index </a>
-    </Link>
-    <Form layout="horizontal">
-      <FormItem
-        label="Input Number"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 8 }}
-      >
-        <InputNumber
-          size="large"
-          min={1}
-          max={10}
-          style={{ width: 100 }}
-          defaultValue={3}
-          name="inputNumber"
-        />
-        <a href="#">Link</a>
-      </FormItem>
+const dateFormat = 'DD/MM/YYYY';
 
-      <FormItem label="Switch" labelCol={{ span: 8 }} wrapperCol={{ span: 8 }}>
-        <Switch defaultChecked name="switch" />
-      </FormItem>
+export default function Index({ products }) {
+  const [product, setProduct] = React.useState('');
+  const [provider, setProvider] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+  const [openProviders, setOpenProviders] = React.useState(false);
+  const [productProvider, setProductProvider] = React.useState([]);
+  const [providers, setProviders] = React.useState([]);
+  const [value, setValue] = React.useState('');
+  const [readOnly, setReadOnly] = React.useState(true);
 
-      <FormItem label="Slider" labelCol={{ span: 8 }} wrapperCol={{ span: 8 }}>
-        <Slider defaultValue={70} />
-      </FormItem>
 
-      <FormItem label="Select" labelCol={{ span: 8 }} wrapperCol={{ span: 8 }}>
-        <Select
-          size="large"
-          defaultValue="lucy"
-          style={{ width: 192 }}
-          name="select"
-        >
-          <Option value="jack">jack</Option>
-          <Option value="lucy">lucy</Option>
-          <Option value="disabled" disabled>
-            disabled
-          </Option>
-          <Option value="yiminghe">yiminghe</Option>
-        </Select>
-      </FormItem>
+  async function onChange(value) {
+    const res = await fetch(
+      `https://api.leposti.ml/products/${value}`,
+    );
+    const resProduct = await res.json();
+    const _product = { product: value };
+    setProduct(value);
+    setProvider('');
+    setProductProvider({ ..._product });
+    setProviders(resProduct.providers);
+  }
 
-      <FormItem
-        label="DatePicker"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 8 }}
-      >
-        <DatePicker name="startDate" />
-      </FormItem>
-      <FormItem style={{ marginTop: 48 }} wrapperCol={{ span: 8, offset: 8 }}>
-        <Button size="large" type="primary" htmlType="submit">
-          OK
-        </Button>
-        <Button size="large" style={{ marginLeft: 8 }}>
-          Cancel
-        </Button>
-      </FormItem>
-    </Form>
-  </div>
-);
+  function onChangeProvider(value) {
+    setProvider(value);
+    const test = { ...productProvider, provider: value };
+    setProductProvider(test);
+  }
+
+  function onChangeDate() {
+    console.log('focus');
+  }
+
+  function disabledDate(current){
+    return current && current < moment().endOf('day');
+  }
+
+  const optionsProducts = products.map((product) => {
+    return (
+      <Option value={product.id} key={product.id}>
+        {product.nombre}
+      </Option>
+    );
+  });
+  const optionsProviders =
+    providers &&
+    providers.map((provider) => {
+      return (
+        <Option value={provider.id} key={provider.id}>
+          {provider.nombre}
+        </Option>
+      );
+    });
+
+
+  return (
+    <Row justify="space-around" style={{ marginTop: "50px" }}>
+      <Col span={16}>COntent</Col>
+      <Col span={8}>
+        <Form layout="horizontal">
+          <FormItem
+            label="Producto:"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 8 }}
+          >
+            <Select
+              showSearch
+              style={{ width: 200 }}
+              placeholder="Seleccione un producto"
+              optionFilterProp="children"
+              onChange={onChange}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {optionsProducts}
+            </Select>
+          </FormItem>
+
+          <FormItem
+            label="Medio:"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 8 }}
+          >
+            <Select
+              disabled={!productProvider.product}
+              showSearch
+              style={{ width: 200 }}
+              placeholder="Seleccione un medio"
+              optionFilterProp="children"
+              value={provider}
+              onChange={onChangeProvider}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {optionsProviders}
+            </Select>
+          </FormItem>
+
+          <FormItem
+            label="Fecha:"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 8 }}
+          >
+            <Space direction="vertical">
+              <DatePicker disabledDate={disabledDate} disabled={!productProvider.provider} defaultValue={moment(new Date(), dateFormat)} format={dateFormat} onChange={onChangeDate} />
+            </Space>
+          </FormItem>
+
+        </Form>
+      </Col>
+    </Row>
+  )
+};
+Index.getInitialProps = async (ctx) => {
+  const res = await fetch(`https://api.leposti.ml/products`);
+  const products = await res.json();
+  return { products };
+};
