@@ -3,7 +3,7 @@ import moment from "moment";
 import dynamic from "next/dynamic";
 import colombianHolidays from "colombian-holidays";
 import 'moment/locale/es-mx';
-import locale from 'antd/es/date-picker/locale/es_ES';
+import locale from 'antd/lib/locale/es_ES';
 import {
   Row,
   Col,
@@ -15,8 +15,6 @@ import {
   Button,
   Input,
 } from "antd";
-import ColumnGroup from "antd/lib/table/ColumnGroup";
-import { OmitProps } from "antd/lib/transfer/ListBody";
 
 const { Option } = Select;
 const FormItem = Form.Item;
