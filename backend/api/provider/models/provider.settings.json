@@ -24,8 +24,8 @@
       "required": true
     },
     "products": {
-      "collection": "product",
       "via": "providers",
+      "collection": "product",
       "dominant": true
     },
     "orders": {

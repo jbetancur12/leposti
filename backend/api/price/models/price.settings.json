@@ -24,8 +24,8 @@
       "model": "provider"
     },
     "product": {
-      "model": "product",
-      "via": "prices"
+      "via": "prices",
+      "model": "product"
     },
     "range": {
       "model": "range",

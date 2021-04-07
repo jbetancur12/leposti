@@ -16,16 +16,19 @@
       "required": true
     },
     "providers": {
-      "via": "products",
-      "collection": "provider"
+      "collection": "provider",
+      "via": "products"
     },
     "orders": {
-      "via": "product",
-      "collection": "order"
+      "collection": "order",
+      "via": "product"
     },
     "prices": {
-      "via": "product",
-      "collection": "price"
+      "collection": "price",
+      "via": "product"
+    },
+    "formato": {
+      "type": "richtext"
     }
   }
 }
