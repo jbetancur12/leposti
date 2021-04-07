@@ -2,8 +2,11 @@ import React from "react";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import colombianHolidays from "colombian-holidays";
-import 'moment/locale/es-mx';
-import locale from 'antd/lib/locale/es_ES';
+import "moment/locale/es-mx";
+import locale from "antd/lib/locale/es_ES";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+
 import {
   Row,
   Col,
@@ -32,8 +35,6 @@ const getColombianHolidays = colombianHolidays().map((colombianHoliday) => {
   return formated;
 });
 
-
-
 export default function Index({ products }) {
   const myRef = React.useRef(null);
   const [product, setProduct] = React.useState("");
@@ -47,8 +48,6 @@ export default function Index({ products }) {
   const [valueEditor, setValueEditor] = React.useState("");
   const [valueEditorText, setValueEditorText] = React.useState("");
   const [terms, setTerms] = React.useState(false);
-
-
 
   const config = {
     theme: "snow",
@@ -74,7 +73,6 @@ export default function Index({ products }) {
   }
 
   function onChangeEditor(content, delta, source, editor) {
-
     setValueEditor(editor.getHTML());
     setValueEditorText(editor.getText());
   }
@@ -88,15 +86,15 @@ export default function Index({ products }) {
     setTerms(e.target.checked);
   }
 
-  function defaultDate (){
+  function defaultDate() {
     const dayToPub = moment().endOf("day").add(2, "day")._d;
     const dayToPubFormated = moment(dayToPub).format(dateFormat);
     const isHoliday = getColombianHolidays.includes(dayToPubFormated);
     const isSunday = moment(dayToPub).day() === 0;
     if (isHoliday || isSunday) {
-      return  moment().endOf("day").add(3, "day");
+      return moment().endOf("day").add(3, "day");
     }
-    return  moment().endOf("day").add(2, "day");
+    return moment().endOf("day").add(2, "day");
   }
 
   function disabledDate(current) {
@@ -134,122 +132,187 @@ export default function Index({ products }) {
     });
 
   return (
-    <Row justify="space-around" style={{ marginTop: "50px" }}>
-      <Col span={16}>COntent</Col>
-      <Col span={8}>
-        <Form layout="vertical" onFinish={onFinish}>
-          <FormItem
-            label="Producto:"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <Select
-              showSearch
-              style={{ width: 200 }}
-              placeholder="Seleccione un producto"
-              optionFilterProp="children"
-              onChange={onChange}
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {optionsProducts}
-            </Select>
-          </FormItem>
+    <>
 
-          <FormItem
-            label="Medio:"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <Select
-              disabled={!productProvider.product}
-              showSearch
-              style={{ width: 200 }}
-              placeholder="Seleccione un medio"
-              optionFilterProp="children"
-              value={provider}
-              onChange={onChangeProvider}
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {optionsProviders}
-            </Select>
-          </FormItem>
+      <Head>
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-          <FormItem
-            label="Fecha:"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-            rules={[
-              {
-                required: true,
-                type: "date",
-                message: "Date",
-              },
-            ]}
-          >
-            <Space direction="vertical">
-              <DatePicker
-              locale={locale}
-                disabledDate={disabledDate}
-                disabled={!productProvider.provider}
-                defaultValue={defaultDate}
-                format={dateFormat}
-                onChange={onChangeDate}
+      <Row justify="space-around" style={{ marginTop: "50px" }}>
+        <Col span={16}>
+          {" "}
+          <main className={styles.main}>
+            <h1 className={styles.title}>
+              Welcome to <a href="https://nextjs.org">Next.js!</a>
+            </h1>
+
+            <p className={styles.description}>
+              Get started by editing{" "}
+              <code className={styles.code}>pages/index.js</code>
+            </p>
+
+            <div className={styles.grid}>
+              <a href="https://nextjs.org/docs" className={styles.card}>
+                <h3>Documentation &rarr;</h3>
+                <p>Find in-depth information about Next.js features and API.</p>
+              </a>
+
+              <a href="https://nextjs.org/learn" className={styles.card}>
+                <h3>Learn &rarr;</h3>
+                <p>
+                  Learn about Next.js in an interactive course with quizzes!
+                </p>
+              </a>
+
+              <a
+                href="https://github.com/vercel/next.js/tree/master/examples"
+                className={styles.card}
+              >
+                <h3>Examples &rarr;</h3>
+                <p>Discover and deploy boilerplate example Next.js projects.</p>
+              </a>
+
+              <a
+                href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+                className={styles.card}
+              >
+                <h3>Deploy &rarr;</h3>
+                <p>
+                  Instantly deploy your Next.js site to a public URL with
+                  Vercel.
+                </p>
+              </a>
+            </div>
+          </main>
+        </Col>
+        <Col span={8}>
+          <Form layout="vertical" onFinish={onFinish}>
+            <FormItem
+              label="Producto:"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 8 }}
+            >
+              <Select
+                showSearch
+                style={{ width: 200 }}
+                placeholder="Seleccione un producto"
+                optionFilterProp="children"
+                onChange={onChange}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {optionsProducts}
+              </Select>
+            </FormItem>
+
+            <FormItem
+              label="Medio:"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 8 }}
+            >
+              <Select
+                disabled={!productProvider.product}
+                showSearch
+                style={{ width: 200 }}
+                placeholder="Seleccione un medio"
+                optionFilterProp="children"
+                value={provider}
+                onChange={onChangeProvider}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {optionsProviders}
+              </Select>
+            </FormItem>
+
+            <FormItem
+              label="Fecha:"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 8 }}
+              rules={[
+                {
+                  required: true,
+                  type: "date",
+                  message: "Date",
+                },
+              ]}
+            >
+              <Space direction="vertical">
+                <DatePicker
+                  locale={locale}
+                  disabledDate={disabledDate}
+                  disabled={!productProvider.provider}
+                  defaultValue={defaultDate}
+                  format={dateFormat}
+                  onChange={onChangeDate}
+                />
+              </Space>
+            </FormItem>
+            <FormItem
+              label="Contenido:"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 20 }}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <QuillNoSSRWrapper
+                ref={myRef}
+                onChange={onChangeEditor}
+                theme="snow"
+                modules={config.modules}
+                value={valueEditor}
+                readOnly={readOnly}
+                placeholder="Contenido"
               />
-            </Space>
-          </FormItem>
-          <FormItem
-            label="Contenido:"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 20 }}
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <QuillNoSSRWrapper
-              ref={myRef}
-              onChange={onChangeEditor}
-              theme="snow"
-              modules={config.modules}
-              value={valueEditor}
-              readOnly={readOnly}
-              placeholder="Contenido"
-            />
-          </FormItem>
+            </FormItem>
 
-          <FormItem
-            label="Email:"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 20 }}
-            name="email"
-            rules={[
-              {
-                required: true,
-                type: "email",
-                message: "The input is not valid E-mail!",
-              },
-            ]}
-          >
-            <Input placeholder="Email"></Input>
-          </FormItem>
-          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
-            <Checkbox onChange={onChangeTerms}>
-              Acepto Terminos y condiciones
-            </Checkbox>
-          </FormItem>
-          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
-            <Button type="primary" htmlType="submit" disabled={!terms}>
-              Cotizar
-            </Button>
-          </FormItem>
-        </Form>
-      </Col>
-    </Row>
+            <FormItem
+              label="Email:"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 20 }}
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  type: "email",
+                  message: "The input is not valid E-mail!",
+                },
+              ]}
+            >
+              <Input placeholder="Email"></Input>
+            </FormItem>
+            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+              <Checkbox onChange={onChangeTerms}>
+                Acepto Terminos y condiciones
+              </Checkbox>
+            </FormItem>
+            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+              <Button type="primary" htmlType="submit" disabled={!terms}>
+                Cotizar
+              </Button>
+            </FormItem>
+          </Form>
+        </Col>
+      </Row>
+      <footer className={styles.footer}>
+        <a
+          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by{" "}
+          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+        </a>
+      </footer>
+    </>
   );
 }
 Index.getInitialProps = async (ctx) => {
