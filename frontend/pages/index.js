@@ -1,8 +1,22 @@
 import React from "react";
 import moment from "moment";
 import dynamic from "next/dynamic";
-import { Row, Col, Select, Form, DatePicker, Space, Checkbox, Button, Input } from "antd";
+import colombianHolidays from "colombian-holidays";
+import 'moment/locale/es-mx';
+import locale from 'antd/es/date-picker/locale/es_ES';
+import {
+  Row,
+  Col,
+  Select,
+  Form,
+  DatePicker,
+  Space,
+  Checkbox,
+  Button,
+  Input,
+} from "antd";
 import ColumnGroup from "antd/lib/table/ColumnGroup";
+import { OmitProps } from "antd/lib/transfer/ListBody";
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -14,9 +28,15 @@ const QuillNoSSRWrapper = dynamic(import("react-quill"), {
   ssr: false,
   loading: () => <p>Loading ...</p>,
 });
+const getColombianHolidays = colombianHolidays().map((colombianHoliday) => {
+  let splited = [...colombianHoliday.celebrationDate.split("-")];
+  let formated = `${splited[2]}/${splited[1]}/${splited[0]}`;
+  return formated;
+});
+
+
 
 export default function Index({ products }) {
-
   const myRef = React.useRef(null);
   const [product, setProduct] = React.useState("");
   const [provider, setProvider] = React.useState("");
@@ -28,9 +48,9 @@ export default function Index({ products }) {
   const [readOnly, setReadOnly] = React.useState(true);
   const [valueEditor, setValueEditor] = React.useState("");
   const [valueEditorText, setValueEditorText] = React.useState("");
-  const [terms, setTerms] = React.useState(false)
+  const [terms, setTerms] = React.useState(false);
 
- 
+
 
   const config = {
     theme: "snow",
@@ -56,27 +76,46 @@ export default function Index({ products }) {
   }
 
   function onChangeEditor(content, delta, source, editor) {
-    console.log(source);
+
     setValueEditor(editor.getHTML());
     setValueEditorText(editor.getText());
   }
 
-  function onChangeDate() {
+  function onChangeDate(date, dateString) {
     setReadOnly(false);
+    const isHoliday = getColombianHolidays.includes(dateString);
   }
 
   function onChangeTerms(e) {
-    setTerms(e.target.checked)
+    setTerms(e.target.checked);
+  }
+
+  function defaultDate (){
+    const dayToPub = moment().endOf("day").add(2, "day")._d;
+    const dayToPubFormated = moment(dayToPub).format(dateFormat);
+    const isHoliday = getColombianHolidays.includes(dayToPubFormated);
+    const isSunday = moment(dayToPub).day() === 0;
+    if (isHoliday || isSunday) {
+      return  moment().endOf("day").add(3, "day");
+    }
+    return  moment().endOf("day").add(2, "day");
   }
 
   function disabledDate(current) {
-    return current && current < moment().endOf("day");
+    const dayToPub = moment().endOf("day").add(2, "day")._d;
+    const dayToPubFormated = moment(dayToPub).format(dateFormat);
+    const isHoliday = getColombianHolidays.includes(dayToPubFormated);
+    const isSunday = moment(dayToPub).day() === 0;
+
+    if (isHoliday || isSunday) {
+      return current && current < moment().endOf("day").add(3, "day");
+    }
+
+    return current && current < moment().endOf("day").add(2, "day");
   }
 
-
-
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
+  const onFinish = (values) => {
+    console.log("Received values of form: ", values);
   };
 
   const optionsProducts = products.map((product) => {
@@ -145,17 +184,20 @@ export default function Index({ products }) {
             label="Fecha:"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 8 }}
-            rules={[{
-              required: true,
-              type:"date",
-              message:"Date"
-            }]}
+            rules={[
+              {
+                required: true,
+                type: "date",
+                message: "Date",
+              },
+            ]}
           >
             <Space direction="vertical">
               <DatePicker
+              locale={locale}
                 disabledDate={disabledDate}
                 disabled={!productProvider.provider}
-                defaultValue={moment(new Date(), dateFormat)}
+                defaultValue={defaultDate}
                 format={dateFormat}
                 onChange={onChangeDate}
               />
@@ -165,10 +207,11 @@ export default function Index({ products }) {
             label="Contenido:"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 20 }}
-            rules={[{
-              required: true,
-            }]}
-            
+            rules={[
+              {
+                required: true,
+              },
+            ]}
           >
             <QuillNoSSRWrapper
               ref={myRef}
@@ -177,24 +220,34 @@ export default function Index({ products }) {
               modules={config.modules}
               value={valueEditor}
               readOnly={readOnly}
-              placeholder= "Contenido"
+              placeholder="Contenido"
             />
           </FormItem>
-  
-        <FormItem label="Email:"
+
+          <FormItem
+            label="Email:"
             labelCol={{ span: 8 }}
-            wrapperCol={{ span: 20 }}name="email" rules={[{
-              required: true,
-              type: "email",
-              message: "The input is not valid E-mail!"
-            }]}>
-        <Input placeholder="Email"></Input>
-      </FormItem>
-          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
-            <Checkbox onChange={onChangeTerms}>Acepto Terminos y condiciones</Checkbox>
+            wrapperCol={{ span: 20 }}
+            name="email"
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: "The input is not valid E-mail!",
+              },
+            ]}
+          >
+            <Input placeholder="Email"></Input>
           </FormItem>
           <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
-          <Button type="primary"  htmlType="submit" disabled={!terms}>Cotizar</Button>
+            <Checkbox onChange={onChangeTerms}>
+              Acepto Terminos y condiciones
+            </Checkbox>
+          </FormItem>
+          <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+            <Button type="primary" htmlType="submit" disabled={!terms}>
+              Cotizar
+            </Button>
           </FormItem>
         </Form>
       </Col>
