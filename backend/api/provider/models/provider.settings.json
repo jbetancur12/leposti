@@ -29,8 +29,8 @@
       "dominant": true
     },
     "orders": {
-      "collection": "order",
-      "via": "provider"
+      "via": "provider",
+      "collection": "order"
     },
     "prices": {
       "collection": "price",

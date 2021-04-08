@@ -28,17 +28,30 @@
       "required": true
     },
     "provider": {
-      "via": "orders",
-      "model": "provider"
+      "model": "provider",
+      "via": "orders"
     },
     "product": {
-      "via": "orders",
-      "model": "product"
+      "model": "product",
+      "via": "orders"
     },
     "user": {
       "plugin": "users-permissions",
       "model": "user",
       "via": "orders"
+    },
+    "fechaPublicacion": {
+      "type": "date",
+      "required": true
+    },
+    "sePublico": {
+      "type": "boolean",
+      "default": false
+    },
+    "ejemplar": {
+      "type": "boolean",
+      "default": false,
+      "required": true
     }
   }
 }

@@ -20,8 +20,8 @@
       "via": "products"
     },
     "orders": {
-      "collection": "order",
-      "via": "product"
+      "via": "product",
+      "collection": "order"
     },
     "prices": {
       "collection": "price",
