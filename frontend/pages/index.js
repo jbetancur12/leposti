@@ -175,9 +175,9 @@ export default function Index({ products }) {
         },
         terminos: productProvider.terminos,
         ejemplar: productProvider.ejemplar,
-        fecha: newDateFormated
+        fechaPublicacion: newDateFormated,
+        sePublico: false
       };
-    console.log(order)
         const resPost = await fetch(`https://api.leposti.ml/orders`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
