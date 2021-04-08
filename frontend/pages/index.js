@@ -157,7 +157,8 @@ export default function Index({ products }) {
       ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
       finalPrice[0].precio
     : finalPrice[0].precio;
-    
+     const reformatDate = productProvider.fecha.split("/")
+     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`
       const order = {
         total: totalIVA,
         estado: 'unpaid',
@@ -174,9 +175,22 @@ export default function Index({ products }) {
         },
         terminos: productProvider.terminos,
         ejemplar: productProvider.ejemplar,
-        fecha: productProvider.fecha
+        fecha: newDateFormated
       };
     console.log(order)
+        const resPost = await fetch(`https://api.leposti.ml/orders`, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(order), // body data type must match "Content-Type" header
+    });
+    if (!resPost.ok) {
+      const message = `An error has occured: ${resPost.status}`;
+      throw new Error(message);
+    } else {
+      console.log('Posteado');
+    }
     console.log("Received values of form: ", values);
   };
 
