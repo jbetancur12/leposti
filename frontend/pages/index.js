@@ -48,6 +48,7 @@ export default function Index({ products }) {
   const [valueEditor, setValueEditor] = React.useState("");
   const [valueEditorText, setValueEditorText] = React.useState("");
   const [terms, setTerms] = React.useState(false);
+  const [dayWeek, setDayWeek] = React.useState("lunes")
 
   const config = {
     theme: "snow",
@@ -63,7 +64,8 @@ export default function Index({ products }) {
     setProduct(value);
     setProvider("");
     setProductProvider({ ..._product });
-    setProviders(resProduct.providers);
+    setValueEditor(resProduct.formato)
+    setProviders(resProduct);
   }
 
   function onChangeProvider(value) {
@@ -73,17 +75,34 @@ export default function Index({ products }) {
   }
 
   function onChangeEditor(content, delta, source, editor) {
-    setValueEditor(editor.getHTML());
+    //setProductProvider({...productProvider,contenido: editor.getHTML()});
+    setValueEditor(editor.getHTML())
     setValueEditorText(editor.getText());
   }
 
   function onChangeDate(date, dateString) {
     setReadOnly(false);
     const isHoliday = getColombianHolidays.includes(dateString);
+    const dayOfWeek = {
+      0:"domingo",
+      1:"lunes",
+      2:"martes",
+      3:"miercoles",
+      4:"jueves",
+      5:"viernes",
+      6:"sabado"
+    }
+    setDayWeek(dayOfWeek[moment(date).day()])
+    setProductProvider({ ...productProvider, fecha: dateString });
   }
 
   function onChangeTerms(e) {
-    setTerms(e.target.checked);
+    // setTerms(e.target.checked);
+    setProductProvider({ ...productProvider, terminos: e.target.checked });
+  }
+
+  function onChangeEjemplar(e) {
+    setProductProvider({ ...productProvider, ejemplar: e.target.checked });
   }
 
   function defaultDate() {
@@ -110,7 +129,54 @@ export default function Index({ products }) {
     return current && current < moment().endOf("day").add(2, "day");
   }
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+
+    const res = await fetch(`https://api.leposti.ml/prices`);
+    const prices = await res.json();
+    console.log(prices, productProvider)
+    const price = prices.filter(
+      (price) =>  
+        price.product.id === productProvider.product &&
+        price.provider.id === productProvider.provider && price.dias.includes(dayWeek), 
+    );
+    
+    let finalPrice = "" 
+    
+    if(!providers.formato){
+      const l = valueEditorText.length
+      finalPrice = price.filter(
+        (pric) =>
+        l-1 <= pric.range.maximo &&
+        l-1 >= pric.range.minimo,
+        );
+      }else{
+        finalPrice = [...price]
+      }
+      const totalIVA =
+      finalPrice[0].iva > 0
+      ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
+      finalPrice[0].precio
+    : finalPrice[0].precio;
+    
+      const order = {
+        total: totalIVA,
+        estado: 'unpaid',
+        // checkout_session: '122jjd',
+        contenido: valueEditor,
+        user: {
+          id: 1,
+        },
+        provider: {
+          id: productProvider.provider,
+        },
+        product: {
+          id: productProvider.product,
+        },
+        terminos: productProvider.terminos,
+        ejemplar: productProvider.ejemplar,
+        fecha: productProvider.fecha
+      };
+    console.log(order)
     console.log("Received values of form: ", values);
   };
 
@@ -122,8 +188,8 @@ export default function Index({ products }) {
     );
   });
   const optionsProviders =
-    providers &&
-    providers.map((provider) => {
+    providers.providers &&
+    providers.providers.map((provider) => {
       return (
         <Option value={provider.id} key={provider.id}>
           {provider.nombre}
@@ -285,7 +351,11 @@ export default function Index({ products }) {
                 placeholder="Contenido"
               />
             </FormItem>
-
+            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+              <Checkbox onChange={onChangeEjemplar}>
+                Ejemplar en Fisico
+              </Checkbox>
+            </FormItem>
             <FormItem
               label="Email:"
               labelCol={{ span: 8 }}
@@ -307,7 +377,7 @@ export default function Index({ products }) {
               </Checkbox>
             </FormItem>
             <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
-              <Button type="primary" htmlType="submit" disabled={!terms}>
+              <Button type="primary" htmlType="submit" disabled={!productProvider.terminos}>
                 Cotizar
               </Button>
             </FormItem>
