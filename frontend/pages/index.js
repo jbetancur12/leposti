@@ -69,7 +69,7 @@ export default function Index({ products }) {
         "Content-Type": 'application/json'
       }
     });
-    console.log("=XXXXXXXX======>zzzzzzz11", res)
+    console.log("=XXXXXXXX======>zzzzzzz12", res)
     const resProduct = await res.json();
     const _product = { product: value };
     setProduct(value);
