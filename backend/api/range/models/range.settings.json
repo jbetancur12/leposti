@@ -2,8 +2,7 @@
   "kind": "collectionType",
   "collectionName": "ranges",
   "info": {
-    "name": "range",
-    "description": ""
+    "name": "range"
   },
   "options": {
     "increments": true,
@@ -24,8 +23,9 @@
       "type": "integer"
     },
     "prices": {
-      "via": "range",
-      "collection": "price"
+      "collection": "price",
+      "via": "ranges",
+      "dominant": true
     }
   }
 }
