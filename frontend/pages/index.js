@@ -62,14 +62,13 @@ export default function Index({ products }) {
     },
   };
   async function onChange(value) {
-    console.log(process.env.NEXT_PUBLIC_JWT_TOKEN)
+    console.log("Token",process.env.NEXT_PUBLIC_JWT_TOKEN)
     const res = await fetch(`https://api.leposti.ml/products/${value}`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         "Content-Type": 'application/json'
       }
     });
-    console.log("=XXXXXXXX======>zzzzzzz14", res)
     const resProduct = await res.json();
     const _product = { product: value };
     setProduct(value);
@@ -153,7 +152,6 @@ export default function Index({ products }) {
       }
     });
     const prices = await res.json();
-    console.log(prices, productProvider)
     const price = prices.filter(
       (price) =>  
         price.product.id === productProvider.product &&
