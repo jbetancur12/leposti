@@ -61,9 +61,10 @@ export default function Index({ products }) {
     },
   };
   async function onChange(value) {
+    console.log(process.env.NEXT_PUBLIC_JWT_TOKEN)
     const res = await fetch(`https://api.leposti.ml/products/${value}`, {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT_TOKEN}`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         "Content-Type": 'application/json'
       }
     });
@@ -142,7 +143,7 @@ export default function Index({ products }) {
 
     const res = await fetch(`https://api.leposti.ml/prices`, {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT_TOKEN}`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         "Content-Type": 'application/json'
       }
     });
@@ -195,7 +196,7 @@ export default function Index({ products }) {
         const resPost = await fetch(`https://api.leposti.ml/orders`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT_TOKEN}`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(order), // body data type must match "Content-Type" header
