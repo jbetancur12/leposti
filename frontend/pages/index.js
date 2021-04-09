@@ -52,6 +52,7 @@ export default function Index({ products }) {
   const [valueEditorText, setValueEditorText] = React.useState("");
   const [terms, setTerms] = React.useState(false);
   const [dayWeek, setDayWeek] = React.useState("lunes")
+  const [email, setEmail] = React.useState("")
 
   const config = {
     theme: "snow",
@@ -139,6 +140,10 @@ export default function Index({ products }) {
     return current && current < moment().endOf("day").add(2, "day");
   }
 
+  const onChangeEmail = event =>{
+    setEmail(event.target.value)
+  }
+
   const onFinish = async (values) => {
 
     const res = await fetch(`https://api.leposti.ml/prices`, {
@@ -174,13 +179,29 @@ export default function Index({ products }) {
     : finalPrice[0].precio;
      const reformatDate = productProvider.fecha.split("/")
      const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`
+
+     const askUser = await fetch(`https://api.leposti.ml/users?email=${email}`, {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        'Content-Type': 'application/json',
+      },
+    });
+    const resAskUser= await askUser.json();
+    let userBuyer = ""
+    if(resAskUser.length>0){
+      userBuyer = resAskUser[0].id
+    }
+    else{
+      userBuyer = 0
+    }
+    
       const order = {
         total: totalIVA,
         estado: 'unpaid',
         // checkout_session: '122jjd',
         contenido: valueEditor,
         user: {
-          id: 1,
+          id: userBuyer,
         },
         provider: {
           id: productProvider.provider,
@@ -207,6 +228,8 @@ export default function Index({ products }) {
     } else {
       console.log('Posteado');
     }
+
+    console.log(order)
     console.log("Received values of form: ", values);
   };
 
@@ -391,6 +414,7 @@ export default function Index({ products }) {
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
               name="email"
+              onChange={onChangeEmail}
               rules={[
                 {
                   required: true,
@@ -441,7 +465,7 @@ Index.getInitialProps = async (ctx) => {
   
   const res = await fetch(`https://api.leposti.ml/products`, {
     headers: {
-      Authorization: `Bearer ${process.env.JWT_TOKEN}`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
       "Content-Type": 'application/json'
     }
   });
