@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import dynamic from "next/dynamic";
+
 import colombianHolidays from "colombian-holidays";
 import "moment/locale/es-mx";
 import locale from "antd/lib/locale/es_ES";
@@ -18,6 +19,8 @@ import {
   Button,
   Input,
 } from "antd";
+
+
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -58,7 +61,13 @@ export default function Index({ products }) {
     },
   };
   async function onChange(value) {
-    const res = await fetch(`https://api.leposti.ml/products/${value}`);
+    const res = await fetch(`https://api.leposti.ml/products/${value}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT_TOKEN}`,
+        "Content-Type": 'application/json'
+      }
+    });
+    console.log("=XXXXXXXX", res)
     const resProduct = await res.json();
     const _product = { product: value };
     setProduct(value);
@@ -131,7 +140,12 @@ export default function Index({ products }) {
 
   const onFinish = async (values) => {
 
-    const res = await fetch(`https://api.leposti.ml/prices`);
+    const res = await fetch(`https://api.leposti.ml/prices`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT_TOKEN}`,
+        "Content-Type": 'application/json'
+      }
+    });
     const prices = await res.json();
     console.log(prices, productProvider)
     const price = prices.filter(
@@ -181,6 +195,7 @@ export default function Index({ products }) {
         const resPost = await fetch(`https://api.leposti.ml/orders`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT_TOKEN}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(order), // body data type must match "Content-Type" header
@@ -422,7 +437,13 @@ export default function Index({ products }) {
 
 
 Index.getInitialProps = async (ctx) => {
-  const res = await fetch(`https://api.leposti.ml/products`);
+  
+  const res = await fetch(`https://api.leposti.ml/products`, {
+    headers: {
+      Authorization: `Bearer ${process.env.JWT_TOKEN}`,
+      "Content-Type": 'application/json'
+    }
+  });
   const products = await res.json();
   return { products };
 };
