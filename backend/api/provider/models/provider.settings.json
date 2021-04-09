@@ -24,22 +24,17 @@
       "required": true
     },
     "products": {
-      "collection": "product",
       "via": "providers",
+      "collection": "product",
       "dominant": true
     },
     "orders": {
-      "collection": "order",
-      "via": "provider"
+      "via": "provider",
+      "collection": "order"
     },
     "prices": {
       "collection": "price",
       "via": "provider"
-    },
-    "dias": {
-      "type": "text",
-      "default": "lunes,martes,miercoles,jueves,viernes,sabado,domingo",
-      "required": true
     }
   }
 }
