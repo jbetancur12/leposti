@@ -16,8 +16,8 @@
       "required": true
     },
     "providers": {
-      "collection": "provider",
-      "via": "products"
+      "via": "products",
+      "collection": "provider"
     },
     "orders": {
       "via": "product",
@@ -26,9 +26,6 @@
     "prices": {
       "collection": "price",
       "via": "product"
-    },
-    "formato": {
-      "type": "richtext"
     }
   }
 }

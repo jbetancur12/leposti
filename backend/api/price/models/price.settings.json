@@ -2,8 +2,7 @@
   "kind": "collectionType",
   "collectionName": "prices",
   "info": {
-    "name": "price",
-    "description": ""
+    "name": "price"
   },
   "options": {
     "increments": true,
@@ -27,14 +26,9 @@
       "via": "prices",
       "model": "product"
     },
-    "range": {
-      "model": "range",
-      "via": "prices"
-    },
-    "dias": {
-      "type": "string",
-      "default": "lunes,martes,miercoles,jueves,viernes,sabado,domingo",
-      "required": true
+    "ranges": {
+      "via": "prices",
+      "collection": "range"
     }
   }
 }
