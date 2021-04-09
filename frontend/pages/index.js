@@ -270,7 +270,7 @@ export default function Index({ products }) {
 
       <Row justify="space-around" style={{ marginTop: "50px" }}>
         <Col span={16}>
-          {" HOLAAAA1"}
+          {" HOLAAAA2"}
           <main className={styles.main}>
             <h1 className={styles.title}>
               Welcome to <a href="https://nextjs.org">Next.js!</a>
