@@ -62,7 +62,7 @@ export default function Index({ products }) {
     },
   };
   async function onChange(value) {
-    console.log("Token",process.env.NEXT_PUBLIC_JWT_TOKEN)
+    console.log("Token-webhoodk-8.12",process.env.NEXT_PUBLIC_JWT_TOKEN)
     const res = await fetch(`https://api.leposti.ml/products/${value}`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
@@ -270,7 +270,9 @@ export default function Index({ products }) {
 
       <Row justify="space-around" style={{ marginTop: "50px" }}>
         <Col span={16}>
+
           {" HOLAAAA-2"}
+ front/ant-test-wysiwyg
           <main className={styles.main}>
             <h1 className={styles.title}>
               Welcome to <a href="https://nextjs.org">Next.js!</a>
