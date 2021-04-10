@@ -7,6 +7,7 @@ import "moment/locale/es-mx";
 import locale from "antd/lib/locale/es_ES";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import md5 from 'md5'
 
 import {
   Row,
@@ -62,7 +63,7 @@ export default function Index({ products }) {
     },
   };
   async function onChange(value) {
-    console.log("Token-webhoodk-8.12",process.env.NEXT_PUBLIC_JWT_TOKEN)
+    console.log("Token-webhoodk-8.12", process.env.NEXT_PUBLIC_JWT_TOKEN)
     const res = await fetch(`https://api.leposti.ml/products/${value}`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
@@ -74,6 +75,7 @@ export default function Index({ products }) {
     setProduct(value);
     setProvider("");
     setProductProvider({ ..._product });
+    
     setValueEditor(resProduct.formato)
     setProviders(resProduct);
   }
@@ -94,13 +96,13 @@ export default function Index({ products }) {
     setReadOnly(false);
     const isHoliday = getColombianHolidays.includes(dateString);
     const dayOfWeek = {
-      0:"domingo",
-      1:"lunes",
-      2:"martes",
-      3:"miercoles",
-      4:"jueves",
-      5:"viernes",
-      6:"sabado"
+      0: "domingo",
+      1: "lunes",
+      2: "martes",
+      3: "miercoles",
+      4: "jueves",
+      5: "viernes",
+      6: "sabado"
     }
     setDayWeek(dayOfWeek[moment(date).day()])
     setProductProvider({ ...productProvider, fecha: dateString });
@@ -139,7 +141,7 @@ export default function Index({ products }) {
     return current && current < moment().endOf("day").add(2, "day");
   }
 
-  const onChangeEmail = event =>{
+  const onChangeEmail = event => {
     setEmail(event.target.value)
   }
 
@@ -153,66 +155,66 @@ export default function Index({ products }) {
     });
     const prices = await res.json();
     const price = prices.filter(
-      (price) =>  
+      (price) =>
         price.product.id === productProvider.product &&
-        price.provider.id === productProvider.provider && price.dias.includes(dayWeek), 
+        price.provider.id === productProvider.provider && price.dias.includes(dayWeek),
     );
-    
-    let finalPrice = "" 
-    
-    if(!providers.formato){
+
+    let finalPrice = ""
+
+    if (!providers.formato) {
       const l = valueEditorText.length
       finalPrice = price.filter(
         (pric) =>
-        l-1 <= pric.range.maximo &&
-        l-1 >= pric.range.minimo,
-        );
-      }else{
-        finalPrice = [...price]
-      }
-      const totalIVA =
+          l - 1 <= pric.range.maximo &&
+          l - 1 >= pric.range.minimo,
+      );
+    } else {
+      finalPrice = [...price]
+    }
+    const totalIVA =
       finalPrice[0].iva > 0
-      ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-      finalPrice[0].precio
-    : finalPrice[0].precio;
-     const reformatDate = productProvider.fecha.split("/")
-     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`
+        ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
+        finalPrice[0].precio
+        : finalPrice[0].precio;
+    const reformatDate = productProvider.fecha.split("/")
+    const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`
 
-     const askUser = await fetch(`https://api.leposti.ml/users?email=${email}`, {
+    const askUser = await fetch(`https://api.leposti.ml/users?email=${email}`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         'Content-Type': 'application/json',
       },
     });
-    const resAskUser= await askUser.json();
+    const resAskUser = await askUser.json();
     let userBuyer = ""
-    if(resAskUser.length>0){
+    if (resAskUser.length > 0) {
       userBuyer = resAskUser[0].id
     }
-    else{
+    else {
       userBuyer = 0
     }
-    
-      const order = {
-        total: totalIVA,
-        estado: 'unpaid',
-        // checkout_session: '122jjd',
-        contenido: valueEditor,
-        user: {
-          id: userBuyer,
-        },
-        provider: {
-          id: productProvider.provider,
-        },
-        product: {
-          id: productProvider.product,
-        },
-        terminos: productProvider.terminos,
-        ejemplar: productProvider.ejemplar,
-        fechaPublicacion: newDateFormated,
-        sePublico: false
-      };
-        const resPost = await fetch(`https://api.leposti.ml/orders`, {
+
+    const order = {
+      total: totalIVA,
+      estado: 'unpaid',
+      // checkout_session: '122jjd',
+      contenido: valueEditor,
+      user: {
+        id: userBuyer,
+      },
+      provider: {
+        id: productProvider.provider,
+      },
+      product: {
+        id: productProvider.product,
+      },
+      terminos: productProvider.terminos,
+      ejemplar: productProvider.ejemplar,
+      fechaPublicacion: newDateFormated,
+      sePublico: false
+    };
+    const resPost = await fetch(`https://api.leposti.ml/orders`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
@@ -224,31 +226,60 @@ export default function Index({ products }) {
       const message = `An error has occured: ${resPost.status}`;
       throw new Error(message);
     } else {
-      console.log('Posteado');
-    }
-    const testOrder = {
-      merchantId: 508029,
-      accountId: 512321,
-      description: "Algo",
-      referenceCode: "algo",
-      amount: 230000,
-      signature: "7ee7cf808ce6a39b17481c54f2c57acc", 
-      test: 1,
-      responseUrl:"http://www.test.com/response",
-      confirmationUrl:"http://www.test.com/confirmation"
+      console.log('Posteado',order);
     }
 
-    const resPostTest = await fetch(`https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu`, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify(testOrder), // body data type must match "Content-Type" header
-    });
 
-    console.log(order)
+
+    // console.log(resPostTest)
     console.log("Received values of form: ", values);
+    openWindowWithPostRequest(order,finalPrice[0].iva)
   };
+
+  function openWindowWithPostRequest(order, iva) {
+    let winName = 'MyWindow';
+    let windowoption = 'resizable=yes,height=600,width=800,location=0,menubar=0,scrollbars=1';
+    const provide = providers.providers.find(pro => pro.id=== provider)
+    const withEjemplar = order.ejemplar ? "con ": "sin "
+    const withoutIva = iva > 0 ?order.total-order.total*(iva/100)  : order.total
+    const ivaValue = iva > 0 ?order.total*(iva/100) : 0
+
+    const referenceCode = `${providers.nombre}-${Date.now()}`
+    const signature = md5(`4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`)
+    let params = {
+      "accountId": "512321",
+      "merchantId": "508029",
+      "description": `${providers.nombre} - ${provide.nombre} - ${order.fechaPublicacion} ${withEjemplar} ejemplar fisico`,
+      "referenceCode": referenceCode,
+      "amount": order.total,
+      "tax": ivaValue,
+      "taxReturnBase": withoutIva,
+      "currency": "COP",
+      "signature": signature,
+      "test": "1",
+      "buyerEmail": email,
+      "responseUrl": "http://www.test.com/response",
+      "confirmationUrl": "http://www.test.com/confirmation",
+    };
+    let form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/");
+    form.setAttribute("target", winName);
+    for (let i in params) {
+      if (params.hasOwnProperty(i)) {
+        let input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = i;
+        input.value = params[i];
+        form.appendChild(input);
+      }
+    }
+    document.body.appendChild(form);
+    window.open('', winName, windowoption);
+    form.target = winName;
+    form.submit();
+    document.body.removeChild(form);
+  }
 
   const optionsProducts = products.map((product) => {
     return (
@@ -479,7 +510,7 @@ export default function Index({ products }) {
 
 
 Index.getInitialProps = async (ctx) => {
-  
+
   const res = await fetch(`https://api.leposti.ml/products`, {
     headers: {
       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
