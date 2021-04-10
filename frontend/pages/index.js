@@ -258,12 +258,12 @@ export default function Index({ products }) {
       "signature": signature,
       "test": "1",
       "buyerEmail": email,
-      "responseUrl": "http://www.test.com/response",
+      "responseUrl": "",
       "confirmationUrl": "http://www.test.com/confirmation",
     };
     let form = document.createElement("form");
     form.setAttribute("method", "post");
-    form.setAttribute("action", "https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/");
+    form.setAttribute("action", "file:///Users/jorgebetancur/Desktop/%3C!DOCTYPE%20html%3E.html");
     form.setAttribute("target", winName);
     for (let i in params) {
       if (params.hasOwnProperty(i)) {
