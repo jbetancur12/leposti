@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "transactions",
+  "info": {
+    "name": "transactions"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "state_pol": {
+      "type": "string"
+    },
+    "response_code_pol": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "reference_sale": {
+      "type": "string"
+    },
+    "email_buyer": {
+      "type": "string"
+    }
+  }
+}
