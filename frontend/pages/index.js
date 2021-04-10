@@ -271,7 +271,7 @@ export default function Index({ products }) {
       <Row justify="space-around" style={{ marginTop: "50px" }}>
         <Col span={16}>
 
-          {" HOLAAAA-24"}
+          {" HOLAAAA-25"}
  front/ant-test-wysiwyg
           <main className={styles.main}>
             <h1 className={styles.title}>
