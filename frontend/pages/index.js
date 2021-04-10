@@ -226,6 +226,25 @@ export default function Index({ products }) {
     } else {
       console.log('Posteado');
     }
+    const testOrder = {
+      merchantId: 508029,
+      accountId: 512321,
+      description: "Algo",
+      referenceCode: "algo",
+      amount: 230000,
+      signature: "7ee7cf808ce6a39b17481c54f2c57acc", 
+      test: 1,
+      responseUrl:"http://www.test.com/response",
+      confirmationUrl:"http://www.test.com/confirmation"
+    }
+
+    const resPostTest = await fetch(`https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu`, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(testOrder), // body data type must match "Content-Type" header
+    });
 
     console.log(order)
     console.log("Received values of form: ", values);
