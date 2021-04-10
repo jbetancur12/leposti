@@ -273,7 +273,7 @@ export default function Index({ products }) {
           {" "}
           <main className={styles.main}>
             <h1 className={styles.title}>
-              Welcome to JORGE<a href="https://nextjs.org">Next.js!</a>
+              Welcome to JORGE BETANCUR<a href="https://nextjs.org">Next.js!</a>
             </h1>
 
             <p className={styles.description}>
