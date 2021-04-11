@@ -1,13 +1,13 @@
-import React from "react";
-import moment from "moment";
-import dynamic from "next/dynamic";
+import React from 'react';
+import moment from 'moment';
+import dynamic from 'next/dynamic';
 
-import colombianHolidays from "colombian-holidays";
-import "moment/locale/es-mx";
-import locale from "antd/lib/locale/es_ES";
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import md5 from 'md5'
+import colombianHolidays from 'colombian-holidays';
+import 'moment/locale/es-mx';
+import locale from 'antd/lib/locale/es_ES';
+import Head from 'next/head';
+import styles from '../styles/Home.module.css';
+import md5 from 'md5';
 
 import {
   Row,
@@ -19,64 +19,62 @@ import {
   Checkbox,
   Button,
   Input,
-} from "antd";
-
-
+} from 'antd';
 
 const { Option } = Select;
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 
-const dateFormat = "DD/MM/YYYY";
+const dateFormat = 'DD/MM/YYYY';
 
-const QuillNoSSRWrapper = dynamic(import("react-quill"), {
+const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   ssr: false,
   loading: () => <p>Loading ...</p>,
 });
 const getColombianHolidays = colombianHolidays().map((colombianHoliday) => {
-  let splited = [...colombianHoliday.celebrationDate.split("-")];
+  let splited = [...colombianHoliday.celebrationDate.split('-')];
   let formated = `${splited[2]}/${splited[1]}/${splited[0]}`;
   return formated;
 });
 
 export default function Index({ products }) {
   const myRef = React.useRef(null);
-  const [product, setProduct] = React.useState("");
-  const [provider, setProvider] = React.useState("");
+  const [product, setProduct] = React.useState('');
+  const [provider, setProvider] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [openProviders, setOpenProviders] = React.useState(false);
   const [productProvider, setProductProvider] = React.useState([]);
   const [providers, setProviders] = React.useState([]);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState('');
   const [readOnly, setReadOnly] = React.useState(true);
-  const [valueEditor, setValueEditor] = React.useState("");
-  const [valueEditorText, setValueEditorText] = React.useState("");
+  const [valueEditor, setValueEditor] = React.useState('');
+  const [valueEditorText, setValueEditorText] = React.useState('');
   const [terms, setTerms] = React.useState(false);
-  const [dayWeek, setDayWeek] = React.useState("lunes")
-  const [email, setEmail] = React.useState("")
+  const [dayWeek, setDayWeek] = React.useState('lunes');
+  const [email, setEmail] = React.useState('');
 
   const config = {
-    theme: "snow",
+    theme: 'snow',
     modules: {
       toolbar: false,
       clipboard: {},
     },
   };
   async function onChange(value) {
-    console.log("Token-webhoodk-8.12", process.env.NEXT_PUBLIC_JWT_TOKEN)
+    console.log('Token-webhoodk-8.12', process.env.NEXT_PUBLIC_JWT_TOKEN);
     const res = await fetch(`https://api.leposti.ml/products/${value}`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-        "Content-Type": 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
     const resProduct = await res.json();
     const _product = { product: value };
     setProduct(value);
-    setProvider("");
+    setProvider('');
     setProductProvider({ ..._product });
-    
-    setValueEditor(resProduct.formato)
+
+    setValueEditor(resProduct.formato);
     setProviders(resProduct);
   }
 
@@ -88,7 +86,7 @@ export default function Index({ products }) {
 
   function onChangeEditor(content, delta, source, editor) {
     //setProductProvider({...productProvider,contenido: editor.getHTML()});
-    setValueEditor(editor.getHTML())
+    setValueEditor(editor.getHTML());
     setValueEditorText(editor.getText());
   }
 
@@ -96,15 +94,15 @@ export default function Index({ products }) {
     setReadOnly(false);
     const isHoliday = getColombianHolidays.includes(dateString);
     const dayOfWeek = {
-      0: "domingo",
-      1: "lunes",
-      2: "martes",
-      3: "miercoles",
-      4: "jueves",
-      5: "viernes",
-      6: "sabado"
-    }
-    setDayWeek(dayOfWeek[moment(date).day()])
+      0: 'domingo',
+      1: 'lunes',
+      2: 'martes',
+      3: 'miercoles',
+      4: 'jueves',
+      5: 'viernes',
+      6: 'sabado',
+    };
+    setDayWeek(dayOfWeek[moment(date).day()]);
     setProductProvider({ ...productProvider, fecha: dateString });
   }
 
@@ -118,67 +116,65 @@ export default function Index({ products }) {
   }
 
   function defaultDate() {
-    const dayToPub = moment().endOf("day").add(2, "day")._d;
+    const dayToPub = moment().endOf('day').add(2, 'day')._d;
     const dayToPubFormated = moment(dayToPub).format(dateFormat);
     const isHoliday = getColombianHolidays.includes(dayToPubFormated);
     const isSunday = moment(dayToPub).day() === 0;
     if (isHoliday || isSunday) {
-      return moment().endOf("day").add(3, "day");
+      return moment().endOf('day').add(3, 'day');
     }
-    return moment().endOf("day").add(2, "day");
+    return moment().endOf('day').add(2, 'day');
   }
 
   function disabledDate(current) {
-    const dayToPub = moment().endOf("day").add(2, "day")._d;
+    const dayToPub = moment().endOf('day').add(2, 'day')._d;
     const dayToPubFormated = moment(dayToPub).format(dateFormat);
     const isHoliday = getColombianHolidays.includes(dayToPubFormated);
     const isSunday = moment(dayToPub).day() === 0;
 
     if (isHoliday || isSunday) {
-      return current && current < moment().endOf("day").add(3, "day");
+      return current && current < moment().endOf('day').add(3, 'day');
     }
 
-    return current && current < moment().endOf("day").add(2, "day");
+    return current && current < moment().endOf('day').add(2, 'day');
   }
 
-  const onChangeEmail = event => {
-    setEmail(event.target.value)
-  }
+  const onChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
 
   const onFinish = async (values) => {
-
     const res = await fetch(`https://api.leposti.ml/prices`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-        "Content-Type": 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
     const prices = await res.json();
     const price = prices.filter(
       (price) =>
         price.product.id === productProvider.product &&
-        price.provider.id === productProvider.provider && price.dias.includes(dayWeek),
+        price.provider.id === productProvider.provider &&
+        price.dias.includes(dayWeek),
     );
 
-    let finalPrice = ""
+    let finalPrice = '';
 
     if (!providers.formato) {
-      const l = valueEditorText.length
+      const l = valueEditorText.length;
       finalPrice = price.filter(
-        (pric) =>
-          l - 1 <= pric.range.maximo &&
-          l - 1 >= pric.range.minimo,
+        (pric) => l - 1 <= pric.range.maximo && l - 1 >= pric.range.minimo,
       );
     } else {
-      finalPrice = [...price]
+      finalPrice = [...price];
     }
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
-    const reformatDate = productProvider.fecha.split("/")
-    const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`
+    const reformatDate = productProvider.fecha.split('/');
+    const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
 
     const askUser = await fetch(`https://api.leposti.ml/users?email=${email}`, {
       headers: {
@@ -187,12 +183,11 @@ export default function Index({ products }) {
       },
     });
     const resAskUser = await askUser.json();
-    let userBuyer = ""
+    let userBuyer = '';
     if (resAskUser.length > 0) {
-      userBuyer = resAskUser[0].id
-    }
-    else {
-      userBuyer = 0
+      userBuyer = resAskUser[0].id;
+    } else {
+      userBuyer = 0;
     }
 
     const order = {
@@ -212,7 +207,7 @@ export default function Index({ products }) {
       terminos: productProvider.terminos,
       ejemplar: productProvider.ejemplar,
       fechaPublicacion: newDateFormated,
-      sePublico: false
+      sePublico: false,
     };
     const resPost = await fetch(`https://api.leposti.ml/orders`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -226,45 +221,50 @@ export default function Index({ products }) {
       const message = `An error has occured: ${resPost.status}`;
       throw new Error(message);
     } else {
-      console.log('Posteado',order);
+      console.log('Posteado', order);
     }
 
-
-
     // console.log(resPostTest)
-    console.log("Received values of form: ", values);
-    openWindowWithPostRequest(order,finalPrice[0].iva)
+    console.log('Received values of form: ', values);
+    openWindowWithPostRequest(order, finalPrice[0].iva);
   };
 
   function openWindowWithPostRequest(order, iva) {
     let winName = 'MyWindow';
-    let windowoption = 'resizable=yes,height=600,width=800,location=0,menubar=0,scrollbars=1';
-    const provide = providers.providers.find(pro => pro.id=== provider)
-    const withEjemplar = order.ejemplar ? "con ": "sin "
-    const withoutIva = iva > 0 ?order.total-order.total*(iva/100)  : order.total
-    const ivaValue = iva > 0 ?order.total*(iva/100) : 0
+    let windowoption =
+      'resizable=yes,height=600,width=800,location=0,menubar=0,scrollbars=1';
+    const provide = providers.providers.find((pro) => pro.id === provider);
+    const withEjemplar = order.ejemplar ? 'con ' : 'sin ';
+    const withoutIva =
+      iva > 0 ? order.total - order.total * (iva / 100) : order.total;
+    const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
 
-    const referenceCode = `${providers.nombre}-${Date.now()}`
-    const signature = md5(`4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`)
+    const referenceCode = `${providers.nombre}-${Date.now()}`;
+    const signature = md5(
+      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
+    );
     let params = {
-      "accountId": "512321",
-      "merchantId": "508029",
-      "description": `${providers.nombre} - ${provide.nombre} - ${order.fechaPublicacion} ${withEjemplar} ejemplar fisico`,
-      "referenceCode": referenceCode,
-      "amount": order.total,
-      "tax": ivaValue,
-      "taxReturnBase": withoutIva,
-      "currency": "COP",
-      "signature": signature,
-      "test": "1",
-      "buyerEmail": email,
-      "responseUrl": "",
-      "confirmationUrl": "http://www.test.com/confirmation",
+      accountId: '512321',
+      merchantId: '508029',
+      description: `${providers.nombre} - ${provide.nombre} - ${order.fechaPublicacion} ${withEjemplar} ejemplar fisico`,
+      referenceCode: referenceCode,
+      amount: order.total,
+      tax: ivaValue,
+      taxReturnBase: withoutIva,
+      currency: 'COP',
+      signature: signature,
+      test: '1',
+      buyerEmail: email,
+      responseUrl: '',
+      confirmationUrl: 'https://api.leposti.ml/transactions',
     };
-    let form = document.createElement("form");
-    form.setAttribute("method", "post");
-    form.setAttribute("action", "file:///Users/jorgebetancur/Desktop/%3C!DOCTYPE%20html%3E.html");
-    form.setAttribute("target", winName);
+    let form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute(
+      'action',
+      'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/',
+    );
+    form.setAttribute('target', winName);
     for (let i in params) {
       if (params.hasOwnProperty(i)) {
         let input = document.createElement('input');
@@ -302,7 +302,7 @@ export default function Index({ products }) {
     <>
       <Head>
         <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='icon' href='/favicon.ico' />
 
         <script
           dangerouslySetInnerHTML={{
@@ -318,26 +318,26 @@ export default function Index({ products }) {
         ></script>
       </Head>
 
-      <Row justify="space-around" style={{ marginTop: "50px" }}>
+      <Row justify='space-around' style={{ marginTop: '50px' }}>
         <Col span={16}>
-          {" "}
+          {' '}
           <main className={styles.main}>
             <h1 className={styles.title}>
-              Welcome to <a href="https://nextjs.org">Next.js!</a>
+              Welcome to <a href='https://nextjs.org'>Next.js!</a>
             </h1>
 
             <p className={styles.description}>
-              Get started by editing{" "}
+              Get started by editing{' '}
               <code className={styles.code}>pages/index.js</code>
             </p>
 
             <div className={styles.grid}>
-              <a href="https://nextjs.org/docs" className={styles.card}>
+              <a href='https://nextjs.org/docs' className={styles.card}>
                 <h3>Documentation &rarr;</h3>
                 <p>Find in-depth information about Next.js features and API.</p>
               </a>
 
-              <a href="https://nextjs.org/learn" className={styles.card}>
+              <a href='https://nextjs.org/learn' className={styles.card}>
                 <h3>Learn &rarr;</h3>
                 <p>
                   Learn about Next.js in an interactive course with quizzes!
@@ -345,7 +345,7 @@ export default function Index({ products }) {
               </a>
 
               <a
-                href="https://github.com/vercel/next.js/tree/master/examples"
+                href='https://github.com/vercel/next.js/tree/master/examples'
                 className={styles.card}
               >
                 <h3>Examples &rarr;</h3>
@@ -353,7 +353,7 @@ export default function Index({ products }) {
               </a>
 
               <a
-                href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+                href='https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
                 className={styles.card}
               >
                 <h3>Deploy &rarr;</h3>
@@ -366,17 +366,17 @@ export default function Index({ products }) {
           </main>
         </Col>
         <Col span={8}>
-          <Form layout="vertical" onFinish={onFinish}>
+          <Form layout='vertical' onFinish={onFinish}>
             <FormItem
-              label="Producto:"
+              label='Producto:'
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 8 }}
             >
               <Select
                 showSearch
                 style={{ width: 200 }}
-                placeholder="Seleccione un producto"
-                optionFilterProp="children"
+                placeholder='Seleccione un producto'
+                optionFilterProp='children'
                 onChange={onChange}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
@@ -388,7 +388,7 @@ export default function Index({ products }) {
             </FormItem>
 
             <FormItem
-              label="Medio:"
+              label='Medio:'
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 8 }}
             >
@@ -396,8 +396,8 @@ export default function Index({ products }) {
                 disabled={!productProvider.product}
                 showSearch
                 style={{ width: 200 }}
-                placeholder="Seleccione un medio"
-                optionFilterProp="children"
+                placeholder='Seleccione un medio'
+                optionFilterProp='children'
                 value={provider}
                 onChange={onChangeProvider}
                 filterOption={(input, option) =>
@@ -410,18 +410,18 @@ export default function Index({ products }) {
             </FormItem>
 
             <FormItem
-              label="Fecha:"
+              label='Fecha:'
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 8 }}
               rules={[
                 {
                   required: true,
-                  type: "date",
-                  message: "Date",
+                  type: 'date',
+                  message: 'Date',
                 },
               ]}
             >
-              <Space direction="vertical">
+              <Space direction='vertical'>
                 <DatePicker
                   locale={locale}
                   disabledDate={disabledDate}
@@ -433,7 +433,7 @@ export default function Index({ products }) {
               </Space>
             </FormItem>
             <FormItem
-              label="Contenido:"
+              label='Contenido:'
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
               rules={[
@@ -445,11 +445,11 @@ export default function Index({ products }) {
               <QuillNoSSRWrapper
                 ref={myRef}
                 onChange={onChangeEditor}
-                theme="snow"
+                theme='snow'
                 modules={config.modules}
                 value={valueEditor}
                 readOnly={readOnly}
-                placeholder="Contenido"
+                placeholder='Contenido'
               />
             </FormItem>
             <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
@@ -458,20 +458,20 @@ export default function Index({ products }) {
               </Checkbox>
             </FormItem>
             <FormItem
-              label="Email:"
+              label='Email:'
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 20 }}
-              name="email"
+              name='email'
               onChange={onChangeEmail}
               rules={[
                 {
                   required: true,
-                  type: "email",
-                  message: "The input is not valid E-mail!",
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
                 },
               ]}
             >
-              <Input placeholder="Email"></Input>
+              <Input placeholder='Email'></Input>
             </FormItem>
             <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
               <Checkbox onChange={onChangeTerms}>
@@ -479,7 +479,11 @@ export default function Index({ products }) {
               </Checkbox>
             </FormItem>
             <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
-              <Button type="primary" htmlType="submit" disabled={!productProvider.terminos}>
+              <Button
+                type='primary'
+                htmlType='submit'
+                disabled={!productProvider.terminos}
+              >
                 Cotizar
               </Button>
             </FormItem>
@@ -488,16 +492,16 @@ export default function Index({ products }) {
       </Row>
       <footer className={styles.footer}>
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
+          target='_blank'
+          rel='noopener noreferrer'
         >
-          Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          Powered by{' '}
+          <img src='/vercel.svg' alt='Vercel Logo' className={styles.logo} />
         </a>
       </footer>
 
-      <div id="comm100-button-99d23bfd-f03f-4710-a185-0a95e15fdcb0"></div>
+      <div id='comm100-button-99d23bfd-f03f-4710-a185-0a95e15fdcb0'></div>
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -508,14 +512,12 @@ export default function Index({ products }) {
   );
 }
 
-
 Index.getInitialProps = async (ctx) => {
-
   const res = await fetch(`https://api.leposti.ml/products`, {
     headers: {
       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-      "Content-Type": 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   });
   const products = await res.json();
   return { products };
