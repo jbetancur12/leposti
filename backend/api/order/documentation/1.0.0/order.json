@@ -696,6 +696,9 @@
             "type": "boolean",
             "default": false
           },
+          "referencia": {
+            "type": "string"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -744,6 +747,9 @@
           "ejemplar": {
             "type": "boolean",
             "default": false
+          },
+          "referencia": {
+            "type": "string"
           },
           "published_at": {
             "type": "string",
