@@ -37,6 +37,19 @@ const getColombianHolidays = colombianHolidays().map((colombianHoliday) => {
   return formated;
 });
 
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
+
 export default function Index({ products }) {
   const myRef = React.useRef(null);
   const [product, setProduct] = React.useState('');
@@ -242,7 +255,6 @@ export default function Index({ products }) {
       iva > 0 ? order.total - order.total * (iva / 100) : order.total;
     const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
 
-    
     const signature = md5(
       `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
     );
@@ -476,12 +488,38 @@ export default function Index({ products }) {
             >
               <Input placeholder='Email'></Input>
             </FormItem>
-            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+            <Form.Item
+              name='agreement'
+              valuePropName='checked'
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 24 }}
+              rules={[
+                {
+                  validator: (_, value) =>
+                    value
+                      ? Promise.resolve()
+                      : Promise.reject(
+                          new Error('Debe aceptar los terminos y condiciones'),
+                        ),
+                },
+              ]}
+              // {...tailFormItemLayout}
+            >
+              <Checkbox onChange={onChangeTerms}>
+                He leido y acepto los <a href=''>Terminosy condiciones</a>
+              </Checkbox>
+            </Form.Item>
+            <Form.Item {...tailFormItemLayout}>
+              <Button type='primary' htmlType='submit'>
+                Cotizar
+              </Button>
+            </Form.Item>
+            {/* <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
               <Checkbox onChange={onChangeTerms}>
                 Acepto Terminos y condiciones
               </Checkbox>
-            </FormItem>
-            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+            </FormItem> */}
+            {/* <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
               <Button
                 type='primary'
                 htmlType='submit'
@@ -489,7 +527,7 @@ export default function Index({ products }) {
               >
                 Cotizar
               </Button>
-            </FormItem>
+            </FormItem> */}
           </Form>
         </Col>
       </Row>
