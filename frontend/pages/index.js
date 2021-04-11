@@ -190,6 +190,8 @@ export default function Index({ products }) {
       userBuyer = 0;
     }
 
+    const referenceCode = `${providers.nombre}-${Date.now()}`;
+
     const order = {
       total: totalIVA,
       estado: 'unpaid',
@@ -208,6 +210,7 @@ export default function Index({ products }) {
       ejemplar: productProvider.ejemplar,
       fechaPublicacion: newDateFormated,
       sePublico: false,
+      referencia: referenceCode,
     };
     const resPost = await fetch(`https://api.leposti.ml/orders`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -226,10 +229,10 @@ export default function Index({ products }) {
 
     // console.log(resPostTest)
     console.log('Received values of form: ', values);
-    openWindowWithPostRequest(order, finalPrice[0].iva);
+    openWindowWithPostRequest(order, finalPrice[0].iva, referenceCode);
   };
 
-  function openWindowWithPostRequest(order, iva) {
+  function openWindowWithPostRequest(order, iva, referenceCode) {
     let winName = 'MyWindow';
     let windowoption =
       'resizable=yes,height=600,width=800,location=0,menubar=0,scrollbars=1';
@@ -239,7 +242,7 @@ export default function Index({ products }) {
       iva > 0 ? order.total - order.total * (iva / 100) : order.total;
     const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
 
-    const referenceCode = `${providers.nombre}-${Date.now()}`;
+    
     const signature = md5(
       `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
     );
