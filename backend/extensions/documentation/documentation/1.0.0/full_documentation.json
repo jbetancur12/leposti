@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "04/11/2021 12:02:53 AM"
+    "x-generation-date": "04/11/2021 11:28:59 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -5502,6 +5502,30 @@
                   "type": "string"
                 }
               },
+              "firstname": {
+                "type": "string"
+              },
+              "lastname": {
+                "type": "string"
+              },
+              "docId": {
+                "type": "integer"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "departamento": {
+                "type": "string"
+              },
+              "direccion": {
+                "type": "string"
+              },
+              "agreement": {
+                "type": "boolean"
+              },
               "created_by": {
                 "type": "string"
               },
@@ -5523,6 +5547,9 @@
             "default": false
           },
           "referencia": {
+            "type": "string"
+          },
+          "metodoPago": {
             "type": "string"
           },
           "published_at": {
@@ -5575,6 +5602,9 @@
             "default": false
           },
           "referencia": {
+            "type": "string"
+          },
+          "metodoPago": {
             "type": "string"
           },
           "published_at": {
@@ -5896,6 +5926,9 @@
                 "referencia": {
                   "type": "string"
                 },
+                "metodoPago": {
+                  "type": "string"
+                },
                 "published_at": {
                   "type": "string"
                 },
@@ -6115,6 +6148,9 @@
                   "type": "boolean"
                 },
                 "referencia": {
+                  "type": "string"
+                },
+                "metodoPago": {
                   "type": "string"
                 },
                 "published_at": {
@@ -6348,6 +6384,9 @@
           "email_buyer": {
             "type": "string"
           },
+          "payment_method_type": {
+            "type": "string"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -6369,6 +6408,9 @@
             "type": "string"
           },
           "email_buyer": {
+            "type": "string"
+          },
+          "payment_method_type": {
             "type": "string"
           },
           "published_at": {
@@ -6487,6 +6529,30 @@
                   "items": {
                     "type": "string"
                   }
+                },
+                "firstname": {
+                  "type": "string"
+                },
+                "lastname": {
+                  "type": "string"
+                },
+                "docId": {
+                  "type": "integer"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "departamento": {
+                  "type": "string"
+                },
+                "direccion": {
+                  "type": "string"
+                },
+                "agreement": {
+                  "type": "boolean"
                 },
                 "created_by": {
                   "type": "string"
@@ -6650,6 +6716,9 @@
                 "referencia": {
                   "type": "string"
                 },
+                "metodoPago": {
+                  "type": "string"
+                },
                 "published_at": {
                   "type": "string"
                 },
@@ -6661,6 +6730,30 @@
                 }
               }
             }
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "docId": {
+            "type": "integer"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "departamento": {
+            "type": "string"
+          },
+          "direccion": {
+            "type": "string"
+          },
+          "agreement": {
+            "type": "boolean"
           }
         }
       },
@@ -6708,6 +6801,30 @@
             "items": {
               "type": "string"
             }
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "docId": {
+            "type": "integer"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "departamento": {
+            "type": "string"
+          },
+          "direccion": {
+            "type": "string"
+          },
+          "agreement": {
+            "type": "boolean"
           },
           "created_by": {
             "type": "string"

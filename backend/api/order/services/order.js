@@ -52,7 +52,7 @@ module.exports = {
               "dd/mm/yyyy"
             ),
             valor: formatter.format(existingEntry.total),
-            medioPago: "Online",
+            medioPago: existingEntry.metodoPago,
           },
         }
       );

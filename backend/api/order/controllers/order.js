@@ -9,7 +9,7 @@ module.exports = {
 
   async update(ctx) {
     const { id } = ctx.params;
-    console.log("===>", ctx.request.body);
+
     let entity;
 
     entity = await strapi.services.order.update({ id }, ctx.request.body);

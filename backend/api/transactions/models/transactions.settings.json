@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "transactions",
   "info": {
-    "name": "transactions"
+    "name": "transactions",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -23,6 +24,9 @@
       "type": "string"
     },
     "email_buyer": {
+      "type": "string"
+    },
+    "payment_method_type": {
       "type": "string"
     }
   }

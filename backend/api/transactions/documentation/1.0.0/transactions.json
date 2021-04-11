@@ -537,6 +537,9 @@
           "email_buyer": {
             "type": "string"
           },
+          "payment_method_type": {
+            "type": "string"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -558,6 +561,9 @@
             "type": "string"
           },
           "email_buyer": {
+            "type": "string"
+          },
+          "payment_method_type": {
             "type": "string"
           },
           "published_at": {

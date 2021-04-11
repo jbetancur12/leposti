@@ -676,6 +676,30 @@
                   "type": "string"
                 }
               },
+              "firstname": {
+                "type": "string"
+              },
+              "lastname": {
+                "type": "string"
+              },
+              "docId": {
+                "type": "integer"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "departamento": {
+                "type": "string"
+              },
+              "direccion": {
+                "type": "string"
+              },
+              "agreement": {
+                "type": "boolean"
+              },
               "created_by": {
                 "type": "string"
               },
@@ -697,6 +721,9 @@
             "default": false
           },
           "referencia": {
+            "type": "string"
+          },
+          "metodoPago": {
             "type": "string"
           },
           "published_at": {
@@ -749,6 +776,9 @@
             "default": false
           },
           "referencia": {
+            "type": "string"
+          },
+          "metodoPago": {
             "type": "string"
           },
           "published_at": {
