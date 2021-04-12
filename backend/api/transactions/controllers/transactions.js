@@ -20,7 +20,7 @@ module.exports = {
       8: "Pago referenciado",
       10: "Pago en Bancos",
     };
-    const methodUsed = paymentMethod[paymentMethod];
+    const methodUsed = paymentMethods[paymentMethod];
 
     const algo = await strapi.services.order.findOne({
       referencia: reference,
