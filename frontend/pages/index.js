@@ -259,7 +259,7 @@ export default function Index({ products }) {
       } else {
         userBuyer = 0;
       }
-      setOrder({ ...order, user: { id: userBuyer } })
+      setOrder({ ...order, user: { id: userBuyer.toString() } })
       setOpenQuote(true)
     }
     const resPost = await fetch(`https://api.leposti.ml/orders`, {
