@@ -250,7 +250,7 @@ export default function Index({ products }) {
       iva: finalPrice[0].iva
     };
 
-
+    let orderUpdated = {}
     if (askUser.ok) {
       const resAskUser = await askUser.json();
       let userBuyer = '';
@@ -259,16 +259,19 @@ export default function Index({ products }) {
       } else {
         userBuyer = 0;
       }
-      setOrder({ ...order, user: { id: userBuyer.toString() } })
+      setOrder({ ...order, user: { id: userBuyer } })
       setOpenQuote(true)
+      orderUpdated = {...order, user: { id: userBuyer }}
     }
+
+    console.log(JSON.stringify(orderUpdated))
     const resPost = await fetch(`https://api.leposti.ml/orders`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(order), // body data type must match "Content-Type" header
+      body: JSON.stringify(orderUpdated), // body data type must match "Content-Type" header
     });
     if (!resPost.ok) {
       const message = `An error has occured: ${resPost.status}`;
