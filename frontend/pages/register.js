@@ -81,6 +81,7 @@ const RegistrationForm = () => {
   const [form] = Form.useForm();
 
   const [cities, setCities] = useState(null);
+  const [validateUser, setValidateUser] = useState([]);
 
   const getCities = async () => {
     const res = await fetch(
@@ -111,14 +112,76 @@ const RegistrationForm = () => {
     getCities();
   }, []);
 
+  const onBlurHandler = async (values) => {
+    if (values.target.value.length > 0) {
+      const resPost = await fetch('https://api.leposti.ml/users?username=' + values.target.value, {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+          'Content-Type': 'application/json',
+        },
+        // body data type must match "Content-Type" header
+      });
+
+      const resAskUser = await resPost.json();
+
+
+      if (resAskUser.length > 0) {
+        form.setFields([
+          {
+            name: 'username',
+            errors: ['Usuario ya existe'],
+          },
+        ]);
+      }
+    }else{
+    form.setFields([
+      {
+        name: 'username',
+        errors: ['Ingresa un usuario'],
+      },
+    ]);}
+  }
+
+  const onBlurEmail = async (values) => {
+    if (values.target.value.length > 0) {
+      const resPost = await fetch('https://api.leposti.ml/users?email=' + values.target.value, {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+          'Content-Type': 'application/json',
+        },
+        // body data type must match "Content-Type" header
+      });
+
+      const resAskUser = await resPost.json();
+      console.log(resAskUser)
+
+      if (resAskUser.length > 0) {
+        form.setFields([
+          {
+            name: 'email',
+            errors: ['Email ya existe'],
+          },
+        ]);
+      }
+    }else{
+    form.setFields([
+      {
+        name: 'email',
+        errors: ['Ingresa un email'],
+      },
+    ]);}
+  }
+
   const onFinish = async (values) => {
     const newValues = {
       ...values,
       city: values.city[1],
       departamento: values.city[0],
     };
-
-    const resPost = await fetch('http://localhost:1337/auth/local/register', {
+    console.log(newValues)
+    const resPost = await fetch('https://api.leposti.ml/auth/local/register', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
@@ -154,193 +217,205 @@ const RegistrationForm = () => {
   );
 
   return (
-    <Form
-      {...formItemLayout}
-      form={form}
-      name='register'
-      onFinish={onFinish}
-      initialValues={{
-        prefix: '57',
-      }}
-      scrollToFirstError
-    >
-      <Form.Item
-        name='firstname'
-        label='Nombre'
-        rules={[
-          {
-            required: true,
-            message: 'Ingresa tu nombre!',
-            whitespace: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name='lastname'
-        label='Apellido'
-        rules={[
-          {
-            required: true,
-            message: 'Ingresa tu apellido!',
-            whitespace: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name='docId'
-        label='Numero de cedula'
-        rules={[
-          {
-            required: true,
-            message: 'Ingresa tu cedula!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name='username'
-        label='Nickname'
-        rules={[
-          {
-            required: true,
-            message: 'Please input your nickname!',
-            whitespace: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name='email'
-        label='E-mail'
-        rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
-          {
-            required: true,
-            message: 'Please input your E-mail!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+    <Col span={8} offset={8}>
+      <Row type="flex">
+        <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center' }}>
 
-      <Form.Item
-        name='password'
-        label='Password'
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-        hasFeedback
+          <h2>Registrate</h2>
+        </div>
+
+      </Row>
+      <Form
+        {...formItemLayout}
+        form={form}
+        name='register'
+        onFinish={onFinish}
+        initialValues={{
+          prefix: '57',
+        }}
+        scrollToFirstError
       >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        name='confirm'
-        label='Confirm Password'
-        dependencies={['password']}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: 'Please confirm your password!',
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-
-              return Promise.reject(
-                new Error('The two passwords that you entered do not match!'),
-              );
+        <Form.Item
+          name='firstname'
+          label='Nombre'
+          rules={[
+            {
+              required: true,
+              message: 'Ingresa tu nombre!',
+              whitespace: true,
             },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name='lastname'
+          label='Apellido'
+          rules={[
+            {
+              required: true,
+              message: 'Ingresa tu apellido!',
+              whitespace: true,
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name='docId'
+          label='Numero de cedula'
+          rules={[
+            {
+              required: true,
+              message: 'Ingresa tu cedula!',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name='username'
+          label='Nickname'
+          onBlur={onBlurHandler}
+          rules={[
+            {
+              required: true,
+                // message: 'Porfavor ingresa un usuario',
+                // whitespace: true,
 
-      <Form.Item
-        name='phone'
-        label='Phone Number'
-        rules={[
-          {
-            required: true,
-            message: 'Please input your phone number!',
-          },
-        ]}
-      >
-        <Input
-          addonBefore={prefixSelector}
-          style={{
-            width: '100%',
-          }}
-        />
-      </Form.Item>
-      <Form.Item
-        name='city'
-        label='Ciudad'
-        autocomplete='off'
-        rules={[
-          {
-            type: 'array',
-            required: true,
-            message: 'Please select your habitual residence!',
-          },
-        ]}
-      >
-        <Cascader options={cities} />
-      </Form.Item>
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name='email'
+          label='E-mail'
+          onBlur={onBlurEmail}
+          rules={[
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            {
+              required: true,
+              message: 'Please input your E-mail!',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-      <Form.Item
-        name='direccion'
-        label='Direccion'
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Direccion!',
-            whitespace: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          name='password'
+          label='Password'
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!',
+            },
+          ]}
+          hasFeedback
+        >
+          <Input.Password />
+        </Form.Item>
 
-      <Form.Item
-        name='agreement'
-        valuePropName='checked'
-        rules={[
-          {
-            validator: (_, value) =>
-              value
-                ? Promise.resolve()
-                : Promise.reject(new Error('Should accept agreement')),
-          },
-        ]}
-        {...tailFormItemLayout}
-      >
-        <Checkbox>
-          I have read the <a href=''>agreement</a>
-        </Checkbox>
-      </Form.Item>
-      <Form.Item {...tailFormItemLayout}>
-        <Button type='primary' htmlType='submit'>
-          Register
+        <Form.Item
+          name='confirm'
+          label='Confirm Password'
+          dependencies={['password']}
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: 'Please confirm your password!',
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+
+                return Promise.reject(
+                  new Error('The two passwords that you entered do not match!'),
+                );
+              },
+            }),
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          name='phone'
+          label='Phone Number'
+          rules={[
+            {
+              required: true,
+              message: 'Please input your phone number!',
+            },
+          ]}
+        >
+          <Input
+            addonBefore={prefixSelector}
+            style={{
+              width: '100%',
+            }}
+          />
+        </Form.Item>
+        <Form.Item
+          name='city'
+          label='Ciudad'
+          autocomplete='off'
+          rules={[
+            {
+              type: 'array',
+              required: true,
+              message: 'Please select your habitual residence!',
+            },
+          ]}
+        >
+          <Cascader options={cities} />
+        </Form.Item>
+
+        <Form.Item
+          name='direccion'
+          label='Direccion'
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Direccion!',
+              whitespace: true,
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name='agreement'
+          valuePropName='checked'
+          rules={[
+            {
+              validator: (_, value) =>
+                value
+                  ? Promise.resolve()
+                  : Promise.reject(new Error('Should accept agreement')),
+            },
+          ]}
+          {...tailFormItemLayout}
+        >
+          <Checkbox>
+            I have read the <a href=''>agreement</a>
+          </Checkbox>
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button type='primary' htmlType='submit'>
+            Register
         </Button>
-      </Form.Item>
-    </Form>
+        </Form.Item>
+      </Form>
+    </Col>
   );
 };
 
