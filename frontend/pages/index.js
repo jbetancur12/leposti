@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
+import { useCookies } from "react-cookie"
+import Link from "next/link"
 
 import colombianHolidays from 'colombian-holidays';
 import 'moment/locale/es-mx';
@@ -65,6 +67,10 @@ export default function Index({ products }) {
   const [terms, setTerms] = React.useState(false);
   const [dayWeek, setDayWeek] = React.useState('lunes');
   const [email, setEmail] = React.useState('');
+  const [openQuote, setOpenQuote] = React.useState(false);
+  const [orderReady, setOrder] = React.useState({});
+
+  const [cookie, setCookie] = useCookies(["email"])
 
   const config = {
     theme: 'snow',
@@ -97,11 +103,28 @@ export default function Index({ products }) {
     setProductProvider(test);
   }
 
+  const Quote = () => {
+    let button;
+    if (orderReady.user.id > 0) {
+      button = <Button onClick={onClickBuy}>Comprar</Button>
+    } else {
+      button =  <Link href="/register">
+      <a>Registrate</a>
+    </Link>
+      setCookie("email",email)
+    }
+
+    const quotation = <div><div>{orderReady.total}</div><div>{button}</div></div>
+
+    return quotation
+  }
+
   function onChangeEditor(content, delta, source, editor) {
     //setProductProvider({...productProvider,contenido: editor.getHTML()});
     setValueEditor(editor.getHTML());
     setValueEditorText(editor.getText());
   }
+
 
   function onChangeDate(date, dateString) {
     setReadOnly(false);
@@ -156,6 +179,10 @@ export default function Index({ products }) {
     setEmail(event.target.value);
   };
 
+  const onClickBuy = async () => {
+    openWindowWithPostRequest(orderReady);
+  }
+
   const onFinish = async (values) => {
     const res = await fetch(`https://api.leposti.ml/prices`, {
       headers: {
@@ -184,7 +211,7 @@ export default function Index({ products }) {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-          finalPrice[0].precio
+        finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -195,13 +222,9 @@ export default function Index({ products }) {
         'Content-Type': 'application/json',
       },
     });
-    const resAskUser = await askUser.json();
-    let userBuyer = '';
-    if (resAskUser.length > 0) {
-      userBuyer = resAskUser[0].id;
-    } else {
-      userBuyer = 0;
-    }
+    console.log(askUser)
+
+
 
     const referenceCode = `${providers.nombre}-${Date.now()}`;
 
@@ -211,7 +234,7 @@ export default function Index({ products }) {
       // checkout_session: '122jjd',
       contenido: valueEditor,
       user: {
-        id: userBuyer,
+        id: 0,
       },
       provider: {
         id: productProvider.provider,
@@ -224,7 +247,21 @@ export default function Index({ products }) {
       fechaPublicacion: newDateFormated,
       sePublico: false,
       referencia: referenceCode,
+      iva: finalPrice[0].iva
     };
+
+
+    if (askUser.ok) {
+      const resAskUser = await askUser.json();
+      let userBuyer = '';
+      if (resAskUser.length > 0) {
+        userBuyer = resAskUser[0].id;
+      } else {
+        userBuyer = 0;
+      }
+      setOrder({ ...order, user: { id: userBuyer } })
+      setOpenQuote(true)
+    }
     const resPost = await fetch(`https://api.leposti.ml/orders`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
@@ -240,12 +277,13 @@ export default function Index({ products }) {
       console.log('Posteado', order);
     }
 
-    // console.log(resPostTest)
-    console.log('Received values of form: ', values);
-    openWindowWithPostRequest(order, finalPrice[0].iva, referenceCode);
+    // openWindowWithPostRequest(order, finalPrice[0].iva, referenceCode);
   };
 
-  function openWindowWithPostRequest(order, iva, referenceCode) {
+  function openWindowWithPostRequest(order) {
+    const {iva} = order
+    console.log("==>",order.total, iva)
+    const referenceCode = order.referencia
     let winName = 'MyWindow';
     let windowoption =
       'resizable=yes,height=600,width=800,location=0,menubar=0,scrollbars=1';
@@ -290,8 +328,8 @@ export default function Index({ products }) {
       }
     }
     document.body.appendChild(form);
-    window.open('', winName, windowoption);
-    form.target = winName;
+    // window.open('', winName, windowoption);
+    // form.target = winName;
     form.submit();
     document.body.removeChild(form);
   }
@@ -380,8 +418,9 @@ export default function Index({ products }) {
             </div>
           </main>
         </Col>
+
         <Col span={8}>
-          <Form layout='vertical' onFinish={onFinish}>
+          {!openQuote ? (<Form layout='vertical' onFinish={onFinish}>
             <FormItem
               label='Producto:'
               labelCol={{ span: 8 }}
@@ -499,11 +538,11 @@ export default function Index({ products }) {
                     value
                       ? Promise.resolve()
                       : Promise.reject(
-                          new Error('Debe aceptar los terminos y condiciones'),
-                        ),
+                        new Error('Debe aceptar los terminos y condiciones'),
+                      ),
                 },
               ]}
-              // {...tailFormItemLayout}
+            // {...tailFormItemLayout}
             >
               <Checkbox onChange={onChangeTerms}>
                 He leido y acepto los <a href=''>Terminosy condiciones</a>
@@ -528,8 +567,10 @@ export default function Index({ products }) {
                 Cotizar
               </Button>
             </FormItem> */}
-          </Form>
+          </Form>) :
+            <Quote />}
         </Col>
+
       </Row>
       <footer className={styles.footer}>
         <a

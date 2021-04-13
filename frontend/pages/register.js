@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { parseCookies } from "../helpers/"
+import { useCookies } from "react-cookie"
 import {
   Form,
   Input,
@@ -12,40 +14,7 @@ import {
 } from 'antd';
 const { Option } = Select;
 
-const residences = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
+
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -77,11 +46,14 @@ const tailFormItemLayout = {
   },
 };
 
-const RegistrationForm = () => {
+const RegistrationForm = ({data}) => {
+
+  console.log(data)
   const [form] = Form.useForm();
 
   const [cities, setCities] = useState(null);
   const [validateUser, setValidateUser] = useState([]);
+  const [cookies, setCookie, removeCookie] = useCookies(['email']);
 
   const getCities = async () => {
     const res = await fetch(
@@ -110,6 +82,13 @@ const RegistrationForm = () => {
 
   React.useEffect(() => {
     getCities();
+
+    if(data.email){
+      form.setFieldsValue({
+        email: data.email,
+      });
+      removeCookie("email")
+    }
   }, []);
 
   const onBlurHandler = async (values) => {
@@ -366,7 +345,7 @@ const RegistrationForm = () => {
         <Form.Item
           name='city'
           label='Ciudad'
-          autocomplete='off'
+          autoComplete='off'
           rules={[
             {
               type: 'array',
@@ -420,3 +399,18 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
+
+RegistrationForm.getInitialProps = async ({ req ,res }) => {
+  const data = parseCookies(req)
+
+if (res) {
+    if (Object.keys(data).length === 0 && data.constructor === Object) {
+      res.writeHead(301, { Location: "/" })
+      res.end()
+    }
+  }
+
+  return {
+    data: data && data,
+  }
+}
