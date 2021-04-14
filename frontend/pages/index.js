@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
-import { useCookies } from "react-cookie"
-import Link from "next/link"
+import { useCookies } from 'react-cookie';
+import Link from 'next/link';
 
 import colombianHolidays from 'colombian-holidays';
 import 'moment/locale/es-mx';
@@ -70,7 +70,7 @@ export default function Index({ products }) {
   const [openQuote, setOpenQuote] = React.useState(false);
   const [orderReady, setOrder] = React.useState({});
 
-  const [cookie, setCookie] = useCookies(["email"])
+  const [cookie, setCookie] = useCookies(['email']);
 
   const config = {
     theme: 'snow',
@@ -106,25 +106,31 @@ export default function Index({ products }) {
   const Quote = () => {
     let button;
     if (orderReady.user.id > 0) {
-      button = <Button onClick={onClickBuy}>Comprar</Button>
+      button = <Button onClick={onClickBuy}>Comprar</Button>;
     } else {
-      button =  <Link href="/register">
-      <a>Registrate</a>
-    </Link>
-      setCookie("email",email)
+      button = (
+        <Link href='/register'>
+          <a>Registrate</a>
+        </Link>
+      );
+      setCookie('email', email);
     }
 
-    const quotation = <div><div>{orderReady.total}</div><div>{button}</div></div>
+    const quotation = (
+      <div>
+        <div>{orderReady.total}</div>
+        <div>{button}</div>
+      </div>
+    );
 
-    return quotation
-  }
+    return quotation;
+  };
 
   function onChangeEditor(content, delta, source, editor) {
     //setProductProvider({...productProvider,contenido: editor.getHTML()});
     setValueEditor(editor.getHTML());
     setValueEditorText(editor.getText());
   }
-
 
   function onChangeDate(date, dateString) {
     setReadOnly(false);
@@ -181,7 +187,7 @@ export default function Index({ products }) {
 
   const onClickBuy = async () => {
     openWindowWithPostRequest(orderReady);
-  }
+  };
 
   const onFinish = async (values) => {
     const res = await fetch(`https://api.leposti.ml/prices`, {
@@ -211,7 +217,7 @@ export default function Index({ products }) {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -222,9 +228,7 @@ export default function Index({ products }) {
         'Content-Type': 'application/json',
       },
     });
-    console.log(askUser)
-
-
+    console.log(askUser);
 
     const referenceCode = `${providers.nombre}-${Date.now()}`;
 
@@ -247,10 +251,10 @@ export default function Index({ products }) {
       fechaPublicacion: newDateFormated,
       sePublico: false,
       referencia: referenceCode,
-      iva: finalPrice[0].iva
+      iva: finalPrice[0].iva,
     };
 
-    let orderUpdated = {}
+    let orderUpdated = {};
     if (askUser.ok) {
       const resAskUser = await askUser.json();
       let userBuyer = '';
@@ -259,12 +263,12 @@ export default function Index({ products }) {
       } else {
         userBuyer = 0;
       }
-      setOrder({ ...order, user: { id: userBuyer } })
-      setOpenQuote(true)
-      orderUpdated = {...order, user: { id: userBuyer }}
+      setOrder({ ...order, user: { id: userBuyer } });
+      setOpenQuote(true);
+      orderUpdated = { ...order, user: { id: userBuyer } };
     }
 
-    console.log(JSON.stringify(orderUpdated))
+    console.log(JSON.stringify(orderUpdated));
     const resPost = await fetch(`https://api.leposti.ml/orders`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
@@ -284,9 +288,9 @@ export default function Index({ products }) {
   };
 
   function openWindowWithPostRequest(order) {
-    const {iva} = order
-    console.log("==>",order.total, iva)
-    const referenceCode = order.referencia
+    const { iva } = order;
+    console.log('==>', order.total, iva);
+    const referenceCode = order.referencia;
     let winName = 'MyWindow';
     let windowoption =
       'resizable=yes,height=600,width=800,location=0,menubar=0,scrollbars=1';
@@ -423,145 +427,150 @@ export default function Index({ products }) {
         </Col>
 
         <Col span={8}>
-          {!openQuote ? (<Form layout='vertical' onFinish={onFinish}>
-            <FormItem
-              label='Producto:'
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 8 }}
-            >
-              <Select
-                showSearch
-                style={{ width: 200 }}
-                placeholder='Seleccione un producto'
-                optionFilterProp='children'
-                onChange={onChange}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
+          {!openQuote ? (
+            <Form layout='vertical' onFinish={onFinish}>
+              <FormItem
+                label='Producto:'
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 8 }}
               >
-                {optionsProducts}
-              </Select>
-            </FormItem>
+                <Select
+                  showSearch
+                  style={{ width: 200 }}
+                  placeholder='Seleccione un producto'
+                  optionFilterProp='children'
+                  onChange={onChange}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {optionsProducts}
+                </Select>
+              </FormItem>
 
-            <FormItem
-              label='Medio:'
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 8 }}
-            >
-              <Select
-                disabled={!productProvider.product}
-                showSearch
-                style={{ width: 200 }}
-                placeholder='Seleccione un medio'
-                optionFilterProp='children'
-                value={provider}
-                onChange={onChangeProvider}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
+              <FormItem
+                label='Medio:'
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 8 }}
               >
-                {optionsProviders}
-              </Select>
-            </FormItem>
+                <Select
+                  disabled={!productProvider.product}
+                  showSearch
+                  style={{ width: 200 }}
+                  placeholder='Seleccione un medio'
+                  optionFilterProp='children'
+                  value={provider}
+                  onChange={onChangeProvider}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {optionsProviders}
+                </Select>
+              </FormItem>
 
-            <FormItem
-              label='Fecha:'
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 8 }}
-              rules={[
-                {
-                  required: true,
-                  type: 'date',
-                  message: 'Date',
-                },
-              ]}
-            >
-              <Space direction='vertical'>
-                <DatePicker
-                  locale={locale}
-                  disabledDate={disabledDate}
-                  disabled={!productProvider.provider}
-                  defaultValue={defaultDate}
-                  format={dateFormat}
-                  onChange={onChangeDate}
+              <FormItem
+                label='Fecha:'
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 8 }}
+                rules={[
+                  {
+                    required: true,
+                    type: 'date',
+                    message: 'Date',
+                  },
+                ]}
+              >
+                <Space direction='vertical'>
+                  <DatePicker
+                    locale={locale}
+                    disabledDate={disabledDate}
+                    disabled={!productProvider.provider}
+                    defaultValue={defaultDate}
+                    format={dateFormat}
+                    onChange={onChangeDate}
+                  />
+                </Space>
+              </FormItem>
+              <FormItem
+                label='Contenido:'
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 20 }}
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <QuillNoSSRWrapper
+                  ref={myRef}
+                  onChange={onChangeEditor}
+                  theme='snow'
+                  modules={config.modules}
+                  value={valueEditor}
+                  readOnly={readOnly}
+                  placeholder='Contenido'
                 />
-              </Space>
-            </FormItem>
-            <FormItem
-              label='Contenido:'
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 20 }}
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <QuillNoSSRWrapper
-                ref={myRef}
-                onChange={onChangeEditor}
-                theme='snow'
-                modules={config.modules}
-                value={valueEditor}
-                readOnly={readOnly}
-                placeholder='Contenido'
-              />
-            </FormItem>
-            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
-              <Checkbox onChange={onChangeEjemplar}>
-                Ejemplar en Fisico
-              </Checkbox>
-            </FormItem>
-            <FormItem
-              label='Email:'
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 20 }}
-              name='email'
-              onChange={onChangeEmail}
-              rules={[
-                {
-                  required: true,
-                  type: 'email',
-                  message: 'The input is not valid E-mail!',
-                },
-              ]}
-            >
-              <Input placeholder='Email'></Input>
-            </FormItem>
-            <Form.Item
-              name='agreement'
-              valuePropName='checked'
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 24 }}
-              rules={[
-                {
-                  validator: (_, value) =>
-                    value
-                      ? Promise.resolve()
-                      : Promise.reject(
-                        new Error('Debe aceptar los terminos y condiciones'),
-                      ),
-                },
-              ]}
-            // {...tailFormItemLayout}
-            >
-              <Checkbox onChange={onChangeTerms}>
-                He leido y acepto los <a href=''>Terminosy condiciones</a>
-              </Checkbox>
-            </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
-              <Button type='primary' htmlType='submit'>
-                Cotizar
-              </Button>
-            </Form.Item>
-            {/* <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+              </FormItem>
+              <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+                <Checkbox onChange={onChangeEjemplar}>
+                  Ejemplar en Fisico
+                </Checkbox>
+              </FormItem>
+              <FormItem
+                label='Email:'
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 20 }}
+                name='email'
+                onChange={onChangeEmail}
+                rules={[
+                  {
+                    required: true,
+                    type: 'email',
+                    message: 'The input is not valid E-mail!',
+                  },
+                ]}
+              >
+                <Input placeholder='Email'></Input>
+              </FormItem>
+              <Form.Item
+                name='agreement'
+                valuePropName='checked'
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 24 }}
+                rules={[
+                  {
+                    validator: (_, value) =>
+                      value
+                        ? Promise.resolve()
+                        : Promise.reject(
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
+                            ),
+                          ),
+                  },
+                ]}
+                // {...tailFormItemLayout}
+              >
+                <Checkbox onChange={onChangeTerms}>
+                  He leido y acepto los <a href=''>Terminosy condiciones</a>
+                </Checkbox>
+              </Form.Item>
+              <Form.Item {...tailFormItemLayout}>
+                <Button type='primary' htmlType='submit'>
+                  Cotizar
+                </Button>
+              </Form.Item>
+              {/* <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
               <Checkbox onChange={onChangeTerms}>
                 Acepto Terminos y condiciones
               </Checkbox>
             </FormItem> */}
-            {/* <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+              {/* <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
               <Button
                 type='primary'
                 htmlType='submit'
@@ -570,10 +579,11 @@ export default function Index({ products }) {
                 Cotizar
               </Button>
             </FormItem> */}
-          </Form>) :
-            <Quote />}
+            </Form>
+          ) : (
+            <Quote />
+          )}
         </Col>
-
       </Row>
       <footer className={styles.footer}>
         <a

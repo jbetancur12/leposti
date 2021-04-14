@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { parseCookies } from "../helpers/"
-import { useCookies } from "react-cookie"
+import { parseCookies } from '../helpers/';
+import { useCookies } from 'react-cookie';
 import {
   Form,
   Input,
@@ -11,9 +11,9 @@ import {
   Checkbox,
   Button,
   AutoComplete,
+  InputNumber,
 } from 'antd';
 const { Option } = Select;
-
 
 const formItemLayout = {
   labelCol: {
@@ -46,9 +46,8 @@ const tailFormItemLayout = {
   },
 };
 
-const RegistrationForm = ({data}) => {
-
-  console.log(data)
+const RegistrationForm = ({ data }) => {
+  console.log(data);
   const [form] = Form.useForm();
 
   const [cities, setCities] = useState(null);
@@ -83,27 +82,29 @@ const RegistrationForm = ({data}) => {
   React.useEffect(() => {
     getCities();
 
-    if(data.email){
+    if (data.email) {
       form.setFieldsValue({
         email: data.email,
       });
-      removeCookie("email")
+      removeCookie('email');
     }
   }, []);
 
   const onBlurHandler = async (values) => {
     if (values.target.value.length > 0) {
-      const resPost = await fetch('https://api.leposti.ml/users?username=' + values.target.value, {
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-          'Content-Type': 'application/json',
+      const resPost = await fetch(
+        'https://api.leposti.ml/users?username=' + values.target.value,
+        {
+          method: 'GET', // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+            'Content-Type': 'application/json',
+          },
+          // body data type must match "Content-Type" header
         },
-        // body data type must match "Content-Type" header
-      });
+      );
 
       const resAskUser = await resPost.json();
-
 
       if (resAskUser.length > 0) {
         form.setFields([
@@ -113,28 +114,32 @@ const RegistrationForm = ({data}) => {
           },
         ]);
       }
-    }else{
-    form.setFields([
-      {
-        name: 'username',
-        errors: ['Ingresa un usuario'],
-      },
-    ]);}
-  }
+    } else {
+      form.setFields([
+        {
+          name: 'username',
+          errors: ['Ingresa un usuario'],
+        },
+      ]);
+    }
+  };
 
   const onBlurEmail = async (values) => {
     if (values.target.value.length > 0) {
-      const resPost = await fetch('https://api.leposti.ml/users?email=' + values.target.value, {
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-          'Content-Type': 'application/json',
+      const resPost = await fetch(
+        'https://api.leposti.ml/users?email=' + values.target.value,
+        {
+          method: 'GET', // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+            'Content-Type': 'application/json',
+          },
+          // body data type must match "Content-Type" header
         },
-        // body data type must match "Content-Type" header
-      });
+      );
 
       const resAskUser = await resPost.json();
-      console.log(resAskUser)
+      console.log(resAskUser);
 
       if (resAskUser.length > 0) {
         form.setFields([
@@ -144,14 +149,51 @@ const RegistrationForm = ({data}) => {
           },
         ]);
       }
-    }else{
-    form.setFields([
-      {
-        name: 'email',
-        errors: ['Ingresa un email'],
+    } else {
+      form.setFields([
+        {
+          name: 'email',
+          errors: ['Ingresa un email'],
+        },
+      ]);
+    }
+  };
+
+  const emailValidator = async (rule, value) => {
+    const resPost = await fetch('https://api.leposti.ml/users?email=' + value, {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        'Content-Type': 'application/json',
       },
-    ]);}
-  }
+      // body data type must match "Content-Type" header
+    });
+
+    const resAskUser = await resPost.json();
+
+    if (resAskUser.length > 0) {
+      return Promise.reject(new Error('repetido'));
+    }
+    return Promise.resolve();
+  };
+
+  const docIdValidator = async (rule, value) => {
+    const resPost = await fetch('https://api.leposti.ml/users?docId=' + value, {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        'Content-Type': 'application/json',
+      },
+      // body data type must match "Content-Type" header
+    });
+
+    const resAskUser = await resPost.json();
+
+    if (resAskUser.length > 0) {
+      return Promise.reject(new Error('Cedula ya existe'));
+    }
+    return Promise.resolve();
+  };
 
   const onFinish = async (values) => {
     const newValues = {
@@ -159,7 +201,7 @@ const RegistrationForm = ({data}) => {
       city: values.city[1],
       departamento: values.city[0],
     };
-    console.log(newValues)
+    console.log(newValues);
     const resPost = await fetch('https://api.leposti.ml/auth/local/register', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
@@ -197,18 +239,23 @@ const RegistrationForm = ({data}) => {
 
   return (
     <Col span={8} offset={8}>
-      <Row type="flex">
-        <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center' }}>
-
+      <Row type='flex'>
+        <div
+          style={{
+            display: 'inline-flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <h2>Registrate</h2>
         </div>
-
       </Row>
       <Form
         {...formItemLayout}
         form={form}
         name='register'
         onFinish={onFinish}
+        validateTrigger='onBlur'
         initialValues={{
           prefix: '57',
         }}
@@ -243,14 +290,19 @@ const RegistrationForm = ({data}) => {
         <Form.Item
           name='docId'
           label='Numero de cedula'
+          hasFeedback
           rules={[
             {
               required: true,
               message: 'Ingresa tu cedula!',
             },
+            {
+              validator: docIdValidator,
+            },
           ]}
         >
-          <Input />
+          <InputNumber min={0} />
+          {/* <Input /> */}
         </Form.Item>
         <Form.Item
           name='username'
@@ -259,9 +311,8 @@ const RegistrationForm = ({data}) => {
           rules={[
             {
               required: true,
-                // message: 'Porfavor ingresa un usuario',
-                // whitespace: true,
-
+              // message: 'Porfavor ingresa un usuario',
+              // whitespace: true,
             },
           ]}
         >
@@ -270,7 +321,7 @@ const RegistrationForm = ({data}) => {
         <Form.Item
           name='email'
           label='E-mail'
-          onBlur={onBlurEmail}
+          hasFeedback
           rules={[
             {
               type: 'email',
@@ -279,6 +330,9 @@ const RegistrationForm = ({data}) => {
             {
               required: true,
               message: 'Please input your E-mail!',
+            },
+            {
+              validator: emailValidator,
             },
           ]}
         >
@@ -391,7 +445,7 @@ const RegistrationForm = ({data}) => {
         <Form.Item {...tailFormItemLayout}>
           <Button type='primary' htmlType='submit'>
             Register
-        </Button>
+          </Button>
         </Form.Item>
       </Form>
     </Col>
@@ -400,17 +454,17 @@ const RegistrationForm = ({data}) => {
 
 export default RegistrationForm;
 
-RegistrationForm.getInitialProps = async ({ req ,res }) => {
-  const data = parseCookies(req)
+RegistrationForm.getInitialProps = async ({ req, res }) => {
+  const data = parseCookies(req);
 
-if (res) {
+  if (res) {
     if (Object.keys(data).length === 0 && data.constructor === Object) {
-      res.writeHead(301, { Location: "/" })
-      res.end()
+      res.writeHead(301, { Location: '/' });
+      res.end();
     }
   }
 
   return {
     data: data && data,
-  }
-}
+  };
+};
