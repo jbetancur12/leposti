@@ -14,3 +14,14 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.ant-select-selector, .ant-picker, .ant-input {
+  border: none !important;
+  border-bottom: 1px solid rgba(0, 0, 0, .2) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.ant-select-focused > div, .ant-picker-focused, .ant-input:focus {
+  border-bottom: 1px solid #0d72ce !important;
+}

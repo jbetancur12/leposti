@@ -1,4 +1,324 @@
-import React from "react";
+import {
+  Layout, 
+  Menu, 
+  Breadcrumb, 
+  Carousel, 
+  Row,
+  Col,
+  Select,
+  Form,
+  DatePicker,
+  Space,
+  Checkbox,
+  Button,
+  Input, 
+} from 'antd';
+import Image from 'next/image'
+import styles from "../styles/New.module.css"
+
+import Section from "../components/Section"
+import Product from "../components/Product"
+
+import { FaTwitter, FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa"
+
+const { Header, Content, Footer } = Layout;
+
+const FormItem = Form.Item
+
+const Home = () => {
+  return (
+    <Layout className={styles.layout}>
+      <Header className={styles.header}>
+        <div className={styles.img}>
+          <Image
+            src="/logoprincipalBlanco.png"
+            alt="Logo de Leposti"
+            width={140}
+            height={33}
+          />
+        </div>
+        <Menu className={styles.menu} mode="horizontal">
+          <Menu.Item key="1" className={styles.item}>Quiénes somos</Menu.Item>
+          <Menu.Item key="2" className={styles.item}>Productos</Menu.Item>
+          <Menu.Item key="3" className={styles.item}>Publicaciones</Menu.Item>
+          <Menu.Item key="4" className={styles.item}>Contáctenos</Menu.Item>
+          <Menu.Item key="5" className={styles.item}>Preguntas frecuentes</Menu.Item>
+        </Menu>
+      </Header>
+      <Content className={styles.main}>
+        <Carousel autoplay>
+          <div className={styles.imgBanner1}></div>
+          <div className={styles.imgBanner2}></div>
+          <div className={styles.imgBanner3}></div>
+        </Carousel>
+        <div className={styles.formContainer}>
+          <Form layout="vertical" className={styles.form}>
+            <FormItem
+              label="Producto:"
+              labelCol={{ span: 12 }}
+              wrapperCol={{ span: 12 }}
+            >
+              <Select
+                showSearch
+                style={{ width: 300, border: null }}
+                placeholder="Seleccione un producto"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                
+              </Select>
+            </FormItem>
+
+            <FormItem
+              label="Medio:"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 8 }}
+            >
+              <Select
+                showSearch
+                style={{ width: 300 }}
+                placeholder="Seleccione un medio"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+             	
+              </Select>
+            </FormItem>
+
+            <FormItem
+              label="Fecha:"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 24 }}
+              rules={[
+                {
+                  required: true,
+                  type: "date",
+                  message: "Date",
+                },
+              ]}
+            >
+              <Space direction="vertical" style={{ width: '100%' }}>
+                <DatePicker  style={{ width: '100%' }} />
+              </Space>
+            </FormItem>
+            <FormItem
+              label="Contenido:"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 20 }}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+            </FormItem>
+            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+              <Checkbox>
+                Ejemplar en Fisico
+              </Checkbox>
+            </FormItem>
+            <FormItem
+              label="Email:"
+              labelCol={{ span: 12 }}
+              wrapperCol={{ span: 24 }}
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  type: "email",
+                  message: "The input is not valid E-mail!",
+                },
+              ]}
+            >
+              <Input placeholder="Email"></Input>
+            </FormItem>
+            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+              <Checkbox>
+                Acepto Terminos y condiciones
+              </Checkbox>
+            </FormItem>
+            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+              <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+                Cotizar
+              </Button>
+            </FormItem>
+          </Form>
+        </div>
+        <div>
+          <Section title="Nuestros" titleW="productos">
+            <Row className={styles.container}>
+              <Col span={6}>
+                <Product 
+                  img="./Edicto-peq.png"
+                  title="Edicto"
+                  text="Aviso mediante el cual se cita a un ciudadano para dar cuenta de un proceso legal y/o administrativo que lo involucra, o para informarle del estado de un proceso del que forma parte."
+                />
+              </Col>
+              <Col span={6}>
+                <Product 
+                  img="./edicto-radio-peq.png"
+                  title="Edicto + radio"
+                  text="Aviso en prensa y radio mediante el cual se cita a un ciudadano para dar cuenta de una acción legal y/o administrativa que lo involucra, o para informarle del estado de un proceso legal del que forma parte."
+                />
+              </Col>
+              <Col span={6}>
+                <Product 
+                  img="./emplazatorio-peq.png"
+                  title="Emplazatorio"
+                  text="Publicación que se realiza en periódicos de alta circulación, para notificar una acción legal a los involucrados, así como para informar el estado de un proceso legal."
+                />
+              </Col>
+              <Col span={6}>
+                <Product 
+                  img="./aviso-de-ley.png"
+                  title="Avisos de ley"
+                  text="Publicación que realizan las entidades en medios impresos de alta circulación para informar sobre diversos procesos que involucren a terceros, así como para notificar un requerimiento de notabilidad jurídica."
+                />
+              </Col>
+            </Row>
+          </Section>
+          <Section title="Nuestros" titleW="productos">
+            <Row className={styles.container}>
+              <Col span={6}>
+                <Product 
+                  img="./Edicto-peq.png"
+                  title="Edicto"
+                  text="Aviso mediante el cual se cita a un ciudadano para dar cuenta de un proceso legal y/o administrativo que lo involucra, o para informarle del estado de un proceso del que forma parte."
+                />
+              </Col>
+              <Col span={6}>
+                <Product 
+                  img="./edicto-radio-peq.png"
+                  title="Edicto + radio"
+                  text="Aviso en prensa y radio mediante el cual se cita a un ciudadano para dar cuenta de una acción legal y/o administrativa que lo involucra, o para informarle del estado de un proceso legal del que forma parte."
+                />
+              </Col>
+              <Col span={6}>
+                <Product 
+                  img="./emplazatorio-peq.png"
+                  title="Emplazatorio"
+                  text="Publicación que se realiza en periódicos de alta circulación, para notificar una acción legal a los involucrados, así como para informar el estado de un proceso legal."
+                />
+              </Col>
+              <Col span={6}>
+                <Product 
+                  img="./aviso-de-ley.png"
+                  title="Avisos de ley"
+                  text="Publicación que realizan las entidades en medios impresos de alta circulación para informar sobre diversos procesos que involucren a terceros, así como para notificar un requerimiento de notabilidad jurídica."
+                />
+              </Col>
+            </Row>
+          </Section>
+          <Section title="Nuestros" titleW="productos">
+            <Row className={styles.container}>
+              <Col span={6}>
+                <Product 
+                  img="./Edicto-peq.png"
+                  title="Edicto"
+                  text="Aviso mediante el cual se cita a un ciudadano para dar cuenta de un proceso legal y/o administrativo que lo involucra, o para informarle del estado de un proceso del que forma parte."
+                />
+              </Col>
+              <Col span={6}>
+                <Product 
+                  img="./edicto-radio-peq.png"
+                  title="Edicto + radio"
+                  text="Aviso en prensa y radio mediante el cual se cita a un ciudadano para dar cuenta de una acción legal y/o administrativa que lo involucra, o para informarle del estado de un proceso legal del que forma parte."
+                />
+              </Col>
+              <Col span={6}>
+                <Product 
+                  img="./emplazatorio-peq.png"
+                  title="Emplazatorio"
+                  text="Publicación que se realiza en periódicos de alta circulación, para notificar una acción legal a los involucrados, así como para informar el estado de un proceso legal."
+                />
+              </Col>
+              <Col span={6}>
+                <Product 
+                  img="./aviso-de-ley.png"
+                  title="Avisos de ley"
+                  text="Publicación que realizan las entidades en medios impresos de alta circulación para informar sobre diversos procesos que involucren a terceros, así como para notificar un requerimiento de notabilidad jurídica."
+                />
+              </Col>
+            </Row>
+          </Section>
+        </div>
+      </Content>
+      <Footer className={styles.footerContainer}>
+        <Row className={styles.footer}>
+          <Col span={6} className={styles.footerCol}>
+            <div className={styles.w100}>
+              <Image 
+                src="/logoprincipalBlanco.png" 
+                alt="logo leposti" 
+                width={140} 
+                height={33}
+              />
+            </div>
+            <div className={styles.redes}>
+              <FaTwitter/>
+              <FaInstagram/>
+              <FaFacebook/>
+              <FaLinkedin/>
+            </div>
+          </Col>
+          <Col span={6} className={styles.footerCol}>
+            <h3>Documentos legales</h3>
+            <a href="#">Términos y condiciones</a>
+            <a href="#">Politica tratamiento de datos</a>
+            <a href="#">Politica de cookies</a>
+            <a href="#">Método de cobro</a>
+          </Col>
+          <Col span={6} className={styles.footerCol}>
+            <h3>Contacto</h3>
+            <a href="#">email: servicioalcliente@leposti.com</a>
+            <span>Tel: +57 310 6503663</span>
+          </Col>
+          <Col span={6} className={styles.footerImg}>
+            <Image
+              src="/logoSuperintendenciaIC.png"
+              alt="logo industria y comercio"
+              width={200} 
+              height={45}
+            />
+            <Image
+              src="/LogoPayu.png"
+              alt="logo payu"
+              width={250} 
+              height={140}
+            />
+          </Col>
+        </Row>
+      </Footer>
+    </Layout>
+  )
+}
+
+export default Home;
+
+/*.site-layout-content {
+  min-height: 280px;
+  padding: 24px;
+  background: #fff;
+}
+#components-layout-demo-top .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+.ant-row-rtl #components-layout-demo-top .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+}*/
+
+/*import React from "react";
 import moment from "moment";
 import dynamic from "next/dynamic";
 
@@ -469,4 +789,4 @@ Index.getInitialProps = async (ctx) => {
   });
   const products = await res.json();
   return { products };
-};
+};*/

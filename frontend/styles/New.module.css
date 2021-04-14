@@ -1,0 +1,156 @@
+.layout {
+	width: 100% !important;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #0d72ce;
+	width: 100%;
+	padding: 0 2rem;
+}
+
+.img {
+	height: 33px;
+	margin-top: -10px;
+}
+
+.menu {
+	background: #0d72ce;
+	color: #fff;
+}
+
+.item {
+	padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    margin: 0 !important;
+    border: none !important;
+	transition: all .5s ease-in-out;
+}
+
+.item:hover {
+	color: #fff !important;
+	background: rgba(255,255,255,.1) !important;
+}
+
+.main {
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+}
+
+.imgBanner1 {
+	background-image: url(../public/banner1.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 100%;
+	height: 600px;
+}
+
+.imgBanner2 {
+	background-image: url(../public/banner2.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 100%;
+	height: 600px;
+}
+
+.imgBanner3 {
+	background-image: url(../public/banner3.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 100%;
+	height: 600px;
+}
+
+.formContainer {
+	position: absolute;
+	top: 1rem;
+	left: 50%;
+	width: 100%;
+	max-width: 1140px;
+	transform: translateX(-50%);
+	display: flex;
+	justify-content: flex-end;
+	z-index: 999;
+}
+
+.form {
+	background: #fff;
+	padding: 1rem 1.5rem;
+	height: auto;
+	border-radius: 5px;
+}
+
+.form > * {
+	margin: 0 0 .5rem;
+}
+
+.container {
+	max-width: 1140px;
+	margin: 0 auto;
+}
+
+.fw300 {
+	font-weight: 300 !important;
+}
+
+.fw600 {
+	font-weight: 600 !important;
+}
+
+.title {
+	margin: 0 0 3rem;
+	font-size: 32px;
+	text-align: center;
+	background: #002855;
+	color: #fff;
+	padding: 1rem;
+}
+
+.card {
+	margin: 0;
+}
+
+.section {
+	margin-bottom: 3rem;
+}
+
+.w100 {
+	width: 100%;
+}
+
+.footerContainer {
+	background: #0d72ce;
+	height: auto !important;
+}
+
+.footer {
+	max-width: 1140px;
+	margin: 0 auto;
+}
+
+.footerCol > * {
+	margin-bottom: 1rem;
+	display: block;
+	color: #fff;
+}
+
+.redes > * {
+	font-size: 18px;
+	border-radius: 100%;
+	border: rgba(255,255,255,.1);
+	margin-right: .5rem;
+}
+
+.footerCol > a {
+	text-decoration: underline;
+}
+
+.footerImg {
+	text-align: center;
+}
