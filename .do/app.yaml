@@ -1,5 +1,5 @@
 --- 
-name: sample-monorepo
+name: leposti
 services: 
   - 
     github: 
