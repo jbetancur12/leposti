@@ -7,5 +7,5 @@ static_sites:
       deploy_on_push: true
       repo: jbetancur12/leposti
     routes: 
-      - path: /.next
+      - path: /
     source_dir: frontend
