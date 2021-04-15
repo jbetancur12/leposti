@@ -1,13 +1,11 @@
 --- 
 name: leposti
-services: 
-  - 
+static_sites: 
+  - name: frontend 
     github: 
       branch: front/ant-test-wysiwyg
       deploy_on_push: true
       repo: jbetancur12/leposti
-    name: frontend
     routes: 
-      - 
-        path: /
+      - path: /.next
     source_dir: frontend
