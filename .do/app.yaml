@@ -3,7 +3,7 @@ name: leposti
 static_sites: 
   - name: frontend 
     github: 
-      branch: front/ant-test-wysiwyg
+      branch: main
       deploy_on_push: true
       repo: jbetancur12/leposti
     routes: 
