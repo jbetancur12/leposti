@@ -1,0 +1,13 @@
+--- 
+name: sample-monorepo
+services: 
+  - 
+    github: 
+      branch: front/ant-test-wysiwyg
+      deploy_on_push: true
+      repo: jbetancur12/leposti
+    name: frontend
+    routes: 
+      - 
+        path: /
+    source_dir: frontend
