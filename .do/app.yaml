@@ -9,3 +9,4 @@ static_sites:
     routes: 
       - path: /
     source_dir: frontend
+    run_command: npm i && npm run build && npm run start
