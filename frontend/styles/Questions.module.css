@@ -1,0 +1,18 @@
+.container {
+    background: #fff;
+}
+
+.content {
+    background: #fff;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.textQ {
+    font-size: 24px;
+}
+
+.textA {
+    font-size: 16px;
+}

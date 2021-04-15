@@ -11,24 +11,42 @@ import {
   Space,
   Checkbox,
   Button,
-  Input, 
+  Input,
+  Drawer,
 } from 'antd';
 import Image from 'next/image'
 import styles from "../styles/New.module.css"
 
 import Section from "../components/Section"
 import Product from "../components/Product"
+import MyMenu from "../components/MyMenu"
+import About from "../components/About"
+import Contact from "../components/Contact"
+import Question from "../components/Question"
+import UpBtn from "../components/UpBtn"
 
-import { FaTwitter, FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa"
+import { FaTwitter, FaInstagram, FaFacebook, FaLinkedin, FaBars, FaAngleUp } from "react-icons/fa"
+
+import { useState } from 'react'
 
 const { Header, Content, Footer } = Layout;
 
 const FormItem = Form.Item
 
 const Home = () => {
+  const [visible, setVisible] = useState(false)
+
+  const showDrawer = () => {
+    setVisible(true)
+  }
+
+  const onClose = () => {
+    setVisible(false)
+  }
+
   return (
     <Layout className={styles.layout}>
-      <Header className={styles.header}>
+      <Header className={styles.header} id="header">
         <div className={styles.img}>
           <Image
             src="/logoprincipalBlanco.png"
@@ -37,13 +55,21 @@ const Home = () => {
             height={33}
           />
         </div>
-        <Menu className={styles.menu} mode="horizontal">
-          <Menu.Item key="1" className={styles.item}>Quiénes somos</Menu.Item>
-          <Menu.Item key="2" className={styles.item}>Productos</Menu.Item>
-          <Menu.Item key="3" className={styles.item}>Publicaciones</Menu.Item>
-          <Menu.Item key="4" className={styles.item}>Contáctenos</Menu.Item>
-          <Menu.Item key="5" className={styles.item}>Preguntas frecuentes</Menu.Item>
-        </Menu>
+        <div className={styles.myMenu}>
+          <MyMenu type="horizontal"/>
+        </div>
+        <Button className={styles.barsMenu} type="primary" onClick={showDrawer}>
+          <FaBars/>
+        </Button>
+        <Drawer
+          placement="right"
+          closable={false}
+          onClose={onClose}
+          visible={visible}
+          bodyStyle={{ padding: 0 }}
+        >
+          <MyMenu type="vertical"/>
+        </Drawer>
       </Header>
       <Content className={styles.main}>
         <Carousel autoplay>
@@ -56,11 +82,11 @@ const Home = () => {
             <FormItem
               label="Producto:"
               labelCol={{ span: 12 }}
-              wrapperCol={{ span: 12 }}
+              wrapperCol={{ span: 24 }}
             >
               <Select
                 showSearch
-                style={{ width: 300, border: null }}
+                style={{ width: '100%', border: null }}
                 placeholder="Seleccione un producto"
                 optionFilterProp="children"
                 filterOption={(input, option) =>
@@ -75,11 +101,11 @@ const Home = () => {
             <FormItem
               label="Medio:"
               labelCol={{ span: 8 }}
-              wrapperCol={{ span: 8 }}
+              wrapperCol={{ span: 24 }}
             >
               <Select
                 showSearch
-                style={{ width: 300 }}
+                style={{ width: '100%', border: null }}
                 placeholder="Seleccione un medio"
                 optionFilterProp="children"
                 filterOption={(input, option) =>
@@ -151,30 +177,33 @@ const Home = () => {
           </Form>
         </div>
         <div>
-          <Section title="Nuestros" titleW="productos">
+          <About></About>
+          <Contact></Contact>
+          <Question></Question>
+          {/*<Section title="Nuestros" titleW="productos">
             <Row className={styles.container}>
-              <Col span={6}>
+              <Col span={24} sm={12} md={6}>
                 <Product 
                   img="./Edicto-peq.png"
                   title="Edicto"
                   text="Aviso mediante el cual se cita a un ciudadano para dar cuenta de un proceso legal y/o administrativo que lo involucra, o para informarle del estado de un proceso del que forma parte."
                 />
               </Col>
-              <Col span={6}>
+              <Col span={24} sm={12} md={6}>
                 <Product 
                   img="./edicto-radio-peq.png"
                   title="Edicto + radio"
                   text="Aviso en prensa y radio mediante el cual se cita a un ciudadano para dar cuenta de una acción legal y/o administrativa que lo involucra, o para informarle del estado de un proceso legal del que forma parte."
                 />
               </Col>
-              <Col span={6}>
+              <Col span={24} sm={12} md={6}>
                 <Product 
                   img="./emplazatorio-peq.png"
                   title="Emplazatorio"
                   text="Publicación que se realiza en periódicos de alta circulación, para notificar una acción legal a los involucrados, así como para informar el estado de un proceso legal."
                 />
               </Col>
-              <Col span={6}>
+              <Col span={24} sm={12} md={6}>
                 <Product 
                   img="./aviso-de-ley.png"
                   title="Avisos de ley"
@@ -182,77 +211,13 @@ const Home = () => {
                 />
               </Col>
             </Row>
-          </Section>
-          <Section title="Nuestros" titleW="productos">
-            <Row className={styles.container}>
-              <Col span={6}>
-                <Product 
-                  img="./Edicto-peq.png"
-                  title="Edicto"
-                  text="Aviso mediante el cual se cita a un ciudadano para dar cuenta de un proceso legal y/o administrativo que lo involucra, o para informarle del estado de un proceso del que forma parte."
-                />
-              </Col>
-              <Col span={6}>
-                <Product 
-                  img="./edicto-radio-peq.png"
-                  title="Edicto + radio"
-                  text="Aviso en prensa y radio mediante el cual se cita a un ciudadano para dar cuenta de una acción legal y/o administrativa que lo involucra, o para informarle del estado de un proceso legal del que forma parte."
-                />
-              </Col>
-              <Col span={6}>
-                <Product 
-                  img="./emplazatorio-peq.png"
-                  title="Emplazatorio"
-                  text="Publicación que se realiza en periódicos de alta circulación, para notificar una acción legal a los involucrados, así como para informar el estado de un proceso legal."
-                />
-              </Col>
-              <Col span={6}>
-                <Product 
-                  img="./aviso-de-ley.png"
-                  title="Avisos de ley"
-                  text="Publicación que realizan las entidades en medios impresos de alta circulación para informar sobre diversos procesos que involucren a terceros, así como para notificar un requerimiento de notabilidad jurídica."
-                />
-              </Col>
-            </Row>
-          </Section>
-          <Section title="Nuestros" titleW="productos">
-            <Row className={styles.container}>
-              <Col span={6}>
-                <Product 
-                  img="./Edicto-peq.png"
-                  title="Edicto"
-                  text="Aviso mediante el cual se cita a un ciudadano para dar cuenta de un proceso legal y/o administrativo que lo involucra, o para informarle del estado de un proceso del que forma parte."
-                />
-              </Col>
-              <Col span={6}>
-                <Product 
-                  img="./edicto-radio-peq.png"
-                  title="Edicto + radio"
-                  text="Aviso en prensa y radio mediante el cual se cita a un ciudadano para dar cuenta de una acción legal y/o administrativa que lo involucra, o para informarle del estado de un proceso legal del que forma parte."
-                />
-              </Col>
-              <Col span={6}>
-                <Product 
-                  img="./emplazatorio-peq.png"
-                  title="Emplazatorio"
-                  text="Publicación que se realiza en periódicos de alta circulación, para notificar una acción legal a los involucrados, así como para informar el estado de un proceso legal."
-                />
-              </Col>
-              <Col span={6}>
-                <Product 
-                  img="./aviso-de-ley.png"
-                  title="Avisos de ley"
-                  text="Publicación que realizan las entidades en medios impresos de alta circulación para informar sobre diversos procesos que involucren a terceros, así como para notificar un requerimiento de notabilidad jurídica."
-                />
-              </Col>
-            </Row>
-          </Section>
+            </Section>*/}
         </div>
       </Content>
       <Footer className={styles.footerContainer}>
         <Row className={styles.footer}>
-          <Col span={6} className={styles.footerCol}>
-            <div className={styles.w100}>
+          <Col span={24} sm={24} md={6} className={styles.footerCol}>
+            <div className={`${styles.w100} ${styles.footerLogo}`}>
               <Image 
                 src="/logoprincipalBlanco.png" 
                 alt="logo leposti" 
@@ -267,25 +232,27 @@ const Home = () => {
               <FaLinkedin/>
             </div>
           </Col>
-          <Col span={6} className={styles.footerCol}>
+          <Col span={24} sm={12} md={6} className={`${styles.footerCol} ${styles.footerDocs}`}>
             <h3>Documentos legales</h3>
             <a href="#">Términos y condiciones</a>
             <a href="#">Politica tratamiento de datos</a>
             <a href="#">Politica de cookies</a>
             <a href="#">Método de cobro</a>
           </Col>
-          <Col span={6} className={styles.footerCol}>
+          <Col span={24} sm={12} md={6} className={styles.footerCol}>
             <h3>Contacto</h3>
             <a href="#">email: servicioalcliente@leposti.com</a>
             <span>Tel: +57 310 6503663</span>
           </Col>
-          <Col span={6} className={styles.footerImg}>
-            <Image
-              src="/logoSuperintendenciaIC.png"
-              alt="logo industria y comercio"
-              width={200} 
-              height={45}
-            />
+          <Col span={24} sm={24} md={6} className={styles.footerImg}>
+            <div className={styles.footerSuper}>
+              <Image
+                src="/logoSuperintendenciaIC.png"
+                alt="logo industria y comercio"
+                width={200} 
+                height={45}
+              />
+            </div>
             <Image
               src="/LogoPayu.png"
               alt="logo payu"
@@ -295,6 +262,7 @@ const Home = () => {
           </Col>
         </Row>
       </Footer>
+      <UpBtn/>
     </Layout>
   )
 }
