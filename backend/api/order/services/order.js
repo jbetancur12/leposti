@@ -57,7 +57,7 @@ module.exports = {
         }
       );
     } catch (err) {
-      strapi.log.debug("📺: ", err);
+      strapi.log.debug("📺: =>", err);
     }
 
     return entry;
