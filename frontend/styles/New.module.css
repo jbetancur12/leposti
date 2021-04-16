@@ -1,8 +1,9 @@
 .layout {
 	width: 100% !important;
+	overflow: auto;
 }
 
-.header {
+.header {	
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -307,5 +308,9 @@
 
 	.redes > * {
 		font-size: 32px;
+	}
+
+	.header {
+		padding: 1.5rem;
 	}
 }
