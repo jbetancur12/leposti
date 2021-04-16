@@ -38,6 +38,18 @@
 	color: #fff !important;
 }
 
+.loginBtn:hover {
+	background: #0d72ce !important;
+}
+
+.loginBtn > a {
+	background: #fff;
+	padding: .5rem .8rem;
+	border-radius: 5px;
+	color: #0d72ce !important;
+	font-weight: 600;
+}
+
 .main {
 	width: 100%;
 	margin: 0 auto;
@@ -183,6 +195,10 @@
 	color: #fff !important;
 }
 
+.loginBtnFirst {
+	display: none !important;
+}
+
 @media screen and (max-width: 1024px) {
 	.form {
 		margin-right: 1rem;
@@ -198,14 +214,27 @@
 		display: none;
 	}
 
-	.menu {
-		color: #333;
-	}
-
 	.item {
 		padding: 1rem !important;
 		height: auto !important;
 		line-height: normal !important;
+	}
+
+	.item > a {
+		color: #333 !important;
+	}
+
+	.loginBtn > a {
+		background: #0d72ce;
+		color: #fff !important;
+	}
+
+	.loginBtnFirst {
+		display: block !important;
+	}
+
+	.loginBtnSecond {
+		display: none;
 	}
 
 	.container > * {

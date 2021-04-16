@@ -24,6 +24,7 @@ import About from "../components/About"
 import Contact from "../components/Contact"
 import Question from "../components/Question"
 import UpBtn from "../components/UpBtn"
+import MyHeader from "../components/MyHeader"
 
 import { FaTwitter, FaInstagram, FaFacebook, FaLinkedin, FaBars, FaAngleUp } from "react-icons/fa"
 
@@ -34,43 +35,9 @@ const { Header, Content, Footer } = Layout;
 const FormItem = Form.Item
 
 const Home = () => {
-  const [visible, setVisible] = useState(false)
-
-  const showDrawer = () => {
-    setVisible(true)
-  }
-
-  const onClose = () => {
-    setVisible(false)
-  }
-
   return (
     <Layout className={styles.layout}>
-      <Header className={styles.header} id="header">
-        <div className={styles.img}>
-          <Image
-            src="/logoprincipalBlanco.png"
-            alt="Logo de Leposti"
-            width={140}
-            height={33}
-          />
-        </div>
-        <div className={styles.myMenu}>
-          <MyMenu type="horizontal"/>
-        </div>
-        <Button className={styles.barsMenu} type="primary" onClick={showDrawer}>
-          <FaBars/>
-        </Button>
-        <Drawer
-          placement="right"
-          closable={false}
-          onClose={onClose}
-          visible={visible}
-          bodyStyle={{ padding: 0 }}
-        >
-          <MyMenu type="vertical"/>
-        </Drawer>
-      </Header>
+      <MyHeader/>
       <Content className={styles.main}>
         <Carousel autoplay>
           <div className={styles.imgBanner1}></div>
