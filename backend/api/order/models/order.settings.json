@@ -52,6 +52,12 @@
       "type": "boolean",
       "default": false,
       "required": true
+    },
+    "referencia": {
+      "type": "string"
+    },
+    "metodoPago": {
+      "type": "string"
     }
   }
 }
