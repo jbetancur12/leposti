@@ -12,6 +12,7 @@ import {
   Checkbox,
   Button,
   Input,
+  Modal,
 } from 'antd';
 import Image from 'next/image';
 import React from 'react';
@@ -42,6 +43,8 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   ssr: false,
   loading: () => <p>Loading ...</p>,
 });
+
+const Responsive = dynamic(import('../components/Responsive'), { ssr: false });
 const getColombianHolidays = colombianHolidays().map((colombianHoliday) => {
   let splited = [...colombianHoliday.celebrationDate.split('-')];
   let formated = `${splited[2]}/${splited[1]}/${splited[0]}`;
@@ -73,6 +76,7 @@ const Home = ({ products }) => {
   const [email, setEmail] = React.useState('');
   const [openQuote, setOpenQuote] = React.useState(false);
   const [orderReady, setOrder] = React.useState({});
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [form] = Form.useForm();
 
   //Functions
@@ -93,6 +97,18 @@ const Home = ({ products }) => {
     setValueEditor(responseProduct.formato);
     setProviders(responseProduct);
   }
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   function onChangeProvider(value) {
     setProvider(value);
@@ -238,9 +254,7 @@ const Home = ({ products }) => {
     // openWindowWithPostRequest(order, finalPrice[0].iva, referenceCode);
   };
 
-  React.useEffect(() => {
-    console.log('===>', myRef.current.target);
-  }, []);
+  React.useEffect(() => {}, []);
 
   const optionsProducts = products.map((product) => {
     return (
@@ -306,6 +320,12 @@ const Home = ({ products }) => {
               label='Producto:'
               labelCol={{ span: 12 }}
               wrapperCol={{ span: 12 }}
+              rules={[
+                {
+                  required: true,
+                  message: 'Seleccione un producto!',
+                },
+              ]}
             >
               <Select
                 showSearch
@@ -327,6 +347,12 @@ const Home = ({ products }) => {
               label='Medio:'
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 8 }}
+              rules={[
+                {
+                  required: true,
+                  message: 'Seleccione un Medio',
+                },
+              ]}
             >
               <Select
                 disabled={!productProvider.product}
@@ -372,23 +398,52 @@ const Home = ({ products }) => {
             </FormItem>
             <FormItem
               label='Contenido:'
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 20 }}
+              labelCol={{ span: 14 }}
+              wrapperCol={{ span: 24 }}
               rules={[
                 {
                   required: true,
                 },
               ]}
             >
-              <QuillNoSSRWrapper
-                ref={myRef}
-                onChange={onChangeEditor}
-                theme='snow'
-                modules={config.modules}
-                value={valueEditor}
-                readOnly={readOnly}
-                placeholder='Contenido'
-              />
+              <Responsive displayIn={['Laptop', 'Tablet']}>
+                <Button
+                  onClick={showModal}
+                  disabled={readOnly}
+                  style={{ width: '100%' }}
+                >
+                  Agregar Contenido
+                </Button>
+              </Responsive>
+              <Responsive displayIn={['Mobile']}>
+                <>
+                  <QuillNoSSRWrapper
+                    ref={myRef}
+                    onChange={onChangeEditor}
+                    theme='snow'
+                    modules={config.modules}
+                    value={valueEditor}
+                    readOnly={readOnly}
+                    placeholder='Contenido'
+                  />
+                </>
+              </Responsive>
+              <Modal
+                title='Contenido'
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+              >
+                <QuillNoSSRWrapper
+                  ref={myRef}
+                  onChange={onChangeEditor}
+                  theme='snow'
+                  modules={config.modules}
+                  value={valueEditor}
+                  readOnly={readOnly}
+                  placeholder='Contenido'
+                />
+              </Modal>
             </FormItem>
             <FormItem
               label='Email:'
