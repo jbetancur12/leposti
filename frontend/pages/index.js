@@ -25,6 +25,8 @@ import Contact from "../components/Contact"
 import Question from "../components/Question"
 import UpBtn from "../components/UpBtn"
 import MyHeader from "../components/MyHeader"
+import MyFooter from "../components/MyFooter"
+import Chats from "../components/Chats"
 
 import { FaTwitter, FaInstagram, FaFacebook, FaLinkedin, FaBars, FaAngleUp } from "react-icons/fa"
 
@@ -181,61 +183,8 @@ const Home = () => {
             </Section>*/}
         </div>
       </Content>
-      <Footer className={styles.footerContainer}>
-        <Row className={styles.footer}>
-          <Col span={24} sm={24} md={6} className={styles.footerCol}>
-            <div className={`${styles.w100} ${styles.footerLogo}`}>
-              <Image 
-                src="/logoprincipalBlanco.png" 
-                alt="logo leposti" 
-                width={140} 
-                height={33}
-              />
-            </div>
-            <div className={styles.redes}>
-              <FaTwitter/>
-              <FaInstagram/>
-              <FaFacebook/>
-              <FaLinkedin/>
-            </div>
-          </Col>
-          <Col span={24} sm={12} md={6} className={`${styles.footerCol} ${styles.footerDocs}`}>
-            <h3>Documentos legales</h3>
-            <a href="#">Términos y condiciones</a>
-            <a href="#">Politica tratamiento de datos</a>
-            <a href="#">Politica de cookies</a>
-            <a href="#">Método de cobro</a>
-          </Col>
-          <Col span={24} sm={12} md={6} className={styles.footerCol}>
-            <h3>Contacto</h3>
-            <a href="#">email: servicioalcliente@leposti.com</a>
-            <span>Tel: +57 310 6503663</span>
-          </Col>
-          <Col span={24} sm={24} md={6} className={styles.footerImg}>
-            <div className={styles.footerSuper}>
-              <Image
-                src="/logoSuperintendenciaIC.png"
-                alt="logo industria y comercio"
-                width={200} 
-                height={45}
-              />
-            </div>
-            <Image
-              src="/LogoPayu.png"
-              alt="logo payu"
-              width={250} 
-              height={140}
-            />
-          </Col>
-        </Row>
-      </Footer>
-      <div id='comm100-button-99d23bfd-f03f-4710-a185-0a95e15fdcb0'></div>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-          var Comm100API=Comm100API||{};(function(t){function e(e){var a=document.createElement("script"),c=document.getElementsByTagName("script")[0];a.type="text/javascript",a.async=!0,a.src=e+t.site_id,c.parentNode.insertBefore(a,c)}t.chat_buttons=t.chat_buttons||[],t.chat_buttons.push({code_plan:"99d23bfd-f03f-4710-a185-0a95e15fdcb0",div_id:"comm100-button-99d23bfd-f03f-4710-a185-0a95e15fdcb0"}),t.site_id=10004261,t.main_code_plan="99d23bfd-f03f-4710-a185-0a95e15fdcb0",e("https://vue.comm100.com/livechat.ashx?siteId="),setTimeout(function(){t.loaded||e("https://standby.comm100vue.com/livechat.ashx?siteId=")},5e3)})(Comm100API||{})`,
-        }}
-      ></script>
+      <MyFooter/>
+      <Chats/>
     </Layout>
   )
 }
