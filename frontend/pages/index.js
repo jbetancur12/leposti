@@ -134,16 +134,42 @@ const Home = ({ products }) => {
   }
 
   function disabledDate(current) {
-    const dayToPub = moment().endOf('day').add(2, 'day')._d;
-    const dayToPubFormated = moment(dayToPub).format(dateFormat);
-    const isHoliday = getColombianHolidays.includes(dayToPubFormated);
-    const isSunday = moment(dayToPub).day() === 0;
+    //let date = '2021-05-10 12:02';
+    let date = new Date();
 
-    if (isHoliday || isSunday) {
-      return current && current < moment().endOf('day').add(3, 'day');
+    const hoursDiff = moment(date)
+      .startOf('day')
+      .add(1, 'day')
+      .diff(moment(date), 'minutes');
+
+    if (
+      moment(date).day() === 6 ||
+      moment(date).day() === 0 ||
+      getColombianHolidays.includes(moment(date).format(dateFormat))
+    ) {
+      if (moment(date).day() === 6) {
+        return current && current < moment(date).startOf('day').add(3, 'day');
+      } else if (moment(date).day() === 0) {
+        return current && current < moment(date).startOf('day').add(2, 'day');
+      } else {
+        return current && current < moment(date).startOf('day').add(2, 'day');
+      }
+    } else if (hoursDiff < 720) {
+      const add2 = moment(date).startOf('day').add(2, 'day');
+      if (add2.day() === 0) {
+        const add3 = moment(date).startOf('day').add(3, 'day');
+        const isHoliday = getColombianHolidays.includes(
+          moment(add3).format(dateFormat),
+        );
+        if (isHoliday) {
+          return current && current < moment(date).startOf('day').add(4, 'day');
+        }
+        return current && current < moment(date).startOf('day').add(3, 'day');
+      }
+      return current && current < moment(date).startOf('day').add(2, 'day');
+    } else {
+      return current && current < moment(date).startOf('day').add(1, 'day');
     }
-
-    return current && current < moment().endOf('day').add(2, 'day');
   }
 
   function onChangeEditor(content, delta, source, editor) {
@@ -458,7 +484,10 @@ const Home = ({ products }) => {
                 },
               ]}
             >
-              <Input placeholder='Email'></Input>
+              <Input
+                disabled={!valueEditorText.length > 0}
+                placeholder='Email'
+              ></Input>
             </FormItem>
             <FormItem
               labelCol={{ span: 8 }}
