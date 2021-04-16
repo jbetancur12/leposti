@@ -62,6 +62,30 @@
     "orders": {
       "via": "user",
       "collection": "order"
+    },
+    "firstname": {
+      "type": "string"
+    },
+    "lastname": {
+      "type": "string"
+    },
+    "docId": {
+      "type": "integer"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "departamento": {
+      "type": "string"
+    },
+    "direccion": {
+      "type": "string"
+    },
+    "agreement": {
+      "type": "boolean"
     }
   }
 }

@@ -1,0 +1,12 @@
+--- 
+name: leposti
+static_sites: 
+  - name: frontend 
+    github: 
+      branch: main
+      deploy_on_push: true
+      repo: jbetancur12/leposti
+    routes: 
+      - path: /
+    source_dir: frontend
+    run_command: npm i && npm run build && npm run start

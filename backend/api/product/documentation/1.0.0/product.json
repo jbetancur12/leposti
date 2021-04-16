@@ -624,6 +624,12 @@
                 "ejemplar": {
                   "type": "boolean"
                 },
+                "referencia": {
+                  "type": "string"
+                },
+                "metodoPago": {
+                  "type": "string"
+                },
                 "published_at": {
                   "type": "string"
                 },
