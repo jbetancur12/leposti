@@ -134,7 +134,7 @@ const Home = ({ products }) => {
   }
 
   function disabledDate(current) {
-    //let date = '2021-05-10 12:02';
+    //let date = '2021-05-14 12:02';
     let date = new Date();
 
     const hoursDiff = moment(date)
@@ -154,6 +154,8 @@ const Home = ({ products }) => {
       } else {
         return current && current < moment(date).startOf('day').add(2, 'day');
       }
+    } else if (hoursDiff < 720 && moment(date).day() === 5) {
+      return current && current < moment(date).startOf('day').add(4, 'day');
     } else if (hoursDiff < 720) {
       const add2 = moment(date).startOf('day').add(2, 'day');
       if (add2.day() === 0) {
@@ -162,7 +164,7 @@ const Home = ({ products }) => {
           moment(add3).format(dateFormat),
         );
         if (isHoliday) {
-          return current && current < moment(date).startOf('day').add(4, 'day');
+          return current && current < moment(date).startOf('day').add(5, 'day');
         }
         return current && current < moment(date).startOf('day').add(3, 'day');
       }
