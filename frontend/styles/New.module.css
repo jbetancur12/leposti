@@ -13,6 +13,7 @@
 }
 
 .img {
+	display: block;
 	height: 33px;
 	margin-top: -10px;
 }
@@ -49,6 +50,22 @@
 	border-radius: 5px;
 	color: #0d72ce !important;
 	font-weight: 600;
+}
+
+.registerBtn:hover {
+	background: #0d72ce !important;
+}
+
+.registerBtn > a {
+	padding: calc(.5rem - 2px) calc(.8rem - 2px);
+	border-radius: 5px;
+	font-weight: 600;
+	border: 2px solid #fff;
+	transition: all .5s ease-in-out;
+}
+
+.registerBtn > a:hover {
+	background: rgba(255,255,255,.1);
 }
 
 .main {
@@ -225,6 +242,18 @@
 		color: #333 !important;
 	}
 
+	.loginBtn {
+		position: absolute !important;
+		bottom: 0.5rem;
+		right: 7rem;
+	}
+
+	.registerBtn {
+		position: absolute !important;
+		bottom: 0.5rem;
+		right: 0.5rem;
+	}
+
 	.loginBtn > a {
 		background: #0d72ce;
 		color: #fff !important;
@@ -236,6 +265,11 @@
 
 	.loginBtnSecond {
 		display: none;
+	}
+
+	.registerBtn > a {
+		border: 2px solid #0d72ce;
+		color: #0d72ce !important;
 	}
 
 	.container > * {

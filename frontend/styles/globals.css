@@ -14,6 +14,14 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  overflow: auto;
+}
+
+#__next {
+  overflow: auto;;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -23,13 +31,33 @@ a {
   box-sizing: border-box;
 }
 
-.ant-select-selector, .ant-picker, .ant-input {
+.ant-select-selector, .ant-picker, .ant-input, .ant-input-number, .ant-input-password {
   border: none !important;
   border-bottom: 1px solid rgba(0, 0, 0, .2) !important;
   outline: none !important;
   box-shadow: none !important;
 }
 
-.ant-select-focused > div, .ant-picker-focused, .ant-input:focus {
+.ant-select-focused > div, .ant-picker-focused, .ant-input:focus, .ant-input-number:focus, .ant-input-password.focused {
   border-bottom: 1px solid #0d72ce !important;
+}
+
+.ant-input-number {
+  width: 100% !important;
+}
+
+.ant-input-password > *, .ant-input-password > *:focus {
+  border: none !important;
+}
+
+.ant-input-group-addon {
+  background: #fff !important;
+  border: none !important;
+  transform: translateY(-1px);
+}
+
+@media screen and (max-width: 768px) {
+  .ant-drawer {
+    z-index: 999999999999 !important;
+  }
 }

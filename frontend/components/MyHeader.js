@@ -22,14 +22,14 @@ const MyHeader = () => {
 
     return (
       <Header className={styles.header} id="header">
-        <div className={styles.img}>
+        <a href="/" className={styles.img}>
           <Image
             src="/logoprincipalBlanco.png"
             alt="Logo de Leposti"
             width={140}
             height={33}
           />
-        </div>
+        </a>
         <div className={styles.myMenu}>
           <MyMenu type="horizontal"/>
         </div>

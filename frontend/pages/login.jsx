@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useCookies } from "react-cookie";
@@ -363,6 +363,8 @@ export default function Index({ products }) {
       );
     });
 
+  const [focused, setFocused] = useState(false)
+
   return (
     <>
       <Layout className={styles.layout}>
@@ -388,7 +390,7 @@ export default function Index({ products }) {
                       },
                     ]}
                   >
-                    <Input placeholder="Correo"></Input>
+                    <Input placeholder="Correo"/>
                   </FormItem>
                   <FormItem
                     label="Contraseña:"
@@ -405,7 +407,12 @@ export default function Index({ products }) {
                       },
                     ]}
                   >
-                    <Input placeholder="Contraseña"></Input>
+                    <Input.Password 
+                      placeholder="Contraseña"
+                      className={focused ? 'focused' : ''}
+                      onFocus={() => { setFocused(true) }}
+                      onBlur={() => { setFocused(false) }}
+                    />
                   </FormItem>
                   <Form.Item {...tailFormItemLayout} wrapperCol={{ span: 12, offset: 6 }} className={ styles.btnContainer }>
                     <Button type="primary" htmlType="submit" className={styles.btn}>
