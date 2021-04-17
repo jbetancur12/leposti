@@ -35,6 +35,10 @@
     .layout {
         height: auto;
     }
+
+    .item {
+        padding: 0;
+    }
 }
 
 @media screen and (max-width: 576px) {
@@ -53,6 +57,10 @@
 
     .btnContainer {
         width: 80%;
-        margin: 0 auto i !important;
+        margin: 0 auto !important;
+    }
+
+    .btnContainer > div {
+        margin: 0;
     }
 }
