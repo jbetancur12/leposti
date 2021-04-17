@@ -1,5 +1,11 @@
-import { Form, Input, Button, Radio, InputNumber } from 'antd';
+import { Form, Input, Button, Radio, InputNumber, Layout, Row, Col } from 'antd';
 import React, { useState } from 'react';
+
+import styles from "../styles/Login.module.css";
+
+import MyHeader from "../components/MyHeader";
+import MyFooter from "../components/MyFooter";
+import { Content } from "antd/lib/layout/layout";
 
 const layout = {
   labelCol: { span: 8 },
@@ -32,7 +38,7 @@ const ForgotPassword = () => {
       if (resAskUser.length > 0) {
         email = { ...email, email: resAskUser[0].email };
       } else {
-        console.log('No Usuario con esa cedula');
+        message.error('No hay un usuario con esta cedula');
       }
     } else {
       email = { ...email, email: values.username };
@@ -48,9 +54,9 @@ const ForgotPassword = () => {
     });
 
     if (resPost.ok) {
-      console.log('email enviado a: ' + email.email);
+      message.success('Email enviado a: ' + email.email);
     } else {
-      console.log('No se encontro');
+      message.error('No encontrado');
     }
   };
 
@@ -60,6 +66,9 @@ const ForgotPassword = () => {
         <Form.Item
           label='Username'
           name='username'
+          labelCol={{ span: 24 }}
+          wrapperCol={{ span: 24 }}
+          className={styles.item}
           rules={[
             {
               required: true,
@@ -67,7 +76,7 @@ const ForgotPassword = () => {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="E-mail" />
         </Form.Item>
       );
     }
@@ -75,6 +84,9 @@ const ForgotPassword = () => {
       <Form.Item
         label='Cedula'
         name='cedula'
+        labelCol={{ span: 24 }}
+        wrapperCol={{ span: 24 }}
+        className={styles.item}
         rules={[
           {
             required: true,
@@ -82,35 +94,48 @@ const ForgotPassword = () => {
           },
         ]}
       >
-        <InputNumber min={0} />
+        <InputNumber min={0} placeholder="Cedula" />
       </Form.Item>
     );
   };
 
   return (
-    <Form
-      {...layout}
-      name='basic'
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-    >
-      <WayToRecover />
+    <>
+      <Layout className={styles.layout}>
+        <MyHeader/>
+        <Content className={styles.content}>
+          <Row justify="space-around" style={{  width: '100%' }}>
+            <Col span={24} sm={12} lg={10} xl={6} className={ styles.formContainer }>
+              <h1 className={styles.title}>Recuperar contraseña</h1>
+              <Form
+                {...layout}
+                name='basic'
+                initialValues={{
+                  remember: true,
+                }}
+                onFinish={onFinish}
+              >
+                <WayToRecover />
 
-      <Form.Item {...tailLayout} name='way'>
-        <Radio.Group onChange={(e) => setValue(e.target.value)} value={value}>
-          <Radio value={'email'}>Email</Radio>
-          <Radio value={'id'}>Cedula</Radio>
-        </Radio.Group>
-      </Form.Item>
+                <Form.Item name='way'>
+                  <Radio.Group onChange={(e) => setValue(e.target.value)} value={value}>
+                    <Radio value={'email'}>Email</Radio>
+                    <Radio value={'id'}>Cedula</Radio>
+                  </Radio.Group>
+                </Form.Item>
 
-      <Form.Item {...tailLayout}>
-        <Button type='primary' htmlType='submit'>
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+                <Form.Item {...tailLayout} wrapperCol={{ span: 12, offset: 6 }} className={ styles.btnContainer }>
+                  <Button type='primary' htmlType='submit' className={styles.btn}>
+                    Aceptar
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Col>
+          </Row>
+        </Content>
+        <MyFooter/>
+      </Layout>
+    </>
   );
 };
 
