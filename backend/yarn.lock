@@ -10609,6 +10609,7 @@ strapi-plugin-documentation@^3.5.4:
     strapi-helper-plugin "3.5.4"
     swagger-ui-dist "3.45.1"
 
+<<<<<<< HEAD
 strapi-plugin-email-designer@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/strapi-plugin-email-designer/-/strapi-plugin-email-designer-0.3.0.tgz#2c5db3d00c001ab1ba70f34d2a21a70a912a7bc9"
@@ -10620,6 +10621,8 @@ strapi-plugin-email-designer@^0.3.0:
     react-email-editor "^1.2.0"
     react-syntax-highlighter "^15.4.3"
 
+=======
+>>>>>>> e1ea9ad2f5219e3a8015cade3a1936aeb5e9f43b
 strapi-plugin-email@3.5.4:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/strapi-plugin-email/-/strapi-plugin-email-3.5.4.tgz#035e72e6c2c938fe283a9f810b7371fd31f330d3"
@@ -10727,6 +10730,7 @@ strapi-plugin-users-permissions@3.5.4:
     strapi-utils "3.5.4"
     uuid "^3.1.0"
 
+<<<<<<< HEAD
 strapi-provider-email-nodemailer@^3.5.4:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/strapi-provider-email-nodemailer/-/strapi-provider-email-nodemailer-3.5.4.tgz#fa03920b34a3e4b0d119aa2dda52db1345fcb7f1"
@@ -10735,6 +10739,8 @@ strapi-provider-email-nodemailer@^3.5.4:
     lodash "4.17.20"
     nodemailer "6.5.0"
 
+=======
+>>>>>>> e1ea9ad2f5219e3a8015cade3a1936aeb5e9f43b
 strapi-provider-email-sendgrid@^3.5.4:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/strapi-provider-email-sendgrid/-/strapi-provider-email-sendgrid-3.5.4.tgz#1762fa8e182b6f071bfb9e60f847203b565a6ea4"
