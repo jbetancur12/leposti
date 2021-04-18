@@ -19,6 +19,7 @@ import Image from 'next/image';
 import React from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
+import { useCookies } from 'react-cookie';
 
 import Link from 'next/link';
 import colombianHolidays from 'colombian-holidays';
@@ -55,6 +56,15 @@ const { Option } = Select;
 const dateFormat = 'DD/MM/YYYY';
 
 const FormItem = Form.Item;
+
+const formatter = new Intl.NumberFormat('es-CO', {
+  style: 'currency',
+  currency: 'COP',
+
+  // These options are needed to round to whole numbers if that's what you want.
+  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   ssr: false,
@@ -94,7 +104,9 @@ const Home = ({ products }) => {
   const [openQuote, setOpenQuote] = useState(false);
   const [orderReady, setOrder] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [quotation, setQuotation] = useState([]);
   const [form] = Form.useForm();
+  const [cookie, setCookie] = useCookies(['email']);
 
   //Functions
   async function onChangeProduct(value) {
@@ -107,12 +119,14 @@ const Home = ({ products }) => {
     });
     const responseProduct = await response.json();
     const _product = { product: value };
+    const _quotation = { product: responseProduct.nombre };
     setProduct(value);
     setProvider('');
     setProductProvider({ ..._product });
-
+    // console.log('Provider', responseProduct);
     setValueEditor(responseProduct.formato);
     setProviders(responseProduct);
+    setQuotation({ ..._quotation });
   }
 
   const showModal = () => {
@@ -129,6 +143,7 @@ const Home = ({ products }) => {
 
   function onChangeProvider(value) {
     setProvider(value);
+    console.log('Vlauye', value);
     const test = { ...productProvider, provider: value };
     setProductProvider(test);
   }
@@ -198,6 +213,10 @@ const Home = ({ products }) => {
     setValueEditorText(editor.getText());
   }
 
+  const onChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
   const onFinish = async (values) => {
     const res = await fetch(`https://api.leposti.ml/prices`, {
       headers: {
@@ -231,13 +250,6 @@ const Home = ({ products }) => {
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
 
-    const askUser = await fetch(`https://api.leposti.ml/users?email=${email}`, {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-        'Content-Type': 'application/json',
-      },
-    });
-
     const referenceCode = `${providers.nombre}-${Date.now()}`;
 
     const order = {
@@ -263,16 +275,26 @@ const Home = ({ products }) => {
     };
 
     let orderUpdated = {};
-    if (askUser.ok) {
-      const resAskUser = await askUser.json();
+    const userExist = await fetch(
+      `https://api.leposti.ml/users?email=${email}`,
+      {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (userExist.ok) {
+      let userExistJson = await userExist.json();
       let userBuyer = '';
-      if (resAskUser.length > 0) {
-        userBuyer = resAskUser[0].id;
+      if (userExistJson.length > 0) {
+        userBuyer = userExistJson[0].id;
       } else {
         userBuyer = 0;
       }
       setOrder({ ...order, user: { id: userBuyer } });
-      setOpenQuote(true);
+
       orderUpdated = { ...order, user: { id: userBuyer } };
     }
 
@@ -294,9 +316,116 @@ const Home = ({ products }) => {
       setProvider('');
       setProduct('');
       console.log('Posteado', order);
+      setOpenQuote(true);
     }
 
     // openWindowWithPostRequest(order, finalPrice[0].iva, referenceCode);
+  };
+
+  function openWindowWithPostRequest(order) {
+    const { iva } = order;
+    console.log('==>', order.total, iva);
+    const referenceCode = order.referencia;
+    let winName = 'MyWindow';
+    let windowoption =
+      'resizable=yes,height=600,width=800,location=0,menubar=0,scrollbars=1';
+    const provide = providers.providers.find(
+      (pro) => pro.id === productProvider.provider,
+    );
+    const withEjemplar = order.ejemplar ? 'con ' : 'sin ';
+    const withoutIva =
+      iva > 0 ? order.total - order.total * (iva / 100) : order.total;
+    const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
+
+    const signature = md5(
+      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
+    );
+    console.log('provideres', providers);
+    console.log('provi', provide);
+    let params = {
+      accountId: '512321',
+      merchantId: '508029',
+      description: `${providers.nombre} - ${provide.nombre} - ${order.fechaPublicacion}`,
+      referenceCode: referenceCode,
+      amount: order.total,
+      tax: ivaValue,
+      taxReturnBase: withoutIva,
+      currency: 'COP',
+      signature: signature,
+      test: '1',
+      buyerEmail: email,
+      responseUrl: '',
+      confirmationUrl: 'https://api.leposti.ml/transactions',
+    };
+    let form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute(
+      'action',
+      'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/',
+    );
+    form.setAttribute('target', winName);
+    for (let i in params) {
+      if (params.hasOwnProperty(i)) {
+        let input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = i;
+        input.value = params[i];
+        form.appendChild(input);
+      }
+    }
+    document.body.appendChild(form);
+    // window.open('', winName, windowoption);
+    // form.target = winName;
+    form.submit();
+    document.body.removeChild(form);
+  }
+
+  const onClickBuy = async () => {
+    openWindowWithPostRequest(orderReady);
+  };
+
+  const Quote = () => {
+    let button;
+    if (orderReady.user.id > 0) {
+      button = <Button onClick={onClickBuy}>Comprar</Button>;
+    } else {
+      setCookie('email', email);
+      button = (
+        <div>
+          <p>
+            El correo electronico no se encuntra registrado, por favor
+            registrate para continuar con la compra
+          </p>
+          <Link href='/register'>
+            <a>Registrate</a>
+          </Link>
+        </div>
+      );
+    }
+
+    const providerInOrder = providers.providers.find(
+      (prov) => prov.id === productProvider.provider,
+    );
+
+    const quotation = (
+      <div>
+        <div>
+          <span>Producto: </span>
+          {providers.nombre}
+        </div>
+        <div>
+          <span>Medio: </span>
+          {providerInOrder.nombre}
+        </div>
+        <div>
+          <span>Valor: </span>
+          {formatter.format(orderReady.total)}
+        </div>
+        <div>{button}</div>
+      </div>
+    );
+
+    return quotation;
   };
 
   React.useEffect(() => {}, []);
@@ -335,164 +464,176 @@ const Home = ({ products }) => {
             onFinish={onFinish}
             form={form}
           >
-            <FormItem
-              label='Producto:'
-              labelCol={{ span: 12 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Select
-                showSearch
-                style={{ width: '100%', border: null }}
-                placeholder='Seleccione un producto'
-                optionFilterProp='children'
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-              >
-                {optionsProducts}
-              </Select>
-            </FormItem>
-
-            <FormItem
-              label='Medio:'
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Select
-                disabled={!productProvider.product}
-                showSearch
-                style={{ width: '100%', border: null }}
-                placeholder='Seleccione un medio'
-                optionFilterProp='children'
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-              >
-                {optionsProviders}
-              </Select>
-            </FormItem>
-
-            <FormItem
-              label='Fecha:'
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 24 }}
-              rules={[
-                {
-                  required: true,
-                  type: 'date',
-                  message: 'Date',
-                },
-              ]}
-            >
-              <Space direction='vertical' style={{ width: '100%' }}>
-                <DatePicker
-                  style={{ width: '100%' }}
-                  locale={locale}
-                  disabledDate={disabledDate}
-                  disabled={!productProvider.provider}
-                  //defaultValue={defaultDate}
-                  value={valueDate}
-                  format={dateFormat}
-                  onChange={onChangeDate}
-                />
-              </Space>
-            </FormItem>
-            <FormItem
-              label='Contenido:'
-              labelCol={{ span: 14 }}
-              wrapperCol={{ span: 24 }}
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Responsive displayIn={['Laptop', 'Tablet']}>
-                <Button
-                  onClick={showModal}
-                  disabled={readOnly}
-                  style={{ width: '100%' }}
+            {!openQuote ? (
+              <>
+                <FormItem
+                  label='Producto:'
+                  labelCol={{ span: 12 }}
+                  wrapperCol={{ span: 24 }}
                 >
-                  Agregar Contenido
-                </Button>
-              </Responsive>
-              <Responsive displayIn={['Mobile']}>
-                <>
-                  <QuillNoSSRWrapper
-                    ref={myRef}
-                    onChange={onChangeEditor}
-                    theme='snow'
-                    modules={config.modules}
-                    value={valueEditor}
-                    readOnly={readOnly}
-                    placeholder='Contenido'
-                  />
-                </>
-              </Responsive>
-              <Modal
-                title='Contenido'
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-              >
-                <QuillNoSSRWrapper
-                  ref={myRef}
-                  onChange={onChangeEditor}
-                  theme='snow'
-                  modules={config.modules}
-                  value={valueEditor}
-                  readOnly={readOnly}
-                  placeholder='Contenido'
-                />
-              </Modal>
-            </FormItem>
-            <FormItem
-              label='Email:'
-              labelCol={{ span: 12 }}
-              wrapperCol={{ span: 24 }}
-              name='email'
-              rules={[
-                {
-                  required: true,
-                  type: 'email',
-                  message: 'Ingrese un Email valido!',
-                },
-              ]}
-            >
-              <Input
-                disabled={!valueEditorText.length > 0}
-                placeholder='Email'
-              ></Input>
-            </FormItem>
-            <FormItem
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 24 }}
-              name='agreement'
-              valuePropName='checked'
-              rules={[
-                {
-                  validator: (_, value) =>
-                    value
-                      ? Promise.resolve()
-                      : Promise.reject(
-                          new Error('Debe aceptar los terminos y condiciones'),
-                        ),
-                },
-              ]}
-            >
-              <Checkbox>Acepto Terminos y condiciones</Checkbox>
-            </FormItem>
-            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
-              <Button
-                type='primary'
-                htmlType='submit'
-                style={{ width: '100%' }}
-              >
-                Cotizar
-              </Button>
-            </FormItem>
+                  <Select
+                    showSearch
+                    style={{ width: '100%', border: null }}
+                    placeholder='Seleccione un producto'
+                    onChange={onChangeProduct}
+                    optionFilterProp='children'
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                  >
+                    {optionsProducts}
+                  </Select>
+                </FormItem>
+                <FormItem
+                  label='Medio:'
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 24 }}
+                >
+                  <Select
+                    disabled={!productProvider.product}
+                    showSearch
+                    style={{ width: '100%', border: null }}
+                    placeholder='Seleccione un medio'
+                    optionFilterProp='children'
+                    value={provider}
+                    onChange={onChangeProvider}
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                  >
+                    {optionsProviders}
+                  </Select>
+                </FormItem>
+                <FormItem
+                  label='Fecha:'
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 24 }}
+                  rules={[
+                    {
+                      required: true,
+                      type: 'date',
+                      message: 'Date',
+                    },
+                  ]}
+                >
+                  <Space direction='vertical' style={{ width: '100%' }}>
+                    <DatePicker
+                      style={{ width: '100%' }}
+                      locale={locale}
+                      disabledDate={disabledDate}
+                      disabled={!productProvider.provider}
+                      //defaultValue={defaultDate}
+                      value={valueDate}
+                      format={dateFormat}
+                      onChange={onChangeDate}
+                    />
+                  </Space>
+                </FormItem>
+                <FormItem
+                  label='Contenido:'
+                  labelCol={{ span: 14 }}
+                  wrapperCol={{ span: 24 }}
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Responsive displayIn={['Laptop', 'Tablet']}>
+                    <Button
+                      onClick={showModal}
+                      disabled={readOnly}
+                      style={{ width: '100%' }}
+                    >
+                      Agregar Contenido
+                    </Button>
+                  </Responsive>
+                  <Responsive displayIn={['Mobile']}>
+                    <>
+                      <QuillNoSSRWrapper
+                        ref={myRef}
+                        onChange={onChangeEditor}
+                        theme='snow'
+                        modules={config.modules}
+                        value={valueEditor}
+                        readOnly={readOnly}
+                        placeholder='Contenido'
+                      />
+                    </>
+                  </Responsive>
+                  <Modal
+                    title='Contenido'
+                    visible={isModalVisible}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                  >
+                    <QuillNoSSRWrapper
+                      ref={myRef}
+                      onChange={onChangeEditor}
+                      theme='snow'
+                      modules={config.modules}
+                      value={valueEditor}
+                      readOnly={readOnly}
+                      placeholder='Contenido'
+                    />
+                  </Modal>
+                </FormItem>
+                <FormItem
+                  label='Email:'
+                  labelCol={{ span: 12 }}
+                  wrapperCol={{ span: 24 }}
+                  onChange={onChangeEmail}
+                  name='email'
+                  rules={[
+                    {
+                      required: true,
+                      type: 'email',
+                      message: 'Ingrese un Email valido!',
+                    },
+                  ]}
+                >
+                  <Input
+                    disabled={!valueEditorText.length > 0}
+                    placeholder='Email'
+                  ></Input>
+                </FormItem>
+                <FormItem
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 24 }}
+                  name='agreement'
+                  valuePropName='checked'
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        value
+                          ? Promise.resolve()
+                          : Promise.reject(
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
+                            ),
+                    },
+                  ]}
+                >
+                  <Checkbox>Acepto Terminos y condiciones</Checkbox>
+                </FormItem>
+                <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
+                  <Button
+                    type='primary'
+                    htmlType='submit'
+                    style={{ width: '100%' }}
+                  >
+                    Cotizar
+                  </Button>
+                </FormItem>
+              </>
+            ) : (
+              <Quote />
+            )}
           </Form>
         </div>
         <div>
