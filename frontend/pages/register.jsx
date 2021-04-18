@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { parseCookies } from '../helpers/';
 import { useCookies } from 'react-cookie';
 import {
@@ -12,13 +13,13 @@ import {
   Button,
   AutoComplete,
   InputNumber,
-  message
+  message,
 } from 'antd';
 
-import MyHeader from "../components/MyHeader"
-import MyFooter from "../components/MyFooter"
+import MyHeader from '../components/MyHeader';
+import MyFooter from '../components/MyFooter';
 
-import styles from "../styles/Login.module.css"
+import styles from '../styles/Login.module.css';
 
 const { Option } = Select;
 
@@ -54,7 +55,7 @@ const tailFormItemLayout = {
 };
 
 const RegistrationForm = ({ data }) => {
-  console.log(data);
+  const router = useRouter();
   const [form] = Form.useForm();
 
   const [cities, setCities] = useState(null);
@@ -221,7 +222,8 @@ const RegistrationForm = ({ data }) => {
       const message = `An error has occured: ${resPost.status}`;
       throw new Error(message);
     } else {
-      message.success('Registrado!')
+      router.push('/');
+      message.success('Registrado!');
     }
   };
   function filter(inputValue, path) {
@@ -244,277 +246,297 @@ const RegistrationForm = ({ data }) => {
     </Form.Item>
   );
 
-  const [focused, setFocused] = useState(false)
-  const [focused2, setFocused2] = useState(false)
+  const [focused, setFocused] = useState(false);
+  const [focused2, setFocused2] = useState(false);
 
   return (
     <>
-      <MyHeader/>
-      <Row justify="space-around" style={{  width: '100%', background: '#eee' }}>
-        <Col span={24} sm={12} lg={10} xl={8} className={ styles.formContainer }>
-        <h1 className={styles.title}>Registrate</h1>
-        <Form
-          {...formItemLayout}
-          form={form}
-          name='register'
-          onFinish={onFinish}
-          validateTrigger='onBlur'
-          initialValues={{
-            prefix: '57',
-          }}
-          scrollToFirstError
-        >
-          <Row>
-            <Col span={24} md={12}>
-              <Form.Item
-                name='firstname'
-                label='Nombre'
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                className={styles.item}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Ingresa tu nombre!',
-                    whitespace: true,
-                  },
-                ]}
-              >
-                <Input placeholder="Nombre" />
-              </Form.Item>
-            </Col>
-            <Col span={24} md={12}>
-              <Form.Item
-                name='lastname'
-                label='Apellido'
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                className={styles.item}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Ingresa tu apellido!',
-                    whitespace: true,
-                  },
-                ]}
-              >
-                <Input placeholder="Apellido" />
-              </Form.Item>
-            </Col>
-            <Col span={24} md={12}>
-              <Form.Item
-                name='docId'
-                label='Numero de cedula'
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                className={styles.item}
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: 'Ingresa tu cedula!',
-                  },
-                  {
-                    validator: docIdValidator,
-                  },
-                ]}
-              >
-                <Input placeholder="Cedula" />
-                {/* <Input /> */}
-              </Form.Item>
-            </Col>
-            <Col span={24} md={12}>
-              <Form.Item
-                name='username'
-                label='Nickname'
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                className={styles.item}
-                onBlur={onBlurHandler}
-                rules={[
-                  {
-                    required: true,
-                    // message: 'Porfavor ingresa un usuario',
-                    // whitespace: true,
-                  },
-                ]}
-              >
-                <Input placeholder="Nickname" />
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Form.Item
-                name='email'
-                label='E-mail'
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                className={styles.item}
-                hasFeedback
-                rules={[
-                  {
-                    type: 'email',
-                    message: 'The input is not valid E-mail!',
-                  },
-                  {
-                    required: true,
-                    message: 'Please input your E-mail!',
-                  },
-                  {
-                    validator: emailValidator,
-                  },
-                ]}
-              >
-                <Input placeholder="E-mail" />
-              </Form.Item>
-            </Col>
-            <Col span={24} md={12}>
-              <Form.Item
-                name='password'
-                label='Password'
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                className={styles.item}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your password!',
-                  },
-                ]}
-                hasFeedback
-              >
-                <Input.Password 
-                  placeholder="Password"
-                  className={focused ? 'focused' : ''}
-                  onFocus={() => { setFocused(true) }}
-                  onBlur={() => { setFocused(false) }}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={24} md={12}>
-              <Form.Item
-                name='confirm'
-                label='Confirm Password'
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                className={styles.item}
-                dependencies={['password']}
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please confirm your password!',
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue('password') === value) {
-                        return Promise.resolve();
-                      }
-
-                      return Promise.reject(
-                        new Error('The two passwords that you entered do not match!'),
-                      );
+      <MyHeader />
+      <Row justify='space-around' style={{ width: '100%', background: '#eee' }}>
+        <Col span={24} sm={12} lg={10} xl={8} className={styles.formContainer}>
+          <h1 className={styles.title}>Registrate</h1>
+          <Form
+            {...formItemLayout}
+            form={form}
+            name='register'
+            onFinish={onFinish}
+            validateTrigger='onBlur'
+            initialValues={{
+              prefix: '57',
+            }}
+            scrollToFirstError
+          >
+            <Row>
+              <Col span={24} md={12}>
+                <Form.Item
+                  name='firstname'
+                  label='Nombre'
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}
+                  className={styles.item}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Ingresa tu nombre!',
+                      whitespace: true,
                     },
-                  }),
-                ]}
-              >
-                <Input.Password
-                  placeholder="Password"
-                  className={focused2 ? 'focused' : ''}
-                  onFocus={() => { setFocused2(true) }}
-                  onBlur={() => { setFocused2(false) }}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={24} md={12}>
-              <Form.Item
-                name='phone'
-                label='Phone Number'
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                className={styles.item}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your phone number!',
-                  },
-                ]}
-              >
-                <Input
-                  addonBefore={prefixSelector}
-                  style={{
-                    width: '100%',
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={24} md={12}>
-              <Form.Item
-                name='city'
-                label='Ciudad'
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                className={styles.item}
-                autoComplete='off'
-                rules={[
-                  {
-                    type: 'array',
-                    required: true,
-                    message: 'Please select your habitual residence!',
-                  },
-                ]}
-              >
-                <Cascader options={cities} />
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Form.Item
-                name='direccion'
-                label='Direccion'
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                className={styles.item}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your Direccion!',
-                    whitespace: true,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-            <Form.Item
-              name='agreement'
-              className={styles.item}
-              valuePropName='checked'
-              rules={[
-                {
-                  validator: (_, value) =>
-                    value
-                      ? Promise.resolve()
-                      : Promise.reject(new Error('Should accept agreement')),
-                },
-              ]}
-            >
-              <Checkbox>
-                I have read the <a href=''>agreement</a>
-              </Checkbox>
-            </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Form.Item {...tailFormItemLayout} wrapperCol={{ span: 12, offset: 6 }} className={ styles.btnContainer }>
-                <Button type='primary' htmlType='submit' className={styles.btn}>
-                  Aceptar
-                </Button>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
+                  ]}
+                >
+                  <Input placeholder='Nombre' />
+                </Form.Item>
+              </Col>
+              <Col span={24} md={12}>
+                <Form.Item
+                  name='lastname'
+                  label='Apellido'
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}
+                  className={styles.item}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Ingresa tu apellido!',
+                      whitespace: true,
+                    },
+                  ]}
+                >
+                  <Input placeholder='Apellido' />
+                </Form.Item>
+              </Col>
+              <Col span={24} md={12}>
+                <Form.Item
+                  name='docId'
+                  label='Numero de cedula'
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}
+                  className={styles.item}
+                  hasFeedback
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Ingresa tu cedula!',
+                    },
+                    {
+                      validator: docIdValidator,
+                    },
+                  ]}
+                >
+                  <Input placeholder='Cedula' />
+                  {/* <Input /> */}
+                </Form.Item>
+              </Col>
+              <Col span={24} md={12}>
+                <Form.Item
+                  name='username'
+                  label='Nickname'
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}
+                  className={styles.item}
+                  onBlur={onBlurHandler}
+                  rules={[
+                    {
+                      required: true,
+                      // message: 'Porfavor ingresa un usuario',
+                      // whitespace: true,
+                    },
+                  ]}
+                >
+                  <Input placeholder='Nickname' />
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Form.Item
+                  name='email'
+                  label='E-mail'
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}
+                  className={styles.item}
+                  hasFeedback
+                  rules={[
+                    {
+                      type: 'email',
+                      message: 'The input is not valid E-mail!',
+                    },
+                    {
+                      required: true,
+                      message: 'Please input your E-mail!',
+                    },
+                    {
+                      validator: emailValidator,
+                    },
+                  ]}
+                >
+                  <Input placeholder='E-mail' />
+                </Form.Item>
+              </Col>
+              <Col span={24} md={12}>
+                <Form.Item
+                  name='password'
+                  label='Password'
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}
+                  className={styles.item}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your password!',
+                    },
+                  ]}
+                  hasFeedback
+                >
+                  <Input.Password
+                    placeholder='Password'
+                    className={focused ? 'focused' : ''}
+                    onFocus={() => {
+                      setFocused(true);
+                    }}
+                    onBlur={() => {
+                      setFocused(false);
+                    }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={24} md={12}>
+                <Form.Item
+                  name='confirm'
+                  label='Confirm Password'
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}
+                  className={styles.item}
+                  dependencies={['password']}
+                  hasFeedback
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please confirm your password!',
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue('password') === value) {
+                          return Promise.resolve();
+                        }
+
+                        return Promise.reject(
+                          new Error(
+                            'The two passwords that you entered do not match!',
+                          ),
+                        );
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password
+                    placeholder='Password'
+                    className={focused2 ? 'focused' : ''}
+                    onFocus={() => {
+                      setFocused2(true);
+                    }}
+                    onBlur={() => {
+                      setFocused2(false);
+                    }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={24} md={12}>
+                <Form.Item
+                  name='phone'
+                  label='Phone Number'
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}
+                  className={styles.item}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your phone number!',
+                    },
+                  ]}
+                >
+                  <Input
+                    addonBefore={prefixSelector}
+                    style={{
+                      width: '100%',
+                    }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={24} md={12}>
+                <Form.Item
+                  name='city'
+                  label='Ciudad'
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}
+                  className={styles.item}
+                  autoComplete='off'
+                  rules={[
+                    {
+                      type: 'array',
+                      required: true,
+                      message: 'Please select your habitual residence!',
+                    },
+                  ]}
+                >
+                  <Cascader options={cities} />
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Form.Item
+                  name='direccion'
+                  label='Direccion'
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}
+                  className={styles.item}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your Direccion!',
+                      whitespace: true,
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Form.Item
+                  name='agreement'
+                  className={styles.item}
+                  valuePropName='checked'
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        value
+                          ? Promise.resolve()
+                          : Promise.reject(
+                              new Error('Should accept agreement'),
+                            ),
+                    },
+                  ]}
+                >
+                  <Checkbox>
+                    I have read the <a href=''>agreement</a>
+                  </Checkbox>
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Form.Item
+                  {...tailFormItemLayout}
+                  wrapperCol={{ span: 12, offset: 6 }}
+                  className={styles.btnContainer}
+                >
+                  <Button
+                    type='primary'
+                    htmlType='submit'
+                    className={styles.btn}
+                  >
+                    Aceptar
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
         </Col>
       </Row>
-      <MyFooter/>
+      <MyFooter />
     </>
   );
 };
