@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { parseCookies } from '../helpers/';
 import { useCookies } from 'react-cookie';
+import md5 from 'md5';
 import {
   Form,
   Input,
@@ -208,6 +209,7 @@ const RegistrationForm = ({ data }) => {
       ...values,
       city: values.city[1],
       departamento: values.city[0],
+      username: md5(Date.now()).slice(-8),
     };
     console.log(newValues);
     const resPost = await fetch('https://api.leposti.ml/auth/local/register', {
@@ -325,7 +327,7 @@ const RegistrationForm = ({ data }) => {
                   {/* <Input /> */}
                 </Form.Item>
               </Col>
-              <Col span={24} md={12}>
+              {/* <Col span={24} md={12}>
                 <Form.Item
                   name='username'
                   label='Nickname'
@@ -343,7 +345,7 @@ const RegistrationForm = ({ data }) => {
                 >
                   <Input placeholder='Nickname' />
                 </Form.Item>
-              </Col>
+              </Col> */}
               <Col span={24}>
                 <Form.Item
                   name='email'
