@@ -6,6 +6,7 @@ import {
   InputNumber,
   Layout,
   Row,
+  message,
   Col,
 } from 'antd';
 import { useRouter } from 'next/router';
@@ -30,7 +31,6 @@ const NormalLoginForm = () => {
   const router = useRouter();
   const [cookie, setCookie] = useCookies(['jwt', 'user']);
   const onFinish = async (values) => {
-    console.log('Received values of form: ', values);
     const body = {
       identifier: values.email,
       password: values.password,
@@ -45,11 +45,15 @@ const NormalLoginForm = () => {
       // body data type must match "Content-Type" header
     });
 
+    const resLoginOk = await resLogin.json();
     if (resLogin.ok) {
-      const resLoginOk = await resLogin.json();
       setCookie('jwt', resLoginOk.jwt);
       router.push('/');
       console.log(resLoginOk);
+    } else {
+      if (resLoginOk.message[0].messages[0].id === 'Auth.form.error.invalid') {
+        message.error('Email y/o contraseña invalidos');
+      }
     }
   };
 
