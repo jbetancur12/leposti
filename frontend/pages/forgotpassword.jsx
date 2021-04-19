@@ -1,11 +1,22 @@
-import { Form, Input, Button, Radio, InputNumber, Layout, Row, Col } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Radio,
+  InputNumber,
+  Layout,
+  Row,
+  Col,
+  message,
+} from 'antd';
 import React, { useState } from 'react';
 
-import styles from "../styles/Login.module.css";
+import styles from '../styles/Login.module.css';
 
-import MyHeader from "../components/MyHeader";
-import MyFooter from "../components/MyFooter";
-import { Content } from "antd/lib/layout/layout";
+import MyHeader from '../components/MyHeader';
+import MyFooter from '../components/MyFooter';
+import { Content } from 'antd/lib/layout/layout';
+import { useRouter } from 'next/router';
 
 const layout = {
   labelCol: { span: 8 },
@@ -17,6 +28,7 @@ const tailLayout = {
 
 const ForgotPassword = () => {
   const [value, setValue] = React.useState('email');
+  const router = useRouter();
 
   const onFinish = async (values) => {
     let email = { email: '' };
@@ -39,9 +51,10 @@ const ForgotPassword = () => {
         email = { ...email, email: resAskUser[0].email };
       } else {
         message.error('No hay un usuario con esta cedula');
+        return;
       }
     } else {
-      email = { ...email, email: values.username };
+      email = { ...email, email: values.email };
     }
 
     const resPost = await fetch('https://api.leposti.ml/auth/forgot-password', {
@@ -55,8 +68,9 @@ const ForgotPassword = () => {
 
     if (resPost.ok) {
       message.success('Email enviado a: ' + email.email);
+      router.push('/');
     } else {
-      message.error('No encontrado');
+      message.error('No se encontro el email');
     }
   };
 
@@ -64,19 +78,19 @@ const ForgotPassword = () => {
     if (value === 'email') {
       return (
         <Form.Item
-          label='Username'
-          name='username'
+          label='Email'
+          name='email'
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
           className={styles.item}
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: 'Por favor ingrese su email!',
             },
           ]}
         >
-          <Input placeholder="E-mail" />
+          <Input placeholder='E-mail' />
         </Form.Item>
       );
     }
@@ -90,11 +104,11 @@ const ForgotPassword = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your cedula!',
+            message: 'Por favor ingrese su cedula!',
           },
         ]}
       >
-        <InputNumber min={0} placeholder="Cedula" />
+        <InputNumber min={0} placeholder='Cedula' />
       </Form.Item>
     );
   };
@@ -102,10 +116,16 @@ const ForgotPassword = () => {
   return (
     <>
       <Layout className={styles.layout}>
-        <MyHeader/>
+        <MyHeader />
         <Content className={styles.content}>
-          <Row justify="space-around" style={{  width: '100%' }}>
-            <Col span={24} sm={12} lg={10} xl={6} className={ styles.formContainer }>
+          <Row justify='space-around' style={{ width: '100%' }}>
+            <Col
+              span={24}
+              sm={12}
+              lg={10}
+              xl={6}
+              className={styles.formContainer}
+            >
               <h1 className={styles.title}>Recuperar contraseña</h1>
               <Form
                 {...layout}
@@ -118,14 +138,25 @@ const ForgotPassword = () => {
                 <WayToRecover />
 
                 <Form.Item name='way'>
-                  <Radio.Group onChange={(e) => setValue(e.target.value)} value={value}>
+                  <Radio.Group
+                    onChange={(e) => setValue(e.target.value)}
+                    value={value}
+                  >
                     <Radio value={'email'}>Email</Radio>
                     <Radio value={'id'}>Cedula</Radio>
                   </Radio.Group>
                 </Form.Item>
 
-                <Form.Item {...tailLayout} wrapperCol={{ span: 12, offset: 6 }} className={ styles.btnContainer }>
-                  <Button type='primary' htmlType='submit' className={styles.btn}>
+                <Form.Item
+                  {...tailLayout}
+                  wrapperCol={{ span: 12, offset: 6 }}
+                  className={styles.btnContainer}
+                >
+                  <Button
+                    type='primary'
+                    htmlType='submit'
+                    className={styles.btn}
+                  >
                     Aceptar
                   </Button>
                 </Form.Item>
@@ -133,7 +164,7 @@ const ForgotPassword = () => {
             </Col>
           </Row>
         </Content>
-        <MyFooter/>
+        <MyFooter />
       </Layout>
     </>
   );
