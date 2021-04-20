@@ -4,6 +4,7 @@ import {
   Button,
   Radio,
   InputNumber,
+  message,
   Layout,
   Row,
   Col,
@@ -44,10 +45,10 @@ const RestorePassword = () => {
     });
 
     if (resPost.ok) {
-      message.success('Cambio exitoso');
+      message.success('Cambio de contraseña exitoso');
       router.push('/');
     } else {
-      message.error('Fallo');
+      message.error('Fallo el cambio de contraseña');
     }
   };
 
@@ -85,7 +86,7 @@ const RestorePassword = () => {
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your password!',
+                      message: 'Por favor ingresa tu contraseña!',
                     },
                   ]}
                   hasFeedback
@@ -113,7 +114,7 @@ const RestorePassword = () => {
                   rules={[
                     {
                       required: true,
-                      message: 'Please confirm your password!',
+                      message: 'Porfavor confirma tu contraseña!',
                     },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
@@ -122,9 +123,7 @@ const RestorePassword = () => {
                         }
 
                         return Promise.reject(
-                          new Error(
-                            'The two passwords that you entered do not match!',
-                          ),
+                          new Error('Las contraseñas no coinciden!'),
                         );
                       },
                     }),
