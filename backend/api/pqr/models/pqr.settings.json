@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pqrs",
+  "info": {
+    "name": "pqr"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "question": {
+      "type": "string"
+    },
+    "answer": {
+      "type": "text"
+    }
+  }
+}
