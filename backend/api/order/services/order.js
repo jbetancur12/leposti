@@ -29,7 +29,7 @@ module.exports = {
     try {
       await strapi.plugins["email-designer"].services.email.sendTemplatedEmail(
         {
-          to: "alejobetancur12@hotmail.com", // required
+          to: existingEntry.user.email, // required
           //from: "from@example.com", // optional if /config/plugins.js -> email.settings.defaultFrom is set
           //replyTo: "reply@example.com", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
         },
