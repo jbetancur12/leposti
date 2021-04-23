@@ -57,6 +57,9 @@ const dateFormat = 'DD/MM/YYYY';
 
 const FormItem = Form.Item;
 
+//const urlApi = "http://localhost:1337"
+const urlApi = "https://api.leposti.ml"
+
 const formatter = new Intl.NumberFormat('es-CO', {
   style: 'currency',
   currency: 'COP',
@@ -98,20 +101,23 @@ const Home = ({ products }) => {
   const [readOnly, setReadOnly] = useState(true);
   const [valueEditor, setValueEditor] = useState('');
   const [valueEditorText, setValueEditorText] = useState('');
+  const [editorDesktop, setEditorDesktop] = useState('');
   const [terms, setTerms] = useState(false);
   const [dayWeek, setDayWeek] = useState('lunes');
   const [email, setEmail] = useState('');
   const [openQuote, setOpenQuote] = useState(false);
+  const [editing, setEditing] = useState(false);
   const [orderReady, setOrder] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [quotation, setQuotation] = useState([]);
   const [form] = Form.useForm();
   const [cookie, setCookie] = useCookies(['email']);
+  const [referencia, setReferencia] = useState();
 
   //Functions
   async function onChangeProduct(value) {
     console.log('Token-webhoodk-8.12', process.env.NEXT_PUBLIC_JWT_TOKEN);
-    const response = await fetch(`https://api.leposti.ml/products/${value}`, {
+    const response = await fetch(`${urlApi}/products/${value}`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         'Content-Type': 'application/json',
@@ -125,6 +131,7 @@ const Home = ({ products }) => {
     setProductProvider({ ..._product });
     // console.log('Provider', responseProduct);
     setValueEditor(responseProduct.formato);
+    setValueDate('');
     setProviders(responseProduct);
     setQuotation({ ..._quotation });
   }
@@ -146,6 +153,7 @@ const Home = ({ products }) => {
     console.log('Vlauye', value);
     const test = { ...productProvider, provider: value };
     setProductProvider(test);
+    setValueDate('');
   }
 
   function onChangeDate(date, dateString) {
@@ -162,6 +170,7 @@ const Home = ({ products }) => {
     };
     setDayWeek(dayOfWeek[moment(date).day()]);
     setProductProvider({ ...productProvider, fecha: dateString });
+    console.log('DAte', date);
     setValueDate(date);
   }
 
@@ -207,8 +216,6 @@ const Home = ({ products }) => {
   }
 
   function onChangeEditor(content, delta, source, editor) {
-    //setProductProvider({...productProvider,contenido: editor.getHTML()});
-    console.log(myRef);
     setValueEditor(editor.getHTML());
     setValueEditorText(editor.getText());
   }
@@ -218,7 +225,7 @@ const Home = ({ products }) => {
   };
 
   const onFinish = async (values) => {
-    const res = await fetch(`https://api.leposti.ml/prices`, {
+    const res = await fetch(`${urlApi}/prices`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         'Content-Type': 'application/json',
@@ -245,7 +252,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-          finalPrice[0].precio
+        finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -276,7 +283,7 @@ const Home = ({ products }) => {
 
     let orderUpdated = {};
     const userExist = await fetch(
-      `https://api.leposti.ml/users?email=${email}`,
+      `${urlApi}/users?email=${email}`,
       {
         headers: {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
@@ -298,24 +305,61 @@ const Home = ({ products }) => {
       orderUpdated = { ...order, user: { id: userBuyer } };
     }
 
-    const resPost = await fetch(`https://api.leposti.ml/orders`, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(orderUpdated), // body data type must match "Content-Type" header
-    });
-    if (!resPost.ok) {
-      const message = `An error has occured: ${resPost.status}`;
-      throw new Error(message);
+    if (!editing) {
+      const resPost = await fetch(`${urlApi}/orders`, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderUpdated), // body data type must match "Content-Type" header
+      });
+      if (!resPost.ok) {
+        const message = `An error has occured: ${resPost.status}`;
+        throw new Error(message);
+      } else {
+        form.resetFields();
+        setValueEditor('');
+        setValueDate('');
+        setProvider('');
+        setProduct('');
+        const resul = await resPost.json();
+        setReferencia(resul);
+        console.log('Posteado', order);
+        setOpenQuote(true);
+      }
     } else {
-      form.resetFields();
+      const orderEdited = {
+        total: totalIVA,
+        // checkout_session: '122jjd',
+        contenido: valueEditor,
+        provider: {
+          id: productProvider.provider,
+        },
+        product: {
+          id: productProvider.product,
+        },
+        terminos: productProvider.terminos,
+        ejemplar: productProvider.ejemplar,
+        fechaPublicacion: newDateFormated,
+        sePublico: false,
+        iva: finalPrice[0].iva,
+      };
+      const resPut = await fetch(
+        `${urlApi}/orders/${referencia.id}`,
+        {
+          method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(orderEdited), // body data type must match "Content-Type" header
+        },
+      );
       setValueEditor('');
       setValueDate('');
       setProvider('');
       setProduct('');
-      console.log('Posteado', order);
       setOpenQuote(true);
     }
 
@@ -340,8 +384,7 @@ const Home = ({ products }) => {
     const signature = md5(
       `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
     );
-    console.log('provideres', providers);
-    console.log('provi', provide);
+
     let params = {
       accountId: '512321',
       merchantId: '508029',
@@ -355,7 +398,7 @@ const Home = ({ products }) => {
       test: '1',
       buyerEmail: email,
       responseUrl: '',
-      confirmationUrl: 'https://api.leposti.ml/transactions',
+      confirmationUrl: `${urlApi}/transactions`,
     };
     let form = document.createElement('form');
     form.setAttribute('method', 'post');
@@ -382,6 +425,18 @@ const Home = ({ products }) => {
 
   const onClickBuy = async () => {
     openWindowWithPostRequest(orderReady);
+  };
+
+  const onClickEditar = () => {
+    setOpenQuote(false);
+    setEditing(true);
+    setValueEditor(referencia.contenido);
+    setValueDate(moment(referencia.fechaPublicacion));
+    setProvider(referencia.provider.id);
+    setProduct(referencia.product.id);
+    form.setFieldsValue({
+      ['email']: email,
+    });
   };
 
   const Quote = () => {
@@ -418,17 +473,24 @@ const Home = ({ products }) => {
           {providerInOrder.nombre}
         </div>
         <div>
+          <span>Fecha: </span>
+          {orderReady.fechaPublicacion}
+        </div>
+        <div>
           <span>Valor: </span>
-          {formatter.format(orderReady.total)}
+          {formatter.format(orderReady.total)} <spa> Iva Incluido </spa>
         </div>
         <div>{button}</div>
+        <Button onClick={onClickEditar}>Editar</Button>
       </div>
     );
 
     return quotation;
   };
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    //setProductProvider({ ...productProvider, fecha: referencia.fechaPublicacion });
+  }, []);
 
   const optionsProducts = products.map((product) => {
     return (
@@ -476,6 +538,7 @@ const Home = ({ products }) => {
                     style={{ width: '100%', border: null }}
                     placeholder='Seleccione un producto'
                     onChange={onChangeProduct}
+                    value={product}
                     optionFilterProp='children'
                     filterOption={(input, option) =>
                       option.children
@@ -522,6 +585,7 @@ const Home = ({ products }) => {
                 >
                   <Space direction='vertical' style={{ width: '100%' }}>
                     <DatePicker
+                      ref={myRef}
                       style={{ width: '100%' }}
                       locale={locale}
                       disabledDate={disabledDate}
@@ -539,7 +603,14 @@ const Home = ({ products }) => {
                   wrapperCol={{ span: 24 }}
                   rules={[
                     {
-                      required: true,
+                      validator: (_, value) =>
+                        false
+                          ? Promise.resolve()
+                          : Promise.reject(
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
+                            ),
+                          ),
                     },
                   ]}
                 >
@@ -551,11 +622,15 @@ const Home = ({ products }) => {
                     >
                       Agregar Contenido
                     </Button>
+                    {valueEditorText.length > 3000 ? (
+                      <p style={{ color: 'red' }}>
+                        Contenido supera los 3000 caracteres
+                      </p>
+                    ) : null}
                   </Responsive>
                   <Responsive displayIn={['Mobile']}>
                     <>
                       <QuillNoSSRWrapper
-                        ref={myRef}
                         onChange={onChangeEditor}
                         theme='snow'
                         modules={config.modules}
@@ -563,6 +638,9 @@ const Home = ({ products }) => {
                         readOnly={readOnly}
                         placeholder='Contenido'
                       />
+                      {valueEditorText.length > 3000 ? (
+                        <p>supera los 3000 caracteres</p>
+                      ) : null}
                     </>
                   </Responsive>
                   <Modal
@@ -570,9 +648,9 @@ const Home = ({ products }) => {
                     visible={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}
+                    width='1000px'
                   >
                     <QuillNoSSRWrapper
-                      ref={myRef}
                       onChange={onChangeEditor}
                       theme='snow'
                       modules={config.modules}
@@ -580,6 +658,11 @@ const Home = ({ products }) => {
                       readOnly={readOnly}
                       placeholder='Contenido'
                     />
+                    {valueEditorText.length > 3000 ? (
+                      <p style={{ color: 'red' }}>
+                        Contenido supera los 3000 caracteres
+                      </p>
+                    ) : null}
                   </Modal>
                 </FormItem>
                 <FormItem
@@ -597,6 +680,7 @@ const Home = ({ products }) => {
                   ]}
                 >
                   <Input
+                    value={email}
                     disabled={!valueEditorText.length > 0}
                     placeholder='Email'
                   ></Input>
@@ -612,10 +696,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
@@ -626,6 +710,7 @@ const Home = ({ products }) => {
                     type='primary'
                     htmlType='submit'
                     style={{ width: '100%' }}
+                    disabled={valueEditorText.length > 3000}
                   >
                     Cotizar
                   </Button>
@@ -649,13 +734,14 @@ const Home = ({ products }) => {
 };
 
 Home.getInitialProps = async (ctx) => {
-  const res = await fetch(`https://api.leposti.ml/products`, {
+  const res = await fetch(`${urlApi}/products?_sort=id:ASC`, {
     headers: {
       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
       'Content-Type': 'application/json',
     },
   });
   const products = await res.json();
+
   return { products };
 };
 
