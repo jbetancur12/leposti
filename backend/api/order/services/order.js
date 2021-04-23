@@ -26,7 +26,7 @@ module.exports = {
 
     /* $2,500.00 */
 
-    if (data.estado = "paid") {
+    if (data.estado === "paid") {
       try {
         await strapi.plugins["email-designer"].services.email.sendTemplatedEmail(
           {
