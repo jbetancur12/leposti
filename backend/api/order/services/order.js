@@ -26,38 +26,40 @@ module.exports = {
 
     /* $2,500.00 */
 
-    try {
-      await strapi.plugins["email-designer"].services.email.sendTemplatedEmail(
-        {
-          to: existingEntry.user.email, // required
-          //from: "from@example.com", // optional if /config/plugins.js -> email.settings.defaultFrom is set
-          //replyTo: "reply@example.com", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
-        },
-        {
-          templateId: 1, // required - you can get the template id from the admin panel
-          //subject: `Welcome to My Project`, // If provided here will override the template's subject. Can include variables like `Welcome to <%= project_name %>`
-        },
-        {
-          // this object must include all variables you're using in your email template
-          dataUser: {
-            username: existingEntry.user.username,
-            email: existingEntry.user.email,
-            referencia: existingEntry.referencia,
-            fechaCompra: existingEntry.updated_at.toLocaleString("es-CO", {
-              timeZone: "America/Bogota",
-            }),
-            producto: existingEntry.product.nombre,
-            fechaPublicacion: dateFormat(
-              existingEntry.fechaPublicacion,
-              "dd/mm/yyyy"
-            ),
-            valor: formatter.format(existingEntry.total),
-            medioPago: existingEntry.metodoPago,
+    if (data.estado = "paid") {
+      try {
+        await strapi.plugins["email-designer"].services.email.sendTemplatedEmail(
+          {
+            to: existingEntry.user.email, // required
+            //from: "from@example.com", // optional if /config/plugins.js -> email.settings.defaultFrom is set
+            //replyTo: "reply@example.com", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
           },
-        }
-      );
-    } catch (err) {
-      strapi.log.debug("📺: =>", err);
+          {
+            templateId: 1, // required - you can get the template id from the admin panel
+            //subject: `Welcome to My Project`, // If provided here will override the template's subject. Can include variables like `Welcome to <%= project_name %>`
+          },
+          {
+            // this object must include all variables you're using in your email template
+            dataUser: {
+              username: existingEntry.user.username,
+              email: existingEntry.user.email,
+              referencia: existingEntry.referencia,
+              fechaCompra: existingEntry.updated_at.toLocaleString("es-CO", {
+                timeZone: "America/Bogota",
+              }),
+              producto: existingEntry.product.nombre,
+              fechaPublicacion: dateFormat(
+                existingEntry.fechaPublicacion,
+                "dd/mm/yyyy"
+              ),
+              valor: formatter.format(existingEntry.total),
+              medioPago: data.metodoPago,
+            },
+          }
+        );
+      } catch (err) {
+        strapi.log.debug("📺: =>", err);
+      }
     }
 
     return entry;
