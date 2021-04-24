@@ -1,15 +1,28 @@
 import { useState } from 'react'
 import { Layout, Menu, Breadcrumb, Button, Popover, Tooltip } from 'antd';
 import { UserOutlined, ToolOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 
 import styles from '../styles/LayoutDash.module.css'
 
 import Image from 'next/image'
-
+import Cookie from 'js-cookie'
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 const MyLayout = ({ children }) => {
+  const router = useRouter()
+  const onClicKLogout = () => {
+
+    //remove token and user cookie
+    Cookie.remove("token");
+    delete window.__user;
+    // sync logout between multiple windows
+    window.localStorage.setItem("logout", Date.now());
+    //redirect to the home page
+    router.push("/");
+
+  }
   return (
     <Layout className={styles.layout}>
       <Header className={styles.header}>
@@ -28,7 +41,8 @@ const MyLayout = ({ children }) => {
             <Button shape="circle" href="/carrito" style={{ marginRight: '.5rem' }} icon={<ShoppingCartOutlined />} />
           </Tooltip>
           <Popover
-            content={<a href="#">Cerrar Sesión</a>}
+
+            content={<a onClick={onClicKLogout} href="#">Cerrar Sesión</a>}
           >
             <Button type="primary" shape="round" icon={<UserOutlined />}>
               alvarocuesta@gmail.com
