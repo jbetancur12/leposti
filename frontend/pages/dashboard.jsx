@@ -1,10 +1,9 @@
-import AsideDash from "../components/Aside"
+import MyLayout from "../components/LayoutDash"
 
-
-const Dashboard = () => {
+const Home = () => {
   return (
-    <AsideDash />
+    <MyLayout></MyLayout>
   )
 }
 
-export default Dashboard
+export default Home;
