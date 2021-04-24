@@ -1,3 +1,4 @@
+import React, { useEffect, useContext } from "react";
 import {
   Form,
   Input,
@@ -12,12 +13,14 @@ import {
 import { useRouter } from 'next/router';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useCookies } from 'react-cookie';
+import Cookie from "js-cookie";
 
 import styles from '../styles/Login.module.css';
 
 import MyHeader from '../components/MyHeader';
 import MyFooter from '../components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
+import AppContext from "../context/AppContext";
 
 const layout = {
   labelCol: { span: 8 },
@@ -30,6 +33,7 @@ const tailLayout = {
 const NormalLoginForm = () => {
   const router = useRouter();
   const [cookie, setCookie] = useCookies(['jwt', 'user']);
+  const appContext = useContext(AppContext);
   const onFinish = async (values) => {
     const body = {
       identifier: values.email,
@@ -48,6 +52,7 @@ const NormalLoginForm = () => {
     const resLoginOk = await resLogin.json();
     if (resLogin.ok) {
       setCookie('jwt', resLoginOk.jwt);
+      Cookie.set("token", resLoginOk.jwt)
       router.push('/');
       console.log(resLoginOk);
     } else {
@@ -56,6 +61,10 @@ const NormalLoginForm = () => {
       }
     }
   };
+
+  if (appContext.isAuthenticated) {
+    router.push("/"); // redirect if you're already logged in
+  }
 
   return (
     <Layout className={styles.layout}>
