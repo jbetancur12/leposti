@@ -3,7 +3,7 @@ import Image from "next/image"
 
 import MyLayout from "../../components/LayoutDash"
 
-import styles from "../styles/User.module.css"
+import styles from "../../styles/User.module.css"
 
 const DescriptionItem = ({ title, content }) => (
   <div className={styles.item}>
