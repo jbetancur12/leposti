@@ -26,7 +26,7 @@ const Question = () => {
 
   const PQR = () => {
     return (
-      <Collapse>
+      <Collapse defaultActiveKey={['1']}>
         {pqrs.map((_pqr) => (
           <Panel header={_pqr.question} key={_pqr.id}>
             <p>{_pqr.answer}</p>
