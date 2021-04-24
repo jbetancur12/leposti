@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import AppContext from "../context/AppContext";
 import { Layout, Menu, Breadcrumb, Button, Popover, Tooltip } from 'antd';
 import { UserOutlined, ToolOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
@@ -12,6 +13,8 @@ const { Header, Content, Sider } = Layout;
 
 const MyLayout = ({ children }) => {
   const router = useRouter()
+  const appContext = useContext(AppContext)
+  console.log("MENU", appContext);
   const onClicKLogout = () => {
 
     //remove token and user cookie
@@ -20,6 +23,7 @@ const MyLayout = ({ children }) => {
     // sync logout between multiple windows
     window.localStorage.setItem("logout", Date.now());
     //redirect to the home page
+    appContext.setUserLoged(null)
     router.push("/");
 
   }
@@ -45,8 +49,8 @@ const MyLayout = ({ children }) => {
             content={<a onClick={onClicKLogout} href="#">Cerrar Sesión</a>}
           >
             <Button type="primary" shape="round" icon={<UserOutlined />}>
-              alvarocuesta@gmail.com
-                        </Button>
+              Jorge
+            </Button>
           </Popover>
         </div>
       </Header>

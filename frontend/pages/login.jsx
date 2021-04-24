@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from "react";
+
 import {
   Form,
   Input,
@@ -54,7 +55,7 @@ const NormalLoginForm = () => {
       setCookie('jwt', resLoginOk.jwt);
       Cookie.set("token", resLoginOk.jwt)
       router.push('/');
-      console.log(resLoginOk);
+      appContext.setUserLoged(resLoginOk)
     } else {
       if (resLoginOk.message[0].messages[0].id === 'Auth.form.error.invalid') {
         message.error('Email y/o contraseña invalidos');

@@ -4,7 +4,8 @@ import styles from '../styles/New.module.css'
 import AppContext from '../context/AppContext'
 
 const MyMenu = (props, { children }) => {
-  const { user, setUser } = useContext(AppContext);
+  const { user } = useContext(AppContext);
+
   return (
     <Menu className={styles.menu} mode={props.type}>
       <Menu.Item key="1" className={styles.item}><a href="#about">Quiénes somos</a></Menu.Item>

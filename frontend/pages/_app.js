@@ -8,6 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(null)
+  const [products, setProducts] = useState(null)
 
   const userLoged = (user) => {
     setUser(user)
@@ -33,6 +34,19 @@ function MyApp({ Component, pageProps }) {
       })
 
     }
+
+    fetch('https://api.leposti.ml/products', {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+      }
+    }).then(async (res) => {
+      if (res.ok) {
+        const products = await res.json()
+        console.log("····", products);
+        setProducts(products)
+      }
+
+    })
   }, [])
 
   return (
@@ -40,7 +54,8 @@ function MyApp({ Component, pageProps }) {
       value={{
         user: user,
         isAuthenticated: !!user,
-        setUserLoged: userLoged
+        setUserLoged: userLoged,
+        products: products
       }}>
 
       <Component {...pageProps} />)
