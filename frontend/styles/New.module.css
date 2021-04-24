@@ -348,3 +348,24 @@
     padding: 1.5rem;
   }
 }
+
+.quotationTitle {
+  text-align: center;
+}
+
+.quotationDetails {
+  display: flex;
+  justify-content: space-between;
+}
+
+.amount {
+  flex-direction: column;
+  display: flex;
+}
+
+.buttonsQuote {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+  padding: 0 40px;
+}

@@ -14,6 +14,7 @@ import {
   Input,
   Modal,
   Drawer,
+  Divider
 } from 'antd';
 import Image from 'next/image';
 import React from 'react';
@@ -425,6 +426,7 @@ const Home = ({ products }) => {
 
   const onClickBuy = async () => {
     openWindowWithPostRequest(orderReady);
+    setOpenQuote(false)
   };
 
   const onClickEditar = () => {
@@ -442,7 +444,7 @@ const Home = ({ products }) => {
   const Quote = () => {
     let button;
     if (orderReady.user.id > 0) {
-      button = <Button onClick={onClickBuy}>Comprar</Button>;
+      button = <Button type="primary" onClick={onClickBuy}>Comprar</Button>;
     } else {
       setCookie('email', email);
       button = (
@@ -464,24 +466,31 @@ const Home = ({ products }) => {
 
     const quotation = (
       <div>
-        <div>
-          <span>Producto: </span>
+        <h1 className={styles.quotationTitle}>Detalles de la compra</h1>
+        <Divider style={{ marginTop: "0" }} />
+        <div className={styles.quotationDetails}>
+          <span>Producto </span>
           {providers.nombre}
         </div>
-        <div>
-          <span>Medio: </span>
+        <div className={styles.quotationDetails}>
+          <span>Medio </span>
           {providerInOrder.nombre}
         </div>
-        <div>
-          <span>Fecha: </span>
+        <div className={styles.quotationDetails}>
+          <span>Fecha de publicación </span>
           {orderReady.fechaPublicacion}
         </div>
-        <div>
-          <span>Valor: </span>
-          {formatter.format(orderReady.total)} <spa> Iva Incluido </spa>
+        <Divider style={{ marginBottom: "10px" }} dashed />
+        <div className={styles.quotationDetails}>
+          <span style={{ fontWeight: "600" }}>Total </span>
+          <div style={{ fontWeight: "600" }} className={styles.amount}>{formatter.format(orderReady.total)}
+            <span style={{ fontSize: "12px" }}><em>(Iva Incluido)</em></span>
+          </div>
         </div>
-        <div>{button}</div>
-        <Button onClick={onClickEditar}>Editar</Button>
+        <div className={styles.buttonsQuote}>
+          {button}
+          <Button onClick={onClickEditar}>Editar</Button>
+        </div>
       </div>
     );
 
