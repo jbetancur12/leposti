@@ -56,6 +56,39 @@ a {
   transform: translateY(-1px);
 }
 
+.ant-divider-horizontal {
+  margin: .5rem 0 1rem !important;
+}
+
+.ant-table {
+  overflow: auto;
+}
+
+/* width */
+.ant-table::-webkit-scrollbar {
+  height: 5px;
+}
+
+/* Track */
+.ant-table::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+.ant-table::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.ant-table::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.ant-table-thead > tr > th {
+  text-align: center !important;
+}
+
 @media screen and (max-width: 768px) {
   .ant-drawer {
     z-index: 999999999999 !important;

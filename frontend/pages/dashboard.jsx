@@ -1,11 +1,9 @@
-import LayoutDash from "../components/LayaoutDash"
+import MyLayout from "../components/LayoutDash"
 
-const Dashboard = () => {
-  return (
-    <LayoutDash>
-
-    </LayoutDash>
-  )
+const Home = () => {
+    return (
+        <MyLayout></MyLayout>
+    )
 }
 
-export default Dashboard;
+export default Home;
