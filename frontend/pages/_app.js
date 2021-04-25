@@ -1,56 +1,46 @@
-import React, { useEffect, useState } from "react";
-import Cookie from "js-cookie";
-import fetch from "isomorphic-fetch";
-import AppContext from "../context/AppContext";
+import React, { useEffect } from "react";
+
+import Head from "next/head";
+import { useAuth } from "../context/auth";
+import { AuthProvider } from "../context/auth"
 import '../styles/globals.css'
 import 'antd/dist/antd.css'
 import 'react-quill/dist/quill.snow.css';
 
 
 function MyApp({ Component, pageProps }) {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
 
-  const userLoged = (user) => {
-    setUser(user)
-  }
+  const { isAuthenticated, isLoading, token, logout } = useAuth();
 
   useEffect(() => {
-    async function loadUserFromCookies() {
-      const token = Cookie.get("token");
-      if (token) {
-        fetch('https://api.leposti.ml/users/me', {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-          }
-        }).then(async (res) => {
-          if (!res.ok) {
-            Cookie.remove('token')
-            setUser(null)
-            return null
-          }
-          const user = await res.json();
-          userLoged(user)
-        })
-      }
-      setLoading(false)
+    if (Component.requiresAuth && token && !isAuthenticated && !isLoading) {
+      // Invalid token
+      logout({ redirectLocation: Component.redirectUnauthenticatedTo });
     }
-    loadUserFromCookies()
-  }, [])
-
-
+  }, [isLoading, isAuthenticated, token]);
 
   return (
-    <AppContext.Provider
-      value={{
-        user: user,
-        isAuthenticated: !!user,
-        setUserLoged: userLoged,
-        loading: loading
-      }}>
-      <Component {...pageProps} />)
-    </AppContext.Provider>
-  )
+    <>
+      {Component.requiresAuth && (
+        <Head>
+          <script
+            // If no token is found, redirect inmediately
+            dangerouslySetInnerHTML={{
+              __html: `if(!document.cookie || document.cookie.indexOf('token') === -1)
+            {location.replace(
+              "/login?next=" +
+                encodeURIComponent(location.pathname + location.search)
+            )}
+            else {document.documentElement.classList.add("render")}`,
+            }}
+          />
+        </Head>
+      )}
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+    </>
+  );
 }
 
 export default MyApp

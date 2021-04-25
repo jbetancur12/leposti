@@ -1,33 +1,19 @@
-import { useState, useContext } from 'react'
-import AppContext from "../context/AppContext";
+import { useAuth } from "../context/auth";
 import { Layout, Menu, Breadcrumb, Button, Popover, Tooltip } from 'antd';
 import { UserOutlined, ToolOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { useRouter } from 'next/router';
 
 import styles from '../styles/LayoutDash.module.css'
 
 import Image from 'next/image'
 import Link from 'next/link'
-import Cookie from 'js-cookie'
+
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 const MyLayout = ({ children }) => {
-  const router = useRouter()
-  const appContext = useContext(AppContext)
-  console.log("MENU", appContext);
-  const onClicKLogout = () => {
 
-    //remove token and user cookie
-    Cookie.remove("token");
-    delete window.__user;
-    // sync logout between multiple windows
-    window.localStorage.setItem("logout", Date.now());
-    //redirect to the home page
-    appContext.setUserLoged(null)
-    router.push("/");
+  const auth = useAuth()
 
-  }
   return (
     <Layout className={styles.layout}>
       <Header className={styles.header}>
@@ -47,7 +33,7 @@ const MyLayout = ({ children }) => {
           </Tooltip>
           <Popover
 
-            content={<a onClick={onClicKLogout} href="#">Cerrar Sesión</a>}
+            content={<a onClick={() => auth.logout({ redirectLocation: "/" })} href="#">Cerrar Sesión</a>}
           >
             <Button type="primary" shape="round" icon={<UserOutlined />}>
               Jorge

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from 'next/router';
-import { useCookies } from 'react-cookie';
 import {
   Form,
   Input,
@@ -18,8 +17,7 @@ import styles from '../styles/Login.module.css';
 import MyHeader from '../components/MyHeader';
 import MyFooter from '../components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
-import { login } from "../context/auth";
-import AppContext from "../context/AppContext";
+import { useAuth } from "../context/auth"
 
 const layout = {
   labelCol: { span: 8 },
@@ -33,25 +31,26 @@ const NormalLoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const router = useRouter();
-  const appContext = useContext(AppContext);
+  // const appContext = useContext(AppContext);
+  const auth = useAuth()
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   useEffect(() => {
-    console.log(appContext);
-    if (appContext.isAuthenticated) {
+    if (auth.isAuthenticated) {
       router.push("/"); // redirect if you're already logged in
     }
   }, []);
 
   const onFinish = async (values) => {
     setLoading(true);
-    login(values.email, values.password)
+    auth.login(values.email, values.password)
       .then((res) => {
         message.success('Ingreso Exitoso!');
         setLoading(false);
+        router.push(router.query.next || "/");
         // set authed User in global context to update header/app state
-        appContext.setUserLoged(res.data.user);
+        //appContext.setUserLoged(res.data.user);
 
       })
       .catch((error) => {

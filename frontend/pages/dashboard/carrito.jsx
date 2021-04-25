@@ -81,4 +81,7 @@ const Home = () => {
   )
 }
 
+Home.requiresAuth = true;
+Home.redirectUnauthenticated = "/login";
+
 export default Home;

@@ -107,4 +107,8 @@ const PendingBuys = () => {
   )
 }
 
+PendingBuys.requiresAuth = true;
+PendingBuys.redirectUnauthenticated = "/login";
+
+
 export default PendingBuys;

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import AppContext from "../../context/AppContext";
+import React, { useEffect, useState } from 'react'
+import { useAuth } from "../../context/auth";
 import fetch from "isomorphic-fetch";
 import { useRouter } from 'next/router';
 import { Table } from "antd"
@@ -60,10 +60,9 @@ const columns = [
 //   }
 // ]
 
-const Home = () => {
-  const appContext = useContext(AppContext);
+const SucessBuys = () => {
+  const auth = useAuth()
   const [paidOrders, setPaidOrders] = useState(null)
-  const router = useRouter();
 
   const data = paidOrders && paidOrders.map(paidOrder => {
     return {
@@ -76,9 +75,8 @@ const Home = () => {
   })
 
   useEffect(() => {
-    console.log("))))", appContext);
-    if (appContext.isAuthenticated) {
-      fetch(`https://api.leposti.ml/users/${appContext.user.id}`, {
+    if (auth.isAuthenticated) {
+      fetch(`https://api.leposti.ml/users/${auth.user.id}`, {
         headers: {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         }
@@ -95,9 +93,9 @@ const Home = () => {
       })
     }
 
-  }, [appContext.isAuthenticated])
+  }, [auth.isAuthenticated])
   return (
-    <>{appContext.isAuthenticated ?
+    <>{auth.isAuthenticated ?
       <MyLayout>
         <style>{"\
                 .ant-table-thead > tr > th, .ant-table-tbody > tr > td {\
@@ -111,4 +109,8 @@ const Home = () => {
   )
 }
 
-export default Home;
+SucessBuys.requiresAuth = true;
+SucessBuys.redirectUnauthenticated = "/login";
+
+export default SucessBuys;
+
