@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import styles from '../styles/LayoutDash.module.css'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import Cookie from 'js-cookie'
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -42,7 +43,7 @@ const MyLayout = ({ children }) => {
         </div>
         <div>
           <Tooltip title="Carrito">
-            <Button shape="circle" href="/carrito" style={{ marginRight: '.5rem' }} icon={<ShoppingCartOutlined />} />
+            <Link href="/dashboard/carrito"><Button shape="circle" style={{ marginRight: '.5rem' }} icon={<ShoppingCartOutlined />} /></Link>
           </Tooltip>
           <Popover
 
@@ -62,11 +63,11 @@ const MyLayout = ({ children }) => {
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
           >
-            <Menu.Item key="1" icon={<UserOutlined />}><a href="/dashboard/user">Perfil</a></Menu.Item>
-            <Menu.Item key="2" icon={<UserOutlined />}><a href="/dashboard/publications">Publicaciones</a></Menu.Item>
+            <Menu.Item key="1" icon={<UserOutlined />}><Link href="/dashboard/user"><a >Perfil</a></Link></Menu.Item>
+            <Menu.Item key="2" icon={<UserOutlined />}><Link href="/dashboard/publications"><a >Publicaciones</a></Link></Menu.Item>
             <SubMenu key="sub1" icon={<UserOutlined />} title="Compras">
-              <Menu.Item key="3" icon={<UserOutlined />}><a href="/dashboard/compras_realizadas">Realizadas</a></Menu.Item>
-              <Menu.Item key="4" icon={<UserOutlined />}><a href="/dashboard/compras_pendientes">Pendientes</a></Menu.Item>
+              <Menu.Item key="3" icon={<UserOutlined />}><Link href="/dashboard/compras_realizadas"><a>Realizadas</a></Link></Menu.Item>
+              <Menu.Item key="4" icon={<UserOutlined />}><Link href="/dashboard/compras_pendientes"><a >Pendientes</a></Link></Menu.Item>
             </SubMenu>
             <SubMenu key="sub2" icon={<ToolOutlined />} title="Configuración">
               <Menu.Item key="5" icon={<UserOutlined />}><a href="/dashboard/edit">Editar Perfil</a></Menu.Item>

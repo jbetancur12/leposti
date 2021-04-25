@@ -6,48 +6,39 @@ import '../styles/globals.css'
 import 'antd/dist/antd.css'
 import 'react-quill/dist/quill.snow.css';
 
+
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(null)
-  const [products, setProducts] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   const userLoged = (user) => {
     setUser(user)
   }
 
   useEffect(() => {
-    const token = Cookie.get("token");
-
-    if (token) {
-      fetch('https://api.leposti.ml/users/me', {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-        }
-      }).then(async (res) => {
-        if (!res.ok) {
-          Cookie.remove('token')
-          setUser(null)
-          return null
-        }
-        const user = await res.json();
-        userLoged(user)
-
-      })
-
+    async function loadUserFromCookies() {
+      const token = Cookie.get("token");
+      if (token) {
+        fetch('https://api.leposti.ml/users/me', {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+          }
+        }).then(async (res) => {
+          if (!res.ok) {
+            Cookie.remove('token')
+            setUser(null)
+            return null
+          }
+          const user = await res.json();
+          userLoged(user)
+        })
+      }
+      setLoading(false)
     }
-
-    fetch('https://api.leposti.ml/products', {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-      }
-    }).then(async (res) => {
-      if (res.ok) {
-        const products = await res.json()
-        console.log("····", products);
-        setProducts(products)
-      }
-
-    })
+    loadUserFromCookies()
   }, [])
+
+
 
   return (
     <AppContext.Provider
@@ -55,9 +46,8 @@ function MyApp({ Component, pageProps }) {
         user: user,
         isAuthenticated: !!user,
         setUserLoged: userLoged,
-        products: products
+        loading: loading
       }}>
-
       <Component {...pageProps} />)
     </AppContext.Provider>
   )

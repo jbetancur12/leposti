@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { registerUser } from "../context/auth";
+import AppContext from "../context/AppContext";
 import { useRouter } from 'next/router';
 import { parseCookies } from '../helpers/';
 import { useCookies } from 'react-cookie';
@@ -12,10 +14,10 @@ import {
   Col,
   Checkbox,
   Button,
-  AutoComplete,
-  InputNumber,
   message,
+  Spin
 } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import MyHeader from '../components/MyHeader';
 import MyFooter from '../components/MyFooter';
@@ -58,10 +60,13 @@ const tailFormItemLayout = {
 const RegistrationForm = ({ data }) => {
   const router = useRouter();
   const [form] = Form.useForm();
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({});
+  const appContext = useContext(AppContext);
   const [cities, setCities] = useState(null);
-  const [validateUser, setValidateUser] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(['email']);
+
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   const getCities = async () => {
     const res = await fetch(
@@ -99,74 +104,6 @@ const RegistrationForm = ({ data }) => {
     }
   }, []);
 
-  const onBlurHandler = async (values) => {
-    if (values.target.value.length > 0) {
-      const resPost = await fetch(
-        'https://api.leposti.ml/users?username=' + values.target.value,
-        {
-          method: 'GET', // *GET, POST, PUT, DELETE, etc.
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-            'Content-Type': 'application/json',
-          },
-          // body data type must match "Content-Type" header
-        },
-      );
-
-      const resAskUser = await resPost.json();
-
-      if (resAskUser.length > 0) {
-        form.setFields([
-          {
-            name: 'username',
-            errors: ['Usuario ya existe'],
-          },
-        ]);
-      }
-    } else {
-      form.setFields([
-        {
-          name: 'username',
-          errors: ['Ingresa un usuario'],
-        },
-      ]);
-    }
-  };
-
-  const onBlurEmail = async (values) => {
-    if (values.target.value.length > 0) {
-      const resPost = await fetch(
-        'https://api.leposti.ml/users?email=' + values.target.value,
-        {
-          method: 'GET', // *GET, POST, PUT, DELETE, etc.
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-            'Content-Type': 'application/json',
-          },
-          // body data type must match "Content-Type" header
-        },
-      );
-
-      const resAskUser = await resPost.json();
-      console.log(resAskUser);
-
-      if (resAskUser.length > 0) {
-        form.setFields([
-          {
-            name: 'email',
-            errors: ['Email ya existe'],
-          },
-        ]);
-      }
-    } else {
-      form.setFields([
-        {
-          name: 'email',
-          errors: ['Ingresa un email'],
-        },
-      ]);
-    }
-  };
 
   const emailValidator = async (rule, value) => {
     const resPost = await fetch('https://api.leposti.ml/users?email=' + value, {
@@ -205,28 +142,25 @@ const RegistrationForm = ({ data }) => {
   };
 
   const onFinish = async (values) => {
+    setLoading(true);
     const newValues = {
       ...values,
       city: values.city[1],
       departamento: values.city[0],
       username: md5(Date.now()).slice(-8),
     };
-    console.log(newValues);
-    const resPost = await fetch('https://api.leposti.ml/auth/local/register', {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newValues), // body data type must match "Content-Type" header
-    });
+    registerUser(newValues).then((res) => {
+      // set authed user in global context object
+      message.success("Registro Exitoso!!")
+      appContext.setUserLoged(res.data.user);
+      setLoading(false);
+    })
+      .catch((error) => {
+        message.error("Hubo un error en el registro, Porfavor intentelo de nuevo")
+        setError(error.response.data);
+        setLoading(false);
+      });
 
-    if (!resPost.ok) {
-      const message = `An error has occured: ${resPost.status}`;
-      throw new Error(message);
-    } else {
-      router.push('/');
-      message.success('Registrado!');
-    }
   };
   function filter(inputValue, path) {
     return path.some(
@@ -327,25 +261,7 @@ const RegistrationForm = ({ data }) => {
                   {/* <Input /> */}
                 </Form.Item>
               </Col>
-              {/* <Col span={24} md={12}>
-                <Form.Item
-                  name='username'
-                  label='Nickname'
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                  className={styles.item}
-                  onBlur={onBlurHandler}
-                  rules={[
-                    {
-                      required: true,
-                      // message: 'Porfavor ingresa un usuario',
-                      // whitespace: true,
-                    },
-                  ]}
-                >
-                  <Input placeholder='Nickname' />
-                </Form.Item>
-              </Col> */}
+
               <Col span={24}>
                 <Form.Item
                   name='email'
@@ -509,13 +425,13 @@ const RegistrationForm = ({ data }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error('Should accept agreement'),
-                            ),
+                            new Error('Should accept agreement'),
+                          ),
                     },
                   ]}
                 >
                   <Checkbox>
-                    I have read the <a href=''>agreement</a>
+                    He leido los <a href=''>terminos y condiciones</a>
                   </Checkbox>
                 </Form.Item>
               </Col>
@@ -530,7 +446,7 @@ const RegistrationForm = ({ data }) => {
                     htmlType='submit'
                     className={styles.btn}
                   >
-                    Aceptar
+                    {loading ? (<Spin indicator={antIcon} />) : "Registrarse"}
                   </Button>
                 </Form.Item>
               </Col>

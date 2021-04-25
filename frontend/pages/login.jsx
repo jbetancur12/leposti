@@ -1,26 +1,24 @@
-import React, { useEffect, useContext } from "react";
-
+import React, { useState, useEffect, useContext } from "react";
+import { useRouter } from 'next/router';
+import { useCookies } from 'react-cookie';
 import {
   Form,
   Input,
   Button,
   Checkbox,
-  InputNumber,
+
   Layout,
   Row,
   message,
   Col,
+  Spin
 } from 'antd';
-import { useRouter } from 'next/router';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { useCookies } from 'react-cookie';
-import Cookie from "js-cookie";
-
+import { UserOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
 import styles from '../styles/Login.module.css';
-
 import MyHeader from '../components/MyHeader';
 import MyFooter from '../components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
+import { login } from "../context/auth";
 import AppContext from "../context/AppContext";
 
 const layout = {
@@ -32,40 +30,37 @@ const tailLayout = {
 };
 
 const NormalLoginForm = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const router = useRouter();
-  const [cookie, setCookie] = useCookies(['jwt', 'user']);
   const appContext = useContext(AppContext);
-  const onFinish = async (values) => {
-    const body = {
-      identifier: values.email,
-      password: values.password,
-    };
-    const resLogin = await fetch('https://api.leposti.ml/auth/local', {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-      // body data type must match "Content-Type" header
-    });
 
-    const resLoginOk = await resLogin.json();
-    if (resLogin.ok) {
-      setCookie('jwt', resLoginOk.jwt);
-      Cookie.set("token", resLoginOk.jwt)
-      router.push('/');
-      appContext.setUserLoged(resLoginOk)
-    } else {
-      if (resLoginOk.message[0].messages[0].id === 'Auth.form.error.invalid') {
-        message.error('Email y/o contraseña invalidos');
-      }
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
+  useEffect(() => {
+    console.log(appContext);
+    if (appContext.isAuthenticated) {
+      router.push("/"); // redirect if you're already logged in
     }
-  };
+  }, []);
 
-  if (appContext.isAuthenticated) {
-    router.push("/"); // redirect if you're already logged in
-  }
+  const onFinish = async (values) => {
+    setLoading(true);
+    login(values.email, values.password)
+      .then((res) => {
+        message.success('Ingreso Exitoso!');
+        setLoading(false);
+        // set authed User in global context to update header/app state
+        appContext.setUserLoged(res.data.user);
+
+      })
+      .catch((error) => {
+        console.log(error);
+        message.error('Email y/o contraseña invalidos');
+        setError(error.response.data);
+        setLoading(false);
+      });
+  };
 
   return (
     <Layout className={styles.layout}>
@@ -133,9 +128,9 @@ const NormalLoginForm = () => {
                   htmlType='submit'
                   className='login-form-button'
                 >
-                  Log in
+                  {loading ? (<Spin indicator={antIcon} />) : "Login"}
                 </Button>
-                Or <a href='/register'>register now!</a>
+                O <a href='/register'>Registrate aca!</a>
               </Form.Item>
             </Form>
           </Col>
