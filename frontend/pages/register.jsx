@@ -90,9 +90,8 @@ const RegistrationForm = ({ data }) => {
     getCities();
 
     if (Cookie.get('email')) {
-      console.log("COOKIE EMAIL");
       form.setFieldsValue({
-        email: data.email,
+        email: Cookie.get('email'),
       });
       Cookie.remove('email');
     }
