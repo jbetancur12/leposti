@@ -57,7 +57,7 @@ export default function Politica_privacidad() {
           con base en el número de caracteres, de conformidad con la siguiente
           parametrización:
         </p>
-        <img src="images/tabla.png" styles={{ width: '60%' }} />
+        <img src='images/tabla.png' styles={{ width: '60%' }} />
         <br />
         Una vez se sobrepasen los 2110 caracteres, por cada 220 caracteres
         adicionales, se incrementa el costo.

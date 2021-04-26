@@ -12,7 +12,7 @@ class UpBtn extends React.Component {
   render() {
     return (
       <div className={styles.upBtn}>
-        <a href="#header">
+        <a href='#header'>
           <FaAngleUp />
         </a>
       </div>

@@ -86,7 +86,7 @@ const PendingBuys = () => {
           const orders = await res.json();
 
           const paidOrders = orders.orders.filter(
-            (order) => order.estado === 'unpaid'
+            (order) => order.estado === 'unpaid',
           );
           setUnpaidOrders(paidOrders);
         }

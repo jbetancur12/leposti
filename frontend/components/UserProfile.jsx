@@ -19,13 +19,13 @@ const UserProfile = () => {
         <Row>
           <Col span={12}>
             <DescriptionItem
-              title="Tipo documento"
-              content="Cédula de ciudadanía"
+              title='Tipo documento'
+              content='Cédula de ciudadanía'
             />
           </Col>
           <Col span={12}>
             <DescriptionItem
-              title="Documentos"
+              title='Documentos'
               content={'' || auth.user.docId}
             />
           </Col>
@@ -34,13 +34,13 @@ const UserProfile = () => {
         <Row>
           <Col span={12}>
             <DescriptionItem
-              title="Nombres"
+              title='Nombres'
               content={'' || auth.user.firstname}
             />
           </Col>
           <Col span={12}>
             <DescriptionItem
-              title="Apellido 1"
+              title='Apellido 1'
               content={'' || auth.user.lastname}
             />
           </Col>
@@ -48,11 +48,11 @@ const UserProfile = () => {
         <Divider />
         <Row>
           <Col span={12}>
-            <DescriptionItem title="Apellido 2" content="" />
+            <DescriptionItem title='Apellido 2' content='' />
           </Col>
           <Col span={12}>
             <DescriptionItem
-              title="Teléfono celular"
+              title='Teléfono celular'
               content={'' || auth.user.phone}
             />
           </Col>
@@ -61,13 +61,13 @@ const UserProfile = () => {
         <Row>
           <Col span={12}>
             <DescriptionItem
-              title="Correo electrónico"
+              title='Correo electrónico'
               content={'' || auth.user.email}
             />
           </Col>
           <Col span={12}>
             <DescriptionItem
-              title="Departamento"
+              title='Departamento'
               content={'' || auth.user.departamento}
             />
           </Col>
@@ -75,11 +75,11 @@ const UserProfile = () => {
         <Divider />
         <Row>
           <Col span={12}>
-            <DescriptionItem title="Ciudad" content={'' || auth.user.city} />
+            <DescriptionItem title='Ciudad' content={'' || auth.user.city} />
           </Col>
           <Col span={12}>
             <DescriptionItem
-              title="Dirección correspondencia"
+              title='Dirección correspondencia'
               content={'' || auth.user.direccion}
             />
           </Col>
@@ -87,22 +87,22 @@ const UserProfile = () => {
         <Divider />
         <Row>
           <Col span={12}>
-            <DescriptionItem title="Usuario" content={'' || auth.user.email} />
+            <DescriptionItem title='Usuario' content={'' || auth.user.email} />
           </Col>
           <Col span={12}>
-            <DescriptionItem title="Contraseña" content="********" />
+            <DescriptionItem title='Contraseña' content='********' />
           </Col>
         </Row>
         <Divider />
         <Row>
           <Col span={12}>
             <DescriptionItem
-              title="Fecha creación"
+              title='Fecha creación'
               content={'' || auth.user.created_at}
             />
           </Col>
           <Col span={12}>
-            <DescriptionItem title="Nivel de usuario" content="********" />
+            <DescriptionItem title='Nivel de usuario' content='********' />
           </Col>
         </Row>
         <Divider />

@@ -7,7 +7,7 @@ export default function Politica_privacidad() {
   return (
     <Layout className={styles.layout}>
       <MyHeader />
-      <div id="placeholders">
+      <div id='placeholders'>
         <h2 styles={{ textAlign: 'center' }}>
           <strong>7. USO DE COOKIES Y WEB BEACONS</strong>
         </h2>

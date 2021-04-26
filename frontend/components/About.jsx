@@ -5,8 +5,8 @@ import { Row, Col } from 'antd';
 
 const About = () => {
   return (
-    <div className={styles.container} id="about">
-      <Title title="Quiénes" titleW="somos" />
+    <div className={styles.container} id='about'>
+      <Title title='Quiénes' titleW='somos' />
       <div className={styles.content}>
         <Row>
           <Col span={24} lg={12}>
@@ -33,8 +33,8 @@ const About = () => {
           <Col span={24} lg={12}>
             <div className={styles.imgContainer}>
               <Image
-                src="/hero_2.jpg"
-                alt="hero 2"
+                src='/hero_2.jpg'
+                alt='hero 2'
                 width={500}
                 height={350}
                 className={styles.img}

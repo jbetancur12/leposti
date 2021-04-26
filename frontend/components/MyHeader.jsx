@@ -21,29 +21,29 @@ const MyHeader = () => {
   };
 
   return (
-    <Header className={styles.header} id="header">
-      <a href="/" className={styles.img}>
+    <Header className={styles.header} id='header'>
+      <a href='/' className={styles.img}>
         <Image
-          src="/logoprincipalBlanco.png"
-          alt="Logo de Leposti"
+          src='/logoprincipalBlanco.png'
+          alt='Logo de Leposti'
           width={140}
           height={33}
         />
       </a>
       <div className={styles.myMenu}>
-        <MyMenu type="horizontal" />
+        <MyMenu type='horizontal' />
       </div>
-      <Button className={styles.barsMenu} type="primary" onClick={showDrawer}>
+      <Button className={styles.barsMenu} type='primary' onClick={showDrawer}>
         <FaBars />
       </Button>
       <Drawer
-        placement="right"
+        placement='right'
         closable={false}
         onClose={onClose}
         visible={visible}
         bodyStyle={{ padding: 0 }}
       >
-        <MyMenu type="vertical" />
+        <MyMenu type='vertical' />
       </Drawer>
     </Header>
   );

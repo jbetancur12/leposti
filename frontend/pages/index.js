@@ -200,7 +200,7 @@ const Home = ({ products }) => {
       if (add2.day() === 0) {
         const add3 = moment(date).startOf('day').add(3, 'day');
         const isHoliday = getColombianHolidays.includes(
-          moment(add3).format(dateFormat)
+          moment(add3).format(dateFormat),
         );
         if (isHoliday) {
           return current && current < moment(date).startOf('day').add(5, 'day');
@@ -234,7 +234,7 @@ const Home = ({ products }) => {
       (price) =>
         price.product.id === productProvider.product &&
         price.provider.id === productProvider.provider &&
-        price.dias.includes(dayWeek)
+        price.dias.includes(dayWeek),
     );
 
     let finalPrice = '';
@@ -242,7 +242,7 @@ const Home = ({ products }) => {
     if (!providers.formato) {
       const l = valueEditorText.length;
       finalPrice = price.filter(
-        (pric) => l - 1 <= pric.range.maximo && l - 1 >= pric.range.minimo
+        (pric) => l - 1 <= pric.range.maximo && l - 1 >= pric.range.minimo,
       );
     } else {
       finalPrice = [...price];
@@ -366,7 +366,7 @@ const Home = ({ products }) => {
     let windowoption =
       'resizable=yes,height=600,width=800,location=0,menubar=0,scrollbars=1';
     const provide = providers.providers.find(
-      (pro) => pro.id === productProvider.provider
+      (pro) => pro.id === productProvider.provider,
     );
     const withEjemplar = order.ejemplar ? 'con ' : 'sin ';
     const withoutIva =
@@ -374,7 +374,7 @@ const Home = ({ products }) => {
     const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
 
     const signature = md5(
-      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`
+      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
     );
 
     let params = {
@@ -396,7 +396,7 @@ const Home = ({ products }) => {
     form.setAttribute('method', 'post');
     form.setAttribute(
       'action',
-      'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/'
+      'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/',
     );
     form.setAttribute('target', winName);
     for (let i in params) {
@@ -436,7 +436,7 @@ const Home = ({ products }) => {
     let button;
     if (orderReady.user.id > 0) {
       button = (
-        <Button type="primary" onClick={onClickBuy}>
+        <Button type='primary' onClick={onClickBuy}>
           Comprar
         </Button>
       );
@@ -444,7 +444,7 @@ const Home = ({ products }) => {
       Cookie.set('email', email);
       button = (
         <div>
-          <Link href="/register">
+          <Link href='/register'>
             <Button>Registrate</Button>
           </Link>
         </div>
@@ -452,7 +452,7 @@ const Home = ({ products }) => {
     }
 
     const providerInOrder = providers.providers.find(
-      (prov) => prov.id === productProvider.provider
+      (prov) => prov.id === productProvider.provider,
     );
 
     const quotation = (
@@ -530,7 +530,7 @@ const Home = ({ products }) => {
         </Carousel>
         <div className={styles.formContainer}>
           <Form
-            layout="vertical"
+            layout='vertical'
             className={styles.form}
             onFinish={onFinish}
             form={form}
@@ -538,17 +538,17 @@ const Home = ({ products }) => {
             {!openQuote ? (
               <>
                 <FormItem
-                  label="Producto:"
+                  label='Producto:'
                   labelCol={{ span: 12 }}
                   wrapperCol={{ span: 24 }}
                 >
                   <Select
                     showSearch
                     style={{ width: '100%', border: null }}
-                    placeholder="Seleccione un producto"
+                    placeholder='Seleccione un producto'
                     onChange={onChangeProduct}
                     value={product}
-                    optionFilterProp="children"
+                    optionFilterProp='children'
                     filterOption={(input, option) =>
                       option.children
                         .toLowerCase()
@@ -559,7 +559,7 @@ const Home = ({ products }) => {
                   </Select>
                 </FormItem>
                 <FormItem
-                  label="Medio:"
+                  label='Medio:'
                   labelCol={{ span: 8 }}
                   wrapperCol={{ span: 24 }}
                 >
@@ -567,8 +567,8 @@ const Home = ({ products }) => {
                     disabled={!productProvider.product}
                     showSearch
                     style={{ width: '100%', border: null }}
-                    placeholder="Seleccione un medio"
-                    optionFilterProp="children"
+                    placeholder='Seleccione un medio'
+                    optionFilterProp='children'
                     value={provider}
                     onChange={onChangeProvider}
                     filterOption={(input, option) =>
@@ -581,7 +581,7 @@ const Home = ({ products }) => {
                   </Select>
                 </FormItem>
                 <FormItem
-                  label="Fecha:"
+                  label='Fecha:'
                   labelCol={{ span: 8 }}
                   wrapperCol={{ span: 24 }}
                   rules={[
@@ -592,7 +592,7 @@ const Home = ({ products }) => {
                     },
                   ]}
                 >
-                  <Space direction="vertical" style={{ width: '100%' }}>
+                  <Space direction='vertical' style={{ width: '100%' }}>
                     <DatePicker
                       ref={myRef}
                       style={{ width: '100%' }}
@@ -607,7 +607,7 @@ const Home = ({ products }) => {
                   </Space>
                 </FormItem>
                 <FormItem
-                  label="Contenido:"
+                  label='Contenido:'
                   labelCol={{ span: 14 }}
                   wrapperCol={{ span: 24 }}
                   rules={[
@@ -617,8 +617,8 @@ const Home = ({ products }) => {
                           ? Promise.resolve()
                           : Promise.reject(
                               new Error(
-                                'Debe aceptar los terminos y condiciones'
-                              )
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
                     },
                   ]}
@@ -641,11 +641,11 @@ const Home = ({ products }) => {
                     <>
                       <QuillNoSSRWrapper
                         onChange={onChangeEditor}
-                        theme="snow"
+                        theme='snow'
                         modules={config.modules}
                         value={valueEditor}
                         readOnly={readOnly}
-                        placeholder="Contenido"
+                        placeholder='Contenido'
                       />
                       {valueEditorText.length > 3000 ? (
                         <p>supera los 3000 caracteres</p>
@@ -653,19 +653,19 @@ const Home = ({ products }) => {
                     </>
                   </Responsive>
                   <Modal
-                    title="Contenido"
+                    title='Contenido'
                     visible={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}
-                    width="1000px"
+                    width='1000px'
                   >
                     <QuillNoSSRWrapper
                       onChange={onChangeEditor}
-                      theme="snow"
+                      theme='snow'
                       modules={config.modules}
                       value={valueEditor}
                       readOnly={readOnly}
-                      placeholder="Contenido"
+                      placeholder='Contenido'
                     />
                     {valueEditorText.length > 3000 ? (
                       <p style={{ color: 'red' }}>
@@ -675,11 +675,11 @@ const Home = ({ products }) => {
                   </Modal>
                 </FormItem>
                 <FormItem
-                  label="Email:"
+                  label='Email:'
                   labelCol={{ span: 12 }}
                   wrapperCol={{ span: 24 }}
                   onChange={onChangeEmail}
-                  name="email"
+                  name='email'
                   rules={[
                     {
                       required: true,
@@ -691,14 +691,14 @@ const Home = ({ products }) => {
                   <Input
                     value={email}
                     disabled={!valueEditorText.length > 0}
-                    placeholder="Email"
+                    placeholder='Email'
                   ></Input>
                 </FormItem>
                 <FormItem
                   labelCol={{ span: 8 }}
                   wrapperCol={{ span: 24 }}
-                  name="agreement"
-                  valuePropName="checked"
+                  name='agreement'
+                  valuePropName='checked'
                   rules={[
                     {
                       validator: (_, value) =>
@@ -706,8 +706,8 @@ const Home = ({ products }) => {
                           ? Promise.resolve()
                           : Promise.reject(
                               new Error(
-                                'Debe aceptar los terminos y condiciones'
-                              )
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
                     },
                   ]}
@@ -716,8 +716,8 @@ const Home = ({ products }) => {
                 </FormItem>
                 <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 24 }}>
                   <Button
-                    type="primary"
-                    htmlType="submit"
+                    type='primary'
+                    htmlType='submit'
                     style={{ width: '100%' }}
                     disabled={valueEditorText.length > 3000}
                   >

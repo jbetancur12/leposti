@@ -1,0 +1,9 @@
+__mocks__
+coverage
+node_modules
+**/build
+dist
+config
+resources
+package-lock.json
+.next

@@ -39,8 +39,8 @@ const Question = () => {
   };
 
   return (
-    <div className={styles.container} id="questions">
-      <Title title="Preguntas" titleW="frecuentes" />
+    <div className={styles.container} id='questions'>
+      <Title title='Preguntas' titleW='frecuentes' />
       <div className={styles.content}>
         <PQR />
       </div>

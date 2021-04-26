@@ -17,8 +17,8 @@ const AsideDash = () => {
       <Layout>
         <Sider
           style={{ height: '100vh' }}
-          breakpoint="lg"
-          collapsedWidth="0"
+          breakpoint='lg'
+          collapsedWidth='0'
           onBreakpoint={(broken) => {
             console.log(broken);
           }}
@@ -26,11 +26,11 @@ const AsideDash = () => {
             console.log(collapsed, type);
           }}
         >
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-            <Menu.Item key="1" icon={<UserOutlined />}>
+          <Menu theme='dark' mode='inline' defaultSelectedKeys={['4']}>
+            <Menu.Item key='1' icon={<UserOutlined />}>
               Cuenta
             </Menu.Item>
-            <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+            <Menu.Item key='2' icon={<VideoCameraOutlined />}>
               Compras
             </Menu.Item>
           </Menu>

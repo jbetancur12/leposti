@@ -10,8 +10,8 @@ const Dashboard = () => {
       {isAuthenticated ? (
         <MyLayout />
       ) : (
-        <ContentLoader uniqueKey="aUniqueKeyToMatchSSR">
-          <rect y="10" rx="3" ry="3" width="1000" height="20" />
+        <ContentLoader uniqueKey='aUniqueKeyToMatchSSR'>
+          <rect y='10' rx='3' ry='3' width='1000' height='20' />
         </ContentLoader>
       )}
     </>

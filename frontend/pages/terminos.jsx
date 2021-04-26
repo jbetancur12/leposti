@@ -1336,7 +1336,7 @@ export default function terminos() {
           con base en el número de caracteres, de conformidad con la siguiente
           parametrización:
         </p>
-        <img src="images/tabla.png" styles="width: 60%" />
+        <img src='images/tabla.png' styles='width: 60%' />
         <br />
         <p>
           <strong>12. DERECHO DE RETRACTO. </strong>

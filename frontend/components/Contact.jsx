@@ -25,13 +25,13 @@ const Contact = () => {
     }
   };
   return (
-    <div className={styles.container} id="contact">
-      <Title title="" titleW="Contáctenos" />
+    <div className={styles.container} id='contact'>
+      <Title title='' titleW='Contáctenos' />
       <div className={styles.content}>
-        <Form form={form} layout="vertical" onFinish={onFinishHandler}>
+        <Form form={form} layout='vertical' onFinish={onFinishHandler}>
           <Form.Item
-            label="Email"
-            name="email"
+            label='Email'
+            name='email'
             rules={[
               {
                 required: true,
@@ -40,11 +40,11 @@ const Contact = () => {
               },
             ]}
           >
-            <Input placeholder="Email" />
+            <Input placeholder='Email' />
           </Form.Item>
           <Form.Item
-            label="Mensaje"
-            name="message"
+            label='Mensaje'
+            name='message'
             rules={[
               {
                 required: true,
@@ -52,10 +52,10 @@ const Contact = () => {
               },
             ]}
           >
-            <Input.TextArea placeholder="Mensaje" style={{ minHeight: 75 }} />
+            <Input.TextArea placeholder='Mensaje' style={{ minHeight: 75 }} />
           </Form.Item>
           <Form.Item style={{ marginBottom: 0, textAlign: 'center' }}>
-            <Button type="primary" htmlType="submit">
+            <Button type='primary' htmlType='submit'>
               Enviar
             </Button>
           </Form.Item>

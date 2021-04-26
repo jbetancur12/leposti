@@ -24,7 +24,7 @@ const columns = [
     title: 'Action',
     key: 'action',
     render: (text, record) => (
-      <Space size="middle">
+      <Space size='middle'>
         <a>Eliminar</a>
       </Space>
     ),
@@ -80,14 +80,14 @@ const Home = () => {
       <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>Carrito</h1>
       <Table columns={columns} dataSource={data} />
       <Button
-        type="primary"
-        shape="round"
+        type='primary'
+        shape='round'
         onClick={showConfirm}
         style={{ marginRight: '.5rem' }}
       >
         Comprar
       </Button>
-      <Button shape="round">Limpiar Carrito</Button>
+      <Button shape='round'>Limpiar Carrito</Button>
     </MyLayout>
   );
 };

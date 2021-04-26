@@ -21,20 +21,20 @@ const MyLayout = ({ children }) => {
     <Layout className={styles.layout}>
       <Header className={styles.header}>
         <div className={styles.logo}>
-          <a href="/" className={styles.img}>
+          <a href='/' className={styles.img}>
             <Image
-              src="/logoPrincipalBlanco.png"
-              alt="leposti logo"
+              src='/logoPrincipalBlanco.png'
+              alt='leposti logo'
               width={149}
               height={33}
             />
           </a>
         </div>
         <div>
-          <Tooltip title="Carrito">
-            <Link href="/dashboard/carrito">
+          <Tooltip title='Carrito'>
+            <Link href='/dashboard/carrito'>
               <Button
-                shape="circle"
+                shape='circle'
                 style={{ marginRight: '.5rem' }}
                 icon={<ShoppingCartOutlined />}
               />
@@ -44,58 +44,58 @@ const MyLayout = ({ children }) => {
             content={
               <a
                 onClick={() => auth.logout({ redirectLocation: '/' })}
-                href="#"
+                href='#'
               >
                 Cerrar Sesión
               </a>
             }
           >
-            <Button type="primary" shape="round" icon={<UserOutlined />}>
+            <Button type='primary' shape='round' icon={<UserOutlined />}>
               Jorge
             </Button>
           </Popover>
         </div>
       </Header>
       <Layout className={styles.content}>
-        <Sider width={200} className="site-layout-background">
+        <Sider width={200} className='site-layout-background'>
           <Menu
-            mode="inline"
+            mode='inline'
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
           >
-            <Menu.Item key="1" icon={<UserOutlined />}>
-              <Link href="/dashboard/user">
+            <Menu.Item key='1' icon={<UserOutlined />}>
+              <Link href='/dashboard/user'>
                 <a>Perfil</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="2" icon={<UserOutlined />}>
-              <Link href="/dashboard/publications">
+            <Menu.Item key='2' icon={<UserOutlined />}>
+              <Link href='/dashboard/publications'>
                 <a>Publicaciones</a>
               </Link>
             </Menu.Item>
-            <SubMenu key="sub1" icon={<UserOutlined />} title="Compras">
-              <Menu.Item key="3" icon={<UserOutlined />}>
-                <Link href="/dashboard/compras_realizadas">
+            <SubMenu key='sub1' icon={<UserOutlined />} title='Compras'>
+              <Menu.Item key='3' icon={<UserOutlined />}>
+                <Link href='/dashboard/compras_realizadas'>
                   <a>Realizadas</a>
                 </Link>
               </Menu.Item>
-              <Menu.Item key="4" icon={<UserOutlined />}>
-                <Link href="/dashboard/compras_pendientes">
+              <Menu.Item key='4' icon={<UserOutlined />}>
+                <Link href='/dashboard/compras_pendientes'>
                   <a>Pendientes</a>
                 </Link>
               </Menu.Item>
             </SubMenu>
-            <SubMenu key="sub2" icon={<ToolOutlined />} title="Configuración">
-              <Menu.Item key="5" icon={<UserOutlined />}>
-                <a href="/dashboard/edit">Editar Perfil</a>
+            <SubMenu key='sub2' icon={<ToolOutlined />} title='Configuración'>
+              <Menu.Item key='5' icon={<UserOutlined />}>
+                <a href='/dashboard/edit'>Editar Perfil</a>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="6" icon={<ShoppingCartOutlined />}>
-              <a href="/dashboard/carrito">Carrito</a>
+            <Menu.Item key='6' icon={<ShoppingCartOutlined />}>
+              <a href='/dashboard/carrito'>Carrito</a>
             </Menu.Item>
-            <Menu.Item key="7" icon={<UserOutlined />}>
-              <a href="#">Salir</a>
+            <Menu.Item key='7' icon={<UserOutlined />}>
+              <a href='#'>Salir</a>
             </Menu.Item>
           </Menu>
         </Sider>

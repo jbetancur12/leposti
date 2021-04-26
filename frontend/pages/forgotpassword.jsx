@@ -43,7 +43,7 @@ const ForgotPassword = () => {
             'Content-Type': 'application/json',
           },
           // body data type must match "Content-Type" header
-        }
+        },
       );
 
       const resAskUser = await resGet.json();
@@ -78,8 +78,8 @@ const ForgotPassword = () => {
     if (value === 'email') {
       return (
         <Form.Item
-          label="Email"
-          name="email"
+          label='Email'
+          name='email'
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
           className={styles.item}
@@ -90,14 +90,14 @@ const ForgotPassword = () => {
             },
           ]}
         >
-          <Input placeholder="E-mail" />
+          <Input placeholder='E-mail' />
         </Form.Item>
       );
     }
     return (
       <Form.Item
-        label="Cedula"
-        name="cedula"
+        label='Cedula'
+        name='cedula'
         labelCol={{ span: 24 }}
         wrapperCol={{ span: 24 }}
         className={styles.item}
@@ -108,7 +108,7 @@ const ForgotPassword = () => {
           },
         ]}
       >
-        <InputNumber min={0} placeholder="Cedula" />
+        <InputNumber min={0} placeholder='Cedula' />
       </Form.Item>
     );
   };
@@ -118,7 +118,7 @@ const ForgotPassword = () => {
       <Layout className={styles.layout}>
         <MyHeader />
         <Content className={styles.content}>
-          <Row justify="space-around" style={{ width: '100%' }}>
+          <Row justify='space-around' style={{ width: '100%' }}>
             <Col
               span={24}
               sm={12}
@@ -129,7 +129,7 @@ const ForgotPassword = () => {
               <h1 className={styles.title}>Recuperar contraseña</h1>
               <Form
                 {...layout}
-                name="basic"
+                name='basic'
                 initialValues={{
                   remember: true,
                 }}
@@ -137,7 +137,7 @@ const ForgotPassword = () => {
               >
                 <WayToRecover />
 
-                <Form.Item name="way">
+                <Form.Item name='way'>
                   <Radio.Group
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
@@ -153,8 +153,8 @@ const ForgotPassword = () => {
                   className={styles.btnContainer}
                 >
                   <Button
-                    type="primary"
-                    htmlType="submit"
+                    type='primary'
+                    htmlType='submit'
                     className={styles.btn}
                   >
                     Aceptar
