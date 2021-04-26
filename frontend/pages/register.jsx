@@ -421,8 +421,8 @@ const RegistrationForm = () => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error('Should accept agreement'),
-                          ),
+                              new Error('Should accept agreement'),
+                            ),
                     },
                   ]}
                 >

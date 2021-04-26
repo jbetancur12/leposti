@@ -1,16 +1,35 @@
+import { useState, useEffect } from 'react';
 import { Row, Col, Divider } from 'antd';
 import { useAuth } from '@context/auth';
 import styles from '../styles/User.module.css';
 
-const DescriptionItem = ({ title, content }) => (
-  <div className={styles.item}>
-    <p className={styles.itemLabel}>{title}:</p>
-    {content}
-  </div>
-);
-
 const UserProfile = () => {
+  const [info, setInfo] = useState({
+    docId: '',
+    firstname: '',
+    lastname: '',
+    email: '',
+    phone: '',
+    departamente: '',
+    city: '',
+    direccion: '',
+    created_at: '',
+  });
+
   const auth = useAuth();
+
+  useEffect(() => {
+    if (auth.user) {
+      setInfo(auth.user);
+    }
+  }, [auth.user]);
+
+  const DescriptionItem = ({ title, content }) => (
+    <div className={styles.item}>
+      <p className={styles.itemLabel}>{title}:</p>
+      {content}
+    </div>
+  );
 
   return (
     <Row style={{ height: '100%' }}>
@@ -24,25 +43,16 @@ const UserProfile = () => {
             />
           </Col>
           <Col span={12}>
-            <DescriptionItem
-              title='Documentos'
-              content={'' || auth.user.docId}
-            />
+            <DescriptionItem title='Documentos' content={'' || info.docId} />
           </Col>
         </Row>
         <Divider />
         <Row>
           <Col span={12}>
-            <DescriptionItem
-              title='Nombres'
-              content={'' || auth.user.firstname}
-            />
+            <DescriptionItem title='Nombres' content={'' || info.firstname} />
           </Col>
           <Col span={12}>
-            <DescriptionItem
-              title='Apellidos'
-              content={'' || auth.user.lastname}
-            />
+            <DescriptionItem title='Apellidos' content={'' || info.lastname} />
           </Col>
         </Row>
         <Divider />
@@ -50,13 +60,13 @@ const UserProfile = () => {
           <Col span={12}>
             <DescriptionItem
               title='Correo electrónico'
-              content={'' || auth.user.email}
+              content={'' || info.email}
             />
           </Col>
           <Col span={12}>
             <DescriptionItem
               title='Teléfono celular'
-              content={'' || auth.user.phone}
+              content={'' || info.phone}
             />
           </Col>
         </Row>
@@ -65,11 +75,11 @@ const UserProfile = () => {
           <Col span={12}>
             <DescriptionItem
               title='Departamento'
-              content={'' || auth.user.departamento}
+              content={'' || info.departamento}
             />
           </Col>
           <Col span={12}>
-            <DescriptionItem title='Ciudad' content={'' || auth.user.city} />
+            <DescriptionItem title='Ciudad' content={'' || info.city} />
           </Col>
         </Row>
         <Divider />
@@ -77,11 +87,11 @@ const UserProfile = () => {
           <Col span={12}>
             <DescriptionItem
               title='Dirección correspondencia'
-              content={'' || auth.user.direccion}
+              content={'' || info.direccion}
             />
           </Col>
           <Col span={12}>
-            <DescriptionItem title='Usuario' content={'' || auth.user.email} />
+            <DescriptionItem title='Usuario' content={'' || info.email} />
           </Col>
         </Row>
         <Divider />
@@ -92,7 +102,7 @@ const UserProfile = () => {
           <Col span={12}>
             <DescriptionItem
               title='Fecha creación'
-              content={'' || auth.user.created_at}
+              content={'' || info.created_at}
             />
           </Col>
         </Row>
