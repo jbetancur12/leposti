@@ -1,10 +1,7 @@
-import AsideDash from "../components/Aside"
-
+import AsideDash from '../components/Aside';
 
 const Dashboard = () => {
-  return (
-    <AsideDash />
-  )
-}
+  return <AsideDash />;
+};
 
-export default Dashboard
+export default Dashboard;

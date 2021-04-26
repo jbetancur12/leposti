@@ -67,7 +67,7 @@ const RegistrationForm = ({ data }) => {
 
   const getCities = async () => {
     const res = await fetch(
-      'https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json',
+      'https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json'
     );
     const resCities = await res.json();
 
@@ -154,7 +154,7 @@ const RegistrationForm = ({ data }) => {
       })
       .catch((error) => {
         message.error(
-          'Hubo un error en el registro, Porfavor intentelo de nuevo',
+          'Hubo un error en el registro, Porfavor intentelo de nuevo'
         );
         setError(error.response.data);
         setLoading(false);
@@ -163,19 +163,19 @@ const RegistrationForm = ({ data }) => {
   function filter(inputValue, path) {
     return path.some(
       (option) =>
-        option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1,
+        option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
     );
   }
 
   const prefixSelector = (
-    <Form.Item name='prefix' noStyle>
+    <Form.Item name="prefix" noStyle>
       <Select
         style={{
           width: 70,
         }}
       >
-        <Option value='57'>+57</Option>
-        <Option value='1'>+1</Option>
+        <Option value="57">+57</Option>
+        <Option value="1">+1</Option>
       </Select>
     </Form.Item>
   );
@@ -186,15 +186,15 @@ const RegistrationForm = ({ data }) => {
   return (
     <>
       <MyHeader />
-      <Row justify='space-around' style={{ width: '100%', background: '#eee' }}>
+      <Row justify="space-around" style={{ width: '100%', background: '#eee' }}>
         <Col span={24} sm={12} lg={10} xl={8} className={styles.formContainer}>
           <h1 className={styles.title}>Registrate</h1>
           <Form
             {...formItemLayout}
             form={form}
-            name='register'
+            name="register"
             onFinish={onFinish}
-            validateTrigger='onBlur'
+            validateTrigger="onBlur"
             initialValues={{
               prefix: '57',
             }}
@@ -203,8 +203,8 @@ const RegistrationForm = ({ data }) => {
             <Row>
               <Col span={24} md={12}>
                 <Form.Item
-                  name='firstname'
-                  label='Nombre'
+                  name="firstname"
+                  label="Nombre"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
@@ -216,13 +216,13 @@ const RegistrationForm = ({ data }) => {
                     },
                   ]}
                 >
-                  <Input placeholder='Nombre' />
+                  <Input placeholder="Nombre" />
                 </Form.Item>
               </Col>
               <Col span={24} md={12}>
                 <Form.Item
-                  name='lastname'
-                  label='Apellido'
+                  name="lastname"
+                  label="Apellido"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
@@ -234,13 +234,13 @@ const RegistrationForm = ({ data }) => {
                     },
                   ]}
                 >
-                  <Input placeholder='Apellido' />
+                  <Input placeholder="Apellido" />
                 </Form.Item>
               </Col>
               <Col span={24} md={12}>
                 <Form.Item
-                  name='docId'
-                  label='Numero de cedula'
+                  name="docId"
+                  label="Numero de cedula"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
@@ -255,15 +255,15 @@ const RegistrationForm = ({ data }) => {
                     },
                   ]}
                 >
-                  <Input placeholder='Cedula' />
+                  <Input placeholder="Cedula" />
                   {/* <Input /> */}
                 </Form.Item>
               </Col>
 
               <Col span={24}>
                 <Form.Item
-                  name='email'
-                  label='E-mail'
+                  name="email"
+                  label="E-mail"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
@@ -282,13 +282,13 @@ const RegistrationForm = ({ data }) => {
                     },
                   ]}
                 >
-                  <Input placeholder='E-mail' />
+                  <Input placeholder="E-mail" />
                 </Form.Item>
               </Col>
               <Col span={24} md={12}>
                 <Form.Item
-                  name='password'
-                  label='Password'
+                  name="password"
+                  label="Password"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
@@ -301,7 +301,7 @@ const RegistrationForm = ({ data }) => {
                   hasFeedback
                 >
                   <Input.Password
-                    placeholder='Password'
+                    placeholder="Password"
                     className={focused ? 'focused' : ''}
                     onFocus={() => {
                       setFocused(true);
@@ -314,8 +314,8 @@ const RegistrationForm = ({ data }) => {
               </Col>
               <Col span={24} md={12}>
                 <Form.Item
-                  name='confirm'
-                  label='Confirm Password'
+                  name="confirm"
+                  label="Confirm Password"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
@@ -334,15 +334,15 @@ const RegistrationForm = ({ data }) => {
 
                         return Promise.reject(
                           new Error(
-                            'The two passwords that you entered do not match!',
-                          ),
+                            'The two passwords that you entered do not match!'
+                          )
                         );
                       },
                     }),
                   ]}
                 >
                   <Input.Password
-                    placeholder='Password'
+                    placeholder="Password"
                     className={focused2 ? 'focused' : ''}
                     onFocus={() => {
                       setFocused2(true);
@@ -355,8 +355,8 @@ const RegistrationForm = ({ data }) => {
               </Col>
               <Col span={24} md={12}>
                 <Form.Item
-                  name='phone'
-                  label='Phone Number'
+                  name="phone"
+                  label="Phone Number"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
@@ -377,12 +377,12 @@ const RegistrationForm = ({ data }) => {
               </Col>
               <Col span={24} md={12}>
                 <Form.Item
-                  name='city'
-                  label='Ciudad'
+                  name="city"
+                  label="Ciudad"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
-                  autoComplete='off'
+                  autoComplete="off"
                   rules={[
                     {
                       type: 'array',
@@ -396,8 +396,8 @@ const RegistrationForm = ({ data }) => {
               </Col>
               <Col span={24}>
                 <Form.Item
-                  name='direccion'
-                  label='Direccion'
+                  name="direccion"
+                  label="Direccion"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
@@ -414,22 +414,22 @@ const RegistrationForm = ({ data }) => {
               </Col>
               <Col span={24}>
                 <Form.Item
-                  name='agreement'
+                  name="agreement"
                   className={styles.item}
-                  valuePropName='checked'
+                  valuePropName="checked"
                   rules={[
                     {
                       validator: (_, value) =>
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error('Should accept agreement'),
+                              new Error('Should accept agreement')
                             ),
                     },
                   ]}
                 >
                   <Checkbox>
-                    He leido los <a href=''>terminos y condiciones</a>
+                    He leido los <a href="">terminos y condiciones</a>
                   </Checkbox>
                 </Form.Item>
               </Col>
@@ -440,8 +440,8 @@ const RegistrationForm = ({ data }) => {
                   className={styles.btnContainer}
                 >
                   <Button
-                    type='primary'
-                    htmlType='submit'
+                    type="primary"
+                    htmlType="submit"
                     className={styles.btn}
                   >
                     {loading ? <Spin indicator={antIcon} /> : 'Registrarse'}

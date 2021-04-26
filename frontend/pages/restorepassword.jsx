@@ -60,7 +60,7 @@ const RestorePassword = () => {
       <Layout className={styles.layout}>
         <MyHeader />
         <Content className={styles.content}>
-          <Row justify='space-around' style={{ width: '100%' }}>
+          <Row justify="space-around" style={{ width: '100%' }}>
             <Col
               span={24}
               sm={12}
@@ -71,15 +71,15 @@ const RestorePassword = () => {
               <h1 className={styles.title}>Cambiar contraseña</h1>
               <Form
                 {...layout}
-                name='basic'
+                name="basic"
                 initialValues={{
                   remember: true,
                 }}
                 onFinish={onFinish}
               >
                 <Form.Item
-                  name='password'
-                  label='Contraseña'
+                  name="password"
+                  label="Contraseña"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
@@ -92,7 +92,7 @@ const RestorePassword = () => {
                   hasFeedback
                 >
                   <Input.Password
-                    placeholder='Contraseña'
+                    placeholder="Contraseña"
                     className={focused ? 'focused' : ''}
                     onFocus={() => {
                       setFocused(true);
@@ -104,8 +104,8 @@ const RestorePassword = () => {
                 </Form.Item>
 
                 <Form.Item
-                  name='confirm'
-                  label='Confirmar contraseña'
+                  name="confirm"
+                  label="Confirmar contraseña"
                   labelCol={{ span: 24 }}
                   wrapperCol={{ span: 24 }}
                   className={styles.item}
@@ -123,14 +123,14 @@ const RestorePassword = () => {
                         }
 
                         return Promise.reject(
-                          new Error('Las contraseñas no coinciden!'),
+                          new Error('Las contraseñas no coinciden!')
                         );
                       },
                     }),
                   ]}
                 >
                   <Input.Password
-                    placeholder='Ingrese la contraseña nuevamente'
+                    placeholder="Ingrese la contraseña nuevamente"
                     className={focused2 ? 'focused' : ''}
                     onFocus={() => {
                       setFocused2(true);
@@ -147,8 +147,8 @@ const RestorePassword = () => {
                   className={styles.btnContainer}
                 >
                   <Button
-                    type='primary'
-                    htmlType='submit'
+                    type="primary"
+                    htmlType="submit"
                     className={styles.btn}
                   >
                     Aceptar

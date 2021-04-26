@@ -1,7 +1,7 @@
 const Chats = () => {
   return (
     <div>
-      <div id='comm100-button-99d23bfd-f03f-4710-a185-0a95e15fdcb0'></div>
+      <div id="comm100-button-99d23bfd-f03f-4710-a185-0a95e15fdcb0"></div>
       <script
         dangerouslySetInnerHTML={{
           __html: `

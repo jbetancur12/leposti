@@ -87,7 +87,7 @@ const SucessBuys = () => {
           const orders = await res.json();
 
           const paidOrders = orders.orders.filter(
-            (order) => order.estado === 'paid',
+            (order) => order.estado === 'paid'
           );
           console.log(paidOrders);
           setPaidOrders(paidOrders);

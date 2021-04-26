@@ -1,13 +1,13 @@
-import styles from "../styles/New.module.css"
+import styles from '../styles/New.module.css';
 
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { Layout, Row, Col } from 'antd'
+import { Layout, Row, Col } from 'antd';
 
-import { FaTwitter, FaInstagram, FaFacebook, FaLinkedin } from 'react-icons/fa'
+import { FaTwitter, FaInstagram, FaFacebook, FaLinkedin } from 'react-icons/fa';
 
-const { Footer } = Layout
+const { Footer } = Layout;
 
 const MyFooter = () => {
   return (
@@ -30,12 +30,25 @@ const MyFooter = () => {
               <FaLinkedin />
             </div>
           </Col>
-          <Col span={24} sm={12} md={6} className={`${styles.footerCol} ${styles.footerDocs}`}>
+          <Col
+            span={24}
+            sm={12}
+            md={6}
+            className={`${styles.footerCol} ${styles.footerDocs}`}
+          >
             <h3>Documentos legales</h3>
-            <Link href="/terminos"><a >Términos y condiciones</a></Link>
-            <Link href="/politica_privacidad"><a >Politica tratamiento de datos</a></Link>
-            <Link href="/cookies"><a >Politica de Cookies</a></Link>
-            <Link href="/metodo_cobro"><a>Método de cobro</a></Link>
+            <Link href="/terminos">
+              <a>Términos y condiciones</a>
+            </Link>
+            <Link href="/politica_privacidad">
+              <a>Politica tratamiento de datos</a>
+            </Link>
+            <Link href="/cookies">
+              <a>Politica de Cookies</a>
+            </Link>
+            <Link href="/metodo_cobro">
+              <a>Método de cobro</a>
+            </Link>
           </Col>
           <Col span={24} sm={12} md={6} className={styles.footerCol}>
             <h3>Contacto</h3>
@@ -61,7 +74,7 @@ const MyFooter = () => {
         </Row>
       </Footer>
     </div>
-  )
-}
+  );
+};
 
 export default MyFooter;

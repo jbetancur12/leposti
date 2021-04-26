@@ -1,11 +1,10 @@
-import { Menu } from "antd";
-
+import { Menu } from 'antd';
 
 import {
   UserOutlined,
   LaptopOutlined,
-  NotificationOutlined
-} from "@ant-design/icons";
+  NotificationOutlined,
+} from '@ant-design/icons';
 
 const { SubMenu } = Menu;
 
@@ -13,9 +12,9 @@ const MenuDash = (props) => {
   return (
     <Menu
       mode="inline"
-      defaultSelectedKeys={["1"]}
-      defaultOpenKeys={["sub1"]}
-      style={{ height: "100%", borderRight: 0 }}
+      defaultSelectedKeys={['1']}
+      defaultOpenKeys={['sub1']}
+      style={{ height: '100%', borderRight: 0 }}
     >
       <SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
         <Menu.Item key="1" icon={<UserOutlined />}>
