@@ -101,7 +101,7 @@ const RegistrationForm = ({ data }) => {
     const resPost = await fetch(`${process.env.API_URL}/users?email=${value}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
       },
       // body data type must match "Content-Type" header
@@ -119,7 +119,7 @@ const RegistrationForm = ({ data }) => {
     const resPost = await fetch(`${process.env.API_URL}/users?docId=${value}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
       },
       // body data type must match "Content-Type" header

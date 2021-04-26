@@ -93,7 +93,7 @@ const Home = ({ products }) => {
   async function onChangeProduct(value) {
     const response = await fetch(`${API_URL}/products/${value}`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
       },
     });
@@ -198,7 +198,7 @@ const Home = ({ products }) => {
   const onFinish = async () => {
     const res = await fetch(`${API_URL}/prices`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
       },
     });
@@ -255,7 +255,7 @@ const Home = ({ products }) => {
     let orderUpdated = {};
     const userExist = await fetch(`${API_URL}/users?email=${email}`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
       },
     });
@@ -277,7 +277,7 @@ const Home = ({ products }) => {
       const resPost = await fetch(`${API_URL}/orders`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+          Authorization: `Bearer ${process.env.TOKEN}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(orderUpdated), // body data type must match "Content-Type" header
@@ -315,7 +315,7 @@ const Home = ({ products }) => {
       await fetch(`${API_URL}/orders/${referencia.id}`, {
         method: 'PUT', // *GET, POST, PUT, DELETE, etc.
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+          Authorization: `Bearer ${process.env.TOKEN}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(orderEdited), // body data type must match "Content-Type" header
@@ -710,7 +710,7 @@ const Home = ({ products }) => {
 Home.getInitialProps = async () => {
   const res = await fetch(`${API_URL}/products?_sort=id:ASC`, {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+      Authorization: `Bearer ${process.env.TOKEN}`,
       'Content-Type': 'application/json',
     },
   });
