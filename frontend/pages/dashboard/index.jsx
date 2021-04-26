@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../context/auth';
-import MyLayout from '../../components/LayoutDash';
+import MyLayout from '@components/LayoutDash';
 import ContentLoader from 'react-content-loader';
 
 const Dashboard = () => {

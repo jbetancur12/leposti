@@ -3,7 +3,7 @@ import { useAuth } from '../../context/auth';
 import fetch from 'isomorphic-fetch';
 import { Table } from 'antd';
 
-import MyLayout from '../../components/LayoutDash';
+import MyLayout from '@components/LayoutDash';
 
 //import styles from "../styles/Publications.module.css"
 
@@ -11,27 +11,27 @@ const columns = [
   {
     title: 'Código',
     dataIndex: 'codigo',
-    key: 'codigo',
+    id: 'codigo',
   },
   {
     title: 'Monto',
     dataIndex: 'monto',
-    key: 'monto',
+    id: 'monto',
   },
   {
     title: 'Referencia del Pago',
     dataIndex: 'referencia',
-    key: 'referencia',
+    id: 'referencia',
   },
   {
     title: 'Fecha de Pago',
     dataIndex: 'fechaPago',
-    key: 'fechaPago',
+    id: 'fechaPago',
   },
   {
     title: 'Fecha de Creación',
     dataIndex: 'fecha',
-    key: 'fecha',
+    id: 'fecha',
   },
 ];
 
@@ -61,7 +61,15 @@ const columns = [
 
 const PendingBuys = () => {
   const auth = useAuth();
-  const [unpaidOrders, setUnpaidOrders] = useState(null);
+  const [unpaidOrders, setUnpaidOrders] = useState([
+    {
+      codigo: '1',
+      monto: '',
+      referencia: '',
+      fechaPago: '',
+      fecha: '',
+    },
+  ]);
 
   const data =
     unpaidOrders &&
@@ -105,7 +113,11 @@ const PendingBuys = () => {
       <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>
         Compras Pendientes
       </h1>
-      <Table columns={columns} dataSource={data} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        rowKey={(record) => record.codigo}
+      />
     </MyLayout>
   );
 };

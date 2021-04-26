@@ -54,7 +54,7 @@ const tailFormItemLayout = {
   },
 };
 
-const RegistrationForm = ({ data }) => {
+const RegistrationForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [, setError] = useState({});
@@ -140,12 +140,14 @@ const RegistrationForm = ({ data }) => {
       city: values.city[1],
       departamento: values.city[0],
       username: md5(Date.now()).slice(-8),
+      orders: [Cookie.get('order')],
     };
     auth
       .registerUser(newValues)
       .then(() => {
         // set authed user in global context object
         message.success('Registro Exitoso!');
+        Cookie.remove('order');
         setLoading(false);
       })
       .catch((error) => {

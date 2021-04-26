@@ -3,7 +3,7 @@ import { useAuth } from '../../context/auth';
 import fetch from 'isomorphic-fetch';
 import { Table } from 'antd';
 
-import MyLayout from '../../components/LayoutDash';
+import MyLayout from '@components/LayoutDash';
 
 //import styles from "../styles/Publications.module.css"
 

@@ -294,6 +294,7 @@ const Home = ({ products }) => {
         setProvider('');
         setProduct('');
         const resul = await resPost.json();
+        Cookie.set('order', resul.id, { expires: 1 });
         setReferencia(resul);
         setOpenQuote(true);
       }

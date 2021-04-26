@@ -1,4 +1,4 @@
-import MyLayout from '../../components/LayoutDash';
+import MyLayout from '@components/LayoutDash';
 
 const Home = () => (
   <MyLayout>

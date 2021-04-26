@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 
-import MyLayout from '../../components/LayoutDash';
+import MyLayout from '@components/LayoutDash';
 
 //import styles from "../styles/Publications.module.css"
 
