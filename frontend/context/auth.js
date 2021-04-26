@@ -4,7 +4,7 @@ import fetch from "isomorphic-fetch";
 import Cookie from "js-cookie";
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.leposti.ml";
+const API_URL = process.env.API_URL || "https://api.leposti.ml";
 
 const AuthContext = createContext({});
 
@@ -15,10 +15,11 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     async function loadUserFromCookies() {
+
       setLoading(true)
       const token = Cookie.get("token");
       if (token) {
-        fetch('https://api.leposti.ml/users/me', {
+        fetch(`${API_URL}/users/me`, {
           headers: {
             Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
           }

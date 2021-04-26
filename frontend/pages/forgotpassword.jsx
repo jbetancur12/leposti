@@ -35,7 +35,7 @@ const ForgotPassword = () => {
     if (values.way === 'id') {
       console.log(values);
       const resGet = await fetch(
-        'https://api.leposti.ml/users?docId=' + values.cedula,
+        `${process.env.API_URL}/users?docId=${values.cedula}`,
         {
           method: 'GET', // *GET, POST, PUT, DELETE, etc.
           headers: {
@@ -57,7 +57,7 @@ const ForgotPassword = () => {
       email = { ...email, email: values.email };
     }
 
-    const resPost = await fetch('https://api.leposti.ml/auth/forgot-password', {
+    const resPost = await fetch(`${process.env.API_URL}/auth/forgot-password`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',

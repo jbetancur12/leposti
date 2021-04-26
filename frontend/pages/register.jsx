@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from "../context/auth";
+import { useAuth } from '../context/auth';
 import { useRouter } from 'next/router';
 import Cookie from 'js-cookie';
 import md5 from 'md5';
@@ -13,7 +13,7 @@ import {
   Checkbox,
   Button,
   message,
-  Spin
+  Spin,
 } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -101,9 +101,8 @@ const RegistrationForm = ({ data }) => {
     }
   }, []);
 
-
   const emailValidator = async (rule, value) => {
-    const resPost = await fetch('https://api.leposti.ml/users?email=' + value, {
+    const resPost = await fetch(`${process.env.API_URL}/users?email=${value}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
@@ -121,7 +120,7 @@ const RegistrationForm = ({ data }) => {
   };
 
   const docIdValidator = async (rule, value) => {
-    const resPost = await fetch('https://api.leposti.ml/users?docId=' + value, {
+    const resPost = await fetch(`${process.env.API_URL}/users?docId=${value}`, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
@@ -146,17 +145,20 @@ const RegistrationForm = ({ data }) => {
       departamento: values.city[0],
       username: md5(Date.now()).slice(-8),
     };
-    auth.registerUser(newValues).then((res) => {
-      // set authed user in global context object
-      message.success('Registro Exitoso!');
-      setLoading(false);
-    })
+    auth
+      .registerUser(newValues)
+      .then((res) => {
+        // set authed user in global context object
+        message.success('Registro Exitoso!');
+        setLoading(false);
+      })
       .catch((error) => {
-        message.error("Hubo un error en el registro, Porfavor intentelo de nuevo")
+        message.error(
+          'Hubo un error en el registro, Porfavor intentelo de nuevo',
+        );
         setError(error.response.data);
         setLoading(false);
       });
-
   };
   function filter(inputValue, path) {
     return path.some(
@@ -421,8 +423,8 @@ const RegistrationForm = ({ data }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error('Should accept agreement'),
-                          ),
+                              new Error('Should accept agreement'),
+                            ),
                     },
                   ]}
                 >
@@ -442,7 +444,7 @@ const RegistrationForm = ({ data }) => {
                     htmlType='submit'
                     className={styles.btn}
                   >
-                    {loading ? (<Spin indicator={antIcon} />) : "Registrarse"}
+                    {loading ? <Spin indicator={antIcon} /> : 'Registrarse'}
                   </Button>
                 </Form.Item>
               </Col>

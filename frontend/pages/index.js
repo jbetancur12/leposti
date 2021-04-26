@@ -58,8 +58,7 @@ const dateFormat = 'DD/MM/YYYY';
 
 const FormItem = Form.Item;
 
-//const urlApi = "http://localhost:1337"
-const urlApi = "https://api.leposti.ml"
+const API_URL = process.env.API_URL
 
 const formatter = new Intl.NumberFormat('es-CO', {
   style: 'currency',
@@ -114,10 +113,13 @@ const Home = ({ products }) => {
   const [form] = Form.useForm();
   const [referencia, setReferencia] = useState();
 
+
+
+
   //Functions
   async function onChangeProduct(value) {
-    console.log('Token-webhoodk-8.12', process.env.NEXT_PUBLIC_JWT_TOKEN);
-    const response = await fetch(`${urlApi}/products/${value}`, {
+
+    const response = await fetch(`${API_URL}/products/${value}`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         'Content-Type': 'application/json',
@@ -225,7 +227,7 @@ const Home = ({ products }) => {
   };
 
   const onFinish = async (values) => {
-    const res = await fetch(`${urlApi}/prices`, {
+    const res = await fetch(`${API_URL}/prices`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         'Content-Type': 'application/json',
@@ -283,7 +285,7 @@ const Home = ({ products }) => {
 
     let orderUpdated = {};
     const userExist = await fetch(
-      `${urlApi}/users?email=${email}`,
+      `${API_URL}/users?email=${email}`,
       {
         headers: {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
@@ -306,7 +308,7 @@ const Home = ({ products }) => {
     }
 
     if (!editing) {
-      const resPost = await fetch(`${urlApi}/orders`, {
+      const resPost = await fetch(`${API_URL}/orders`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
@@ -346,7 +348,7 @@ const Home = ({ products }) => {
         iva: finalPrice[0].iva,
       };
       const resPut = await fetch(
-        `${urlApi}/orders/${referencia.id}`,
+        `${API_URL}/orders/${referencia.id}`,
         {
           method: 'PUT', // *GET, POST, PUT, DELETE, etc.
           headers: {
@@ -398,7 +400,7 @@ const Home = ({ products }) => {
       test: '1',
       buyerEmail: email,
       responseUrl: '',
-      confirmationUrl: `${urlApi}/transactions`,
+      confirmationUrl: `${API_URL}/transactions`,
     };
     let form = document.createElement('form');
     form.setAttribute('method', 'post');
@@ -742,7 +744,7 @@ const Home = ({ products }) => {
 };
 
 Home.getInitialProps = async (ctx) => {
-  const res = await fetch(`${urlApi}/products?_sort=id:ASC`, {
+  const res = await fetch(`${API_URL}/products?_sort=id:ASC`, {
     headers: {
       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
       'Content-Type': 'application/json',

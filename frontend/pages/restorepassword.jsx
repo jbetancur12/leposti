@@ -35,7 +35,7 @@ const RestorePassword = () => {
       password: values.password,
       passwordConfirmation: values.confirm,
     };
-    const resPost = await fetch('https://api.leposti.ml/auth/reset-password', {
+    const resPost = await fetch(`${process.env.API_URL}/auth/reset-password`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',

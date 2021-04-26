@@ -9,7 +9,7 @@ const Contact = () => {
   const onFinishHandler = async (values) => {
     const body = { email: values.email, content: values.message };
 
-    const postMessage = await fetch('https://api.leposti.ml/messages', {
+    const postMessage = await fetch(`${process.env.API_URL}/messages`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',

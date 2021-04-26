@@ -11,12 +11,13 @@ const Question = () => {
   const [pqrs, setPqrs] = useState([]);
 
   const getPqrs = async () => {
-    const response = await fetch(`https://api.leposti.ml/pqrs`, {
+    const response = await fetch(`${process.env.API_URL}/pqrs`, {
       headers: {
         'Content-Type': 'application/json',
       },
     });
     const pqrResult = await response.json();
+    console.log(process.env.API_URL);
     setPqrs(pqrResult);
   };
 
@@ -27,11 +28,12 @@ const Question = () => {
   const PQR = () => {
     return (
       <Collapse defaultActiveKey={['1']}>
-        {pqrs.map((_pqr) => (
-          <Panel header={_pqr.question} key={_pqr.id}>
-            <p>{_pqr.answer}</p>
-          </Panel>
-        ))}
+        {pqrs &&
+          pqrs.map((_pqr) => (
+            <Panel header={_pqr.question} key={_pqr.id}>
+              <p>{_pqr.answer}</p>
+            </Panel>
+          ))}
       </Collapse>
     );
   };
