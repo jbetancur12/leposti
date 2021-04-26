@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Menu } from 'antd';
 import styles from '../styles/New.module.css';
 import { useAuth } from '../context/auth';
 
-const MyMenu = (props, { children }) => {
+const MyMenu = (props) => {
   const { isAuthenticated } = useAuth();
   return (
     <Menu className={styles.menu} mode={props.type}>

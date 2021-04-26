@@ -14,29 +14,30 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    async function loadUserFromCookies() {
-      setLoading(true);
-      const token = Cookie.get('token');
-      if (token) {
-        fetch(`${API_URL}/users/me`, {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-          },
-        }).then(async (res) => {
-          if (!res.ok) {
-            Cookie.remove('token');
-            setUser(null);
-            return null;
-          }
-          console.log('ASASS', res);
-          const user = await res.json();
-          setUser(user);
-        });
-      }
-      setLoading(false);
-    }
     loadUserFromCookies();
   }, []);
+
+  async function loadUserFromCookies() {
+    setLoading(true);
+    const token = Cookie.get('token');
+    if (token) {
+      fetch(`${API_URL}/users/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(async (res) => {
+        if (!res.ok) {
+          Cookie.remove('token');
+          setUser(null);
+          return null;
+        }
+        const user = await res.json();
+        console.log("token", user)
+        setUser(user);
+      });
+    }
+    setLoading(false);
+  }
 
   const login = (identifier, password) => {
     //prevent function from being ran on the server
@@ -50,7 +51,6 @@ export const AuthProvider = ({ children }) => {
         .then((res) => {
           //set token response from Strapi for server validation
           Cookie.set('token', res.data.jwt);
-          console.log('UUUSER', res.data);
           setUser(res.data.user);
           //resolve the promise to set loading to false in SignUp form
           resolve(res);
@@ -125,10 +125,11 @@ export const useAuth = () => useContext(AuthContext);
 //Higher Order Component to wrap our pages and logout simultaneously logged in tabs
 // THIS IS NOT USED in the tutorial, only provided if you wanted to implement
 export const withAuthSync = (Component) => {
+  const router = useRouter()
   const Wrapper = (props) => {
     const syncLogout = (event) => {
       if (event.key === 'logout') {
-        Router.push('/login');
+        router.push('/login');
       }
     };
 

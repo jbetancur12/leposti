@@ -3,7 +3,7 @@ import styles from '../styles/New.module.css';
 import { useState } from 'react';
 import { FaBars } from 'react-icons/fa';
 import Image from 'next/image';
-import { Layout, Button, Drawer, Menu } from 'antd';
+import { Layout, Button, Drawer } from 'antd';
 
 import MyMenu from './MyMenu';
 

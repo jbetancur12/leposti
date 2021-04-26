@@ -9,7 +9,7 @@ import {
   Col,
   message,
 } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 
 import styles from '../styles/Login.module.css';
 
@@ -33,7 +33,6 @@ const ForgotPassword = () => {
   const onFinish = async (values) => {
     let email = { email: '' };
     if (values.way === 'id') {
-      console.log(values);
       const resGet = await fetch(
         `${process.env.API_URL}/users?docId=${values.cedula}`,
         {
@@ -67,7 +66,7 @@ const ForgotPassword = () => {
     });
 
     if (resPost.ok) {
-      message.success('Email enviado a: ' + email.email);
+      message.success(`Email enviado a: ${email.email}`);
       router.push('/');
     } else {
       message.error('No se encontro el email');

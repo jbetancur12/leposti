@@ -65,15 +65,13 @@ const PendingBuys = () => {
 
   const data =
     unpaidOrders &&
-    unpaidOrders.map((unpaidOrder) => {
-      return {
-        codigo: unpaidOrder.id,
-        monto: unpaidOrder.total,
-        referencia: unpaidOrder.referencia,
-        fechaPago: unpaidOrder.fechaPublicacion,
-        fecha: '22/03/2021',
-      };
-    });
+    unpaidOrders.map((unpaidOrder) => ({
+      codigo: unpaidOrder.id,
+      monto: unpaidOrder.total,
+      referencia: unpaidOrder.referencia,
+      fechaPago: unpaidOrder.fechaPublicacion,
+      fecha: '22/03/2021',
+    }));
 
   useEffect(() => {
     if (auth.isAuthenticated) {

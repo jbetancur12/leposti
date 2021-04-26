@@ -1,5 +1,4 @@
-const Chats = () => {
-  return (
+const Chats = () => (
     <div>
       <div id='comm100-button-99d23bfd-f03f-4710-a185-0a95e15fdcb0'></div>
       <script
@@ -10,6 +9,5 @@ const Chats = () => {
       ></script>
     </div>
   );
-};
 
 export default Chats;

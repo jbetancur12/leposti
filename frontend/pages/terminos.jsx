@@ -970,7 +970,7 @@ export default function terminos() {
           fotos, imágenes, contenidos en general, su organización y
           www.leposti.com, www.leposti.com.co y www.leposti.co compilación,
           códigos fuente, software, entre otros, y cualquier otra información
-          contenida en el Sitio (el "Contenido" o "Contenidos") es de propiedad
+          contenida en el Sitio (el ”Contenido” o ”Contenido”) es de propiedad
           de PRETORI S.A.S y se encuentra protegido por las normas de propiedad
           intelectual y por los tratados internacionales vigentes en Colombia en
           esta materia; así, El CLIENTE comprende y acepta que el Contenido es
@@ -1439,7 +1439,7 @@ export default function terminos() {
         <p styles={{ textAlign: 'justify' }}>
           En este acto y por el presente, el CLIENTE reconoce haber leído por
           vía electrónica, y comprendido, el contenido íntegro del Contrato de
-          Uso del Sitio, y que al presionar el botón de "Acepto" incluido abajo,
+          Uso del Sitio, y que al presionar el botón de “Acepto” incluido abajo,
           acepta expresa, inequívoca e irrevocablemente el Contrato de Uso del
           Sitio. El documento electrónico en que se formalice el presente
           Contrato será archivado en la base de datos de PRETORI S.A.S. En caso

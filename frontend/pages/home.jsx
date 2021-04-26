@@ -2,8 +2,7 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 
 const { Header, Content, Footer } = Layout;
 
-const HomePage = () => {
-  return (
+const HomePage = () => (
     <Layout className='layout'>
       <Header>
         <div className='logo' />
@@ -26,6 +25,5 @@ const HomePage = () => {
       </Footer>
     </Layout>
   );
-};
 
 export default HomePage;

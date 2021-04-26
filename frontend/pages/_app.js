@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 
 import Head from 'next/head';
-import { useAuth } from '../context/auth';
-import { AuthProvider } from '../context/auth';
+import { useAuth, AuthProvider } from '../context/auth';
 import '../styles/globals.css';
 import 'antd/dist/antd.css';
 import 'react-quill/dist/quill.snow.css';
@@ -17,7 +16,6 @@ function MyApp({ Component, pageProps }) {
     }
   }, [isLoading, isAuthenticated, token]);
 
-  console.log(useAuth());
   return (
     <>
       {Component.requiresAuth && (

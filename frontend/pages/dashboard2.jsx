@@ -1,7 +1,5 @@
 import AsideDash from '../components/Aside';
 
-const Dashboard = () => {
-  return <AsideDash />;
-};
+const Dashboard = () => <AsideDash />;
 
 export default Dashboard;

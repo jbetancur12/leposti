@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/auth';
-import { useRouter } from 'next/router';
 import Cookie from 'js-cookie';
 import md5 from 'md5';
 import {
@@ -56,10 +55,9 @@ const tailFormItemLayout = {
 };
 
 const RegistrationForm = ({ data }) => {
-  const router = useRouter();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({});
+  const [, setError] = useState({});
   const auth = useAuth();
   const [cities, setCities] = useState(null);
 
@@ -72,12 +70,10 @@ const RegistrationForm = ({ data }) => {
     const resCities = await res.json();
 
     const returne = resCities.map((citie) => {
-      const ccc = citie.ciudades.map((cc) => {
-        return {
-          label: cc,
-          value: cc,
-        };
-      });
+      const ccc = citie.ciudades.map((cc) => ({
+        label: cc,
+        value: cc,
+      }));
       const temp = {
         id: citie.id,
         value: citie.departamento,
@@ -147,7 +143,7 @@ const RegistrationForm = ({ data }) => {
     };
     auth
       .registerUser(newValues)
-      .then((res) => {
+      .then(() => {
         // set authed user in global context object
         message.success('Registro Exitoso!');
         setLoading(false);
@@ -160,12 +156,12 @@ const RegistrationForm = ({ data }) => {
         setLoading(false);
       });
   };
-  function filter(inputValue, path) {
-    return path.some(
-      (option) =>
-        option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1,
-    );
-  }
+  // function filter(inputValue, path) {
+  //   return path.some(
+  //     (option) =>
+  //       option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1,
+  //   );
+  // }
 
   const prefixSelector = (
     <Form.Item name='prefix' noStyle>
@@ -423,8 +419,8 @@ const RegistrationForm = ({ data }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error('Should accept agreement'),
-                            ),
+                            new Error('Should accept agreement'),
+                          ),
                     },
                   ]}
                 >

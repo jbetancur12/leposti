@@ -8,6 +8,11 @@
         "jsx": true
     }
   },
+    "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "env":{
     "browser": true,
     "node": true,
@@ -16,6 +21,9 @@
   },
   "plugins": [],
   "rules": {
+    "react/react-in-jsx-scope": "off",
+    // allow jsx syntax in js files (for next.js project)
+   "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], 
     "react/prop-types": [0],
     "no-extra-semi": "error",
     "no-console": "error",

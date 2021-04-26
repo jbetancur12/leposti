@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
   Form,
@@ -18,17 +18,10 @@ import MyFooter from '../components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
 import { useAuth } from '../context/auth';
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
 
 const NormalLoginForm = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [, setError] = useState(false);
   const router = useRouter();
   // const appContext = useContext(AppContext);
   const auth = useAuth();
@@ -45,7 +38,7 @@ const NormalLoginForm = () => {
     setLoading(true);
     auth
       .login(values.email, values.password)
-      .then((res) => {
+      .then(() => {
         message.success('Ingreso Exitoso!');
         setLoading(false);
         router.push(router.query.next || '/');
@@ -53,7 +46,6 @@ const NormalLoginForm = () => {
         //appContext.setUserLoged(res.data.user);
       })
       .catch((error) => {
-        console.log(error);
         message.error('Email y/o contraseña invalidos');
         setError(error.response.data);
         setLoading(false);

@@ -1,7 +1,6 @@
 import styles from '../styles/New.module.css';
 
-const Section = (props) => {
-  return (
+const Section = (props) => (
     <div className={styles.section}>
       <h2 className={styles.title}>
         <span className={styles.fw300}>{props?.title}</span>{' '}
@@ -10,6 +9,5 @@ const Section = (props) => {
       <div>{props.children}</div>
     </div>
   );
-};
 
 export default Section;

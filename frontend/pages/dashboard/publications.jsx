@@ -134,8 +134,7 @@ const data = [
   },
 ];
 
-const Home = () => {
-  return (
+const Home = () => (
     <MyLayout>
       <style>
         {
@@ -160,6 +159,5 @@ const Home = () => {
       <Table columns={columns} dataSource={data} />
     </MyLayout>
   );
-};
 
 export default Home;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/auth';
 import fetch from 'isomorphic-fetch';
-import { useRouter } from 'next/router';
 import { Table } from 'antd';
 
 import MyLayout from '../../components/LayoutDash';
@@ -66,15 +65,13 @@ const SucessBuys = () => {
 
   const data =
     paidOrders &&
-    paidOrders.map((paidOrder) => {
-      return {
-        codigo: paidOrder.id,
-        monto: paidOrder.total,
-        referencia: paidOrder.referencia,
-        fechaPago: paidOrder.fechaPublicacion,
-        fecha: '22/03/2021',
-      };
-    });
+    paidOrders.map((paidOrder) => ({
+      codigo: paidOrder.id,
+      monto: paidOrder.total,
+      referencia: paidOrder.referencia,
+      fechaPago: paidOrder.fechaPublicacion,
+      fecha: '22/03/2021',
+    }));
 
   useEffect(() => {
     if (auth.isAuthenticated) {
@@ -89,7 +86,6 @@ const SucessBuys = () => {
           const paidOrders = orders.orders.filter(
             (order) => order.estado === 'paid',
           );
-          console.log(paidOrders);
           setPaidOrders(paidOrders);
         }
       });

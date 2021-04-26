@@ -3,8 +3,7 @@ import Image from 'next/image';
 import Title from './Title';
 import { Row, Col } from 'antd';
 
-const About = () => {
-  return (
+const About = () => (
     <div className={styles.container} id='about'>
       <Title title='Quiénes' titleW='somos' />
       <div className={styles.content}>
@@ -45,6 +44,5 @@ const About = () => {
       </div>
     </div>
   );
-};
 
 export default About;

@@ -7,3 +7,4 @@ config
 resources
 package-lock.json
 .next
+README.md

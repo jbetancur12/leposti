@@ -17,7 +17,6 @@ const Question = () => {
       },
     });
     const pqrResult = await response.json();
-    console.log(process.env.API_URL);
     setPqrs(pqrResult);
   };
 
@@ -25,18 +24,16 @@ const Question = () => {
     getPqrs();
   }, []);
 
-  const PQR = () => {
-    return (
-      <Collapse defaultActiveKey={['1']}>
-        {pqrs &&
-          pqrs.map((_pqr) => (
-            <Panel header={_pqr.question} key={_pqr.id}>
-              <p>{_pqr.answer}</p>
-            </Panel>
-          ))}
-      </Collapse>
-    );
-  };
+  const PQR = () => (
+    <Collapse bordered={false} defaultActiveKey={['1']}>
+      {pqrs &&
+        pqrs.map((_pqr) => (
+          <Panel header={_pqr.question} key={_pqr.id}>
+            <p>{_pqr.answer}</p>
+          </Panel>
+        ))}
+    </Collapse>
+  );
 
   return (
     <div className={styles.container} id='questions'>

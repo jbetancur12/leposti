@@ -2,8 +2,7 @@ import { Card } from 'antd';
 
 const { Meta } = Card;
 
-const Product = (props) => {
-  return (
+const Product = (props) => (
     <Card
       hoverable
       style={{ height: '100%', margin: '0 .5rem' }}
@@ -12,6 +11,5 @@ const Product = (props) => {
       <Meta title={props?.title} description={props?.text} />
     </Card>
   );
-};
 
 export default Product;

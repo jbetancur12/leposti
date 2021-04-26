@@ -23,11 +23,13 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    render: (text, record) => (
-      <Space size='middle'>
-        <a>Eliminar</a>
-      </Space>
-    ),
+    render: function eliminar() {
+      return (
+        <Space size='middle'>
+          <a>Eliminar</a>
+        </Space>
+      )
+    },
   },
 ];
 
@@ -49,7 +51,7 @@ const data = [
   },
 ];
 
-const Home = () => {
+const Carrito = () => {
   const { confirm } = Modal;
 
   const showConfirm = () => {
@@ -58,10 +60,10 @@ const Home = () => {
       okText: 'Si',
       cancelText: 'No',
       onOk() {
-        console.log('Si');
+        // console.log('Si');
       },
       onCancel() {
-        console.log('No');
+        // console.log('No');
       },
     });
   };
@@ -92,7 +94,7 @@ const Home = () => {
   );
 };
 
-Home.requiresAuth = true;
-Home.redirectUnauthenticated = '/login';
+Carrito.requiresAuth = true;
+Carrito.redirectUnauthenticated = '/login';
 
-export default Home;
+export default Carrito;

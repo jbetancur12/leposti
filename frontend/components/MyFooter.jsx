@@ -9,8 +9,7 @@ import { FaTwitter, FaInstagram, FaFacebook, FaLinkedin } from 'react-icons/fa';
 
 const { Footer } = Layout;
 
-const MyFooter = () => {
-  return (
+const MyFooter = () => (
     <div>
       <Footer className={styles.footerContainer}>
         <Row className={styles.footer}>
@@ -75,6 +74,5 @@ const MyFooter = () => {
       </Footer>
     </div>
   );
-};
 
 export default MyFooter;

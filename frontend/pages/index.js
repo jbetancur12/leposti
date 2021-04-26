@@ -1,10 +1,6 @@
 import {
   Layout,
-  Menu,
-  Breadcrumb,
   Carousel,
-  Row,
-  Col,
   Select,
   Form,
   DatePicker,
@@ -13,11 +9,10 @@ import {
   Button,
   Input,
   Modal,
-  Drawer,
   Divider,
+  BackTop
 } from 'antd';
-import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
 import Cookie from 'js-cookie';
@@ -29,29 +24,14 @@ import locale from 'antd/lib/locale/es_ES';
 import md5 from 'md5';
 import styles from '../styles/New.module.css';
 
-import Section from '../components/Section';
-import Product from '../components/Product';
-import MyMenu from '../components/MyMenu';
 import About from '../components/About';
 import Contact from '../components/Contact';
 import Question from '../components/Question';
-import UpBtn from '../components/UpBtn';
 import MyHeader from '../components/MyHeader';
 import MyFooter from '../components/MyFooter';
 import Chats from '../components/Chats';
 
-import {
-  FaTwitter,
-  FaInstagram,
-  FaFacebook,
-  FaLinkedin,
-  FaBars,
-  FaAngleUp,
-} from 'react-icons/fa';
-
-import { useState } from 'react';
-
-const { Header, Content, Footer } = Layout;
+const { Content } = Layout;
 
 const { Option } = Select;
 const dateFormat = 'DD/MM/YYYY';
@@ -71,13 +51,13 @@ const formatter = new Intl.NumberFormat('es-CO', {
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   ssr: false,
-  loading: () => <p>Loading ...</p>,
+  loading: function loading() { return <p>Loading ...</p> },
 });
 
 const Responsive = dynamic(import('../components/Responsive'), { ssr: false });
 const getColombianHolidays = colombianHolidays().map((colombianHoliday) => {
-  let splited = [...colombianHoliday.celebrationDate.split('-')];
-  let formated = `${splited[2]}/${splited[1]}/${splited[0]}`;
+  const splited = [...colombianHoliday.celebrationDate.split('-')];
+  const formated = `${splited[2]}/${splited[1]}/${splited[0]}`;
   return formated;
 });
 
@@ -93,23 +73,19 @@ const Home = ({ products }) => {
   const myRef = React.useRef();
   const [product, setProduct] = useState('');
   const [provider, setProvider] = useState('');
-  const [open, setOpen] = useState(false);
-  const [openProviders, setOpenProviders] = useState(false);
   const [productProvider, setProductProvider] = useState([]);
   const [providers, setProviders] = useState([]);
   const [valueDate, setValueDate] = useState('');
   const [readOnly, setReadOnly] = useState(true);
   const [valueEditor, setValueEditor] = useState('');
   const [valueEditorText, setValueEditorText] = useState('');
-  const [editorDesktop, setEditorDesktop] = useState('');
-  const [terms, setTerms] = useState(false);
   const [dayWeek, setDayWeek] = useState('lunes');
   const [email, setEmail] = useState('');
   const [openQuote, setOpenQuote] = useState(false);
   const [editing, setEditing] = useState(false);
   const [orderReady, setOrder] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [quotation, setQuotation] = useState([]);
+  const [, setQuotation] = useState([]);
   const [form] = Form.useForm();
   const [referencia, setReferencia] = useState();
 
@@ -148,7 +124,6 @@ const Home = ({ products }) => {
 
   function onChangeProvider(value) {
     setProvider(value);
-    console.log('Vlauye', value);
     const test = { ...productProvider, provider: value };
     setProductProvider(test);
     setValueDate('');
@@ -156,7 +131,6 @@ const Home = ({ products }) => {
 
   function onChangeDate(date, dateString) {
     setReadOnly(false);
-    const isHoliday = getColombianHolidays.includes(dateString);
     const dayOfWeek = {
       0: 'domingo',
       1: 'lunes',
@@ -168,13 +142,12 @@ const Home = ({ products }) => {
     };
     setDayWeek(dayOfWeek[moment(date).day()]);
     setProductProvider({ ...productProvider, fecha: dateString });
-    console.log('DAte', date);
     setValueDate(date);
   }
 
   function disabledDate(current) {
     //let date = '2021-05-14 12:02';
-    let date = new Date();
+    const date = new Date();
 
     const hoursDiff = moment(date)
       .startOf('day')
@@ -222,7 +195,7 @@ const Home = ({ products }) => {
     setEmail(event.target.value);
   };
 
-  const onFinish = async (values) => {
+  const onFinish = async () => {
     const res = await fetch(`${API_URL}/prices`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
@@ -250,7 +223,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-          finalPrice[0].precio
+        finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -288,7 +261,7 @@ const Home = ({ products }) => {
     });
 
     if (userExist.ok) {
-      let userExistJson = await userExist.json();
+      const userExistJson = await userExist.json();
       let userBuyer = '';
       if (userExistJson.length > 0) {
         userBuyer = userExistJson[0].id;
@@ -320,7 +293,6 @@ const Home = ({ products }) => {
         setProduct('');
         const resul = await resPost.json();
         setReferencia(resul);
-        console.log('Posteado', order);
         setOpenQuote(true);
       }
     } else {
@@ -340,7 +312,7 @@ const Home = ({ products }) => {
         sePublico: false,
         iva: finalPrice[0].iva,
       };
-      const resPut = await fetch(`${API_URL}/orders/${referencia.id}`, {
+      await fetch(`${API_URL}/orders/${referencia.id}`, {
         method: 'PUT', // *GET, POST, PUT, DELETE, etc.
         headers: {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
@@ -360,15 +332,11 @@ const Home = ({ products }) => {
 
   function openWindowWithPostRequest(order) {
     const { iva } = order;
-    console.log('==>', order.total, iva);
     const referenceCode = order.referencia;
-    let winName = 'MyWindow';
-    let windowoption =
-      'resizable=yes,height=600,width=800,location=0,menubar=0,scrollbars=1';
+    const winName = 'MyWindow';
     const provide = providers.providers.find(
       (pro) => pro.id === productProvider.provider,
     );
-    const withEjemplar = order.ejemplar ? 'con ' : 'sin ';
     const withoutIva =
       iva > 0 ? order.total - order.total * (iva / 100) : order.total;
     const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
@@ -377,7 +345,7 @@ const Home = ({ products }) => {
       `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
     );
 
-    let params = {
+    const params = {
       accountId: '512321',
       merchantId: '508029',
       description: `${providers.nombre} - ${provide.nombre} - ${order.fechaPublicacion}`,
@@ -392,16 +360,16 @@ const Home = ({ products }) => {
       responseUrl: '',
       confirmationUrl: `${API_URL}/responses`,
     };
-    let form = document.createElement('form');
+    const form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute(
       'action',
       'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/',
     );
     form.setAttribute('target', winName);
-    for (let i in params) {
+    for (const i in params) {
       if (params.hasOwnProperty(i)) {
-        let input = document.createElement('input');
+        const input = document.createElement('input');
         input.type = 'hidden';
         input.name = i;
         input.value = params[i];
@@ -501,26 +469,23 @@ const Home = ({ products }) => {
     //setProductProvider({ ...productProvider, fecha: referencia.fechaPublicacion });
   }, []);
 
-  const optionsProducts = products.map((product) => {
-    return (
-      <Option value={product.id} key={product.id}>
-        {product.nombre}
-      </Option>
-    );
-  });
+  const optionsProducts = products.map((product) => (
+    <Option value={product.id} key={product.id}>
+      {product.nombre}
+    </Option>
+  ));
 
   const optionsProviders =
     providers.providers &&
-    providers.providers.map((provider) => {
-      return (
-        <Option value={provider.id} key={provider.id}>
-          {provider.nombre}
-        </Option>
-      );
-    });
+    providers.providers.map((provider) => (
+      <Option value={provider.id} key={provider.id}>
+        {provider.nombre}
+      </Option>
+    ));
 
   return (
     <Layout className={styles.layout}>
+      <BackTop />
       <MyHeader />
       <Content className={styles.main}>
         <Carousel autoplay>
@@ -612,14 +577,14 @@ const Home = ({ products }) => {
                   wrapperCol={{ span: 24 }}
                   rules={[
                     {
-                      validator: (_, value) =>
+                      validator: () =>
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
@@ -705,10 +670,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
@@ -742,7 +707,7 @@ const Home = ({ products }) => {
   );
 };
 
-Home.getInitialProps = async (ctx) => {
+Home.getInitialProps = async () => {
   const res = await fetch(`${API_URL}/products?_sort=id:ASC`, {
     headers: {
       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
