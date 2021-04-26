@@ -99,6 +99,7 @@ export const AuthProvider = ({ children }) => {
     // sync logout between multiple windows
     window.localStorage.setItem('logout', Date.now());
     //redirect to the home page
+    setUser(null)
     router.push(redirectLocation || '/');
   };
 

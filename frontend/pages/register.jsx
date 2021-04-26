@@ -89,7 +89,8 @@ const RegistrationForm = ({ data }) => {
   React.useEffect(() => {
     getCities();
 
-    if (data.email) {
+    if (Cookie.get('email')) {
+      console.log("COOKIE EMAIL");
       form.setFieldsValue({
         email: data.email,
       });
@@ -419,8 +420,8 @@ const RegistrationForm = ({ data }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error('Should accept agreement'),
-                            ),
+                            new Error('Should accept agreement'),
+                          ),
                     },
                   ]}
                 >
