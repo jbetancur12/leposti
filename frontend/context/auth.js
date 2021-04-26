@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }) => {
             return null
           }
           const user = await res.json();
+          console.log("ASASS", user);
           setUser(user)
         })
       }
@@ -49,6 +50,7 @@ export const AuthProvider = ({ children }) => {
         .then((res) => {
           //set token response from Strapi for server validation
           Cookie.set("token", res.data.jwt);
+          console.log("UUUSER", res.data);
           setUser(res.data.user)
           //resolve the promise to set loading to false in SignUp form
           resolve(res);
@@ -81,11 +83,11 @@ export const AuthProvider = ({ children }) => {
         .then((res) => {
           //set token response from Strapi for server validation
           Cookie.set("token", res.data.jwt);
-
+          setUser(res.data.user)
           //resolve the promise to set loading to false in SignUp form
           resolve(res);
           //redirect back to home page for restaurance selection
-          router.push("/");
+          router.push("/dashboard");
         })
         .catch((error) => {
           //reject the promise and pass the error object back to the form

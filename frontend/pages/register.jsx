@@ -1,9 +1,7 @@
-import React, { useState, useContext } from 'react';
-import { registerUser } from "../context/auth";
-import AppContext from "../context/AppContext";
+import React, { useState } from 'react';
+import { useAuth } from "../context/auth";
 import { useRouter } from 'next/router';
-import { parseCookies } from '../helpers/';
-import { useCookies } from 'react-cookie';
+import Cookie from 'js-cookie';
 import md5 from 'md5';
 import {
   Form,
@@ -62,9 +60,8 @@ const RegistrationForm = ({ data }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
-  const appContext = useContext(AppContext);
+  const auth = useAuth();
   const [cities, setCities] = useState(null);
-  const [cookies, setCookie, removeCookie] = useCookies(['email']);
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -100,7 +97,7 @@ const RegistrationForm = ({ data }) => {
       form.setFieldsValue({
         email: data.email,
       });
-      removeCookie('email');
+      Cookie.remove('email');
     }
   }, []);
 
@@ -149,10 +146,9 @@ const RegistrationForm = ({ data }) => {
       departamento: values.city[0],
       username: md5(Date.now()).slice(-8),
     };
-    registerUser(newValues).then((res) => {
+    auth.registerUser(newValues).then((res) => {
       // set authed user in global context object
-      message.success("Registro Exitoso!!")
-      appContext.setUserLoged(res.data.user);
+      message.success('Registro Exitoso!');
       setLoading(false);
     })
       .catch((error) => {
@@ -461,17 +457,17 @@ const RegistrationForm = ({ data }) => {
 
 export default RegistrationForm;
 
-RegistrationForm.getInitialProps = async ({ req, res }) => {
-  const data = parseCookies(req);
+// RegistrationForm.getInitialProps = async ({ req, res }) => {
+//   const data = parseCookies(req);
 
-  if (res) {
-    if (Object.keys(data).length === 0 && data.constructor === Object) {
-      res.writeHead(301, { Location: '/' });
-      res.end();
-    }
-  }
+//   if (res) {
+//     if (Object.keys(data).length === 0 && data.constructor === Object) {
+//       res.writeHead(301, { Location: '/' });
+//       res.end();
+//     }
+//   }
 
-  return {
-    data: data && data,
-  };
-};
+//   return {
+//     data: data && data,
+//   };
+// };

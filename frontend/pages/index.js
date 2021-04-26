@@ -20,7 +20,7 @@ import Image from 'next/image';
 import React from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
-import { useCookies } from 'react-cookie';
+import Cookie from 'js-cookie';
 
 import Link from 'next/link';
 import colombianHolidays from 'colombian-holidays';
@@ -112,7 +112,6 @@ const Home = ({ products }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [quotation, setQuotation] = useState([]);
   const [form] = Form.useForm();
-  const [cookie, setCookie] = useCookies(['email']);
   const [referencia, setReferencia] = useState();
 
   //Functions
@@ -446,15 +445,11 @@ const Home = ({ products }) => {
     if (orderReady.user.id > 0) {
       button = <Button type="primary" onClick={onClickBuy}>Comprar</Button>;
     } else {
-      setCookie('email', email);
+      Cookie.set('email', email);
       button = (
         <div>
-          <p>
-            El correo electronico no se encuntra registrado, por favor
-            registrate para continuar con la compra
-          </p>
           <Link href='/register'>
-            <a>Registrate</a>
+            <Button>Registrate</Button>
           </Link>
         </div>
       );
@@ -487,6 +482,10 @@ const Home = ({ products }) => {
             <span style={{ fontSize: "12px" }}><em>(Iva Incluido)</em></span>
           </div>
         </div>
+        {!orderReady.user.id > 0 ? (<p style={{ fontSize: "10px", fontStyle: "italic" }}>
+          El correo electronico no se encuntra registrado, por favor
+          registrate para continuar con la compra
+        </p>) : null}
         <div className={styles.buttonsQuote}>
           {button}
           <Button onClick={onClickEditar}>Editar</Button>
