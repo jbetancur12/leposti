@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import AppContext from '../../context/AppContext';
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../../context/auth';
 import fetch from 'isomorphic-fetch';
-import { useRouter } from 'next/router';
 import { Table } from 'antd';
 
 import MyLayout from '../../components/LayoutDash';
@@ -61,7 +60,7 @@ const columns = [
 // ]
 
 const PendingBuys = () => {
-  const appContext = useContext(AppContext);
+  const auth = useAuth();
   const [unpaidOrders, setUnpaidOrders] = useState(null);
 
   const data =
@@ -77,8 +76,8 @@ const PendingBuys = () => {
     });
 
   useEffect(() => {
-    if (appContext.isAuthenticated) {
-      fetch(`${process.env.API_URL}/users/${appContext.user.id}`, {
+    if (auth.isAuthenticated) {
+      fetch(`${process.env.API_URL}/users/${auth.user.id}`, {
         headers: {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
         },
@@ -93,7 +92,7 @@ const PendingBuys = () => {
         }
       });
     }
-  }, [appContext.isAuthenticated]);
+  }, [auth.isAuthenticated]);
   return (
     <MyLayout>
       <style>

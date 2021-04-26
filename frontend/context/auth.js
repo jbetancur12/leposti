@@ -29,8 +29,8 @@ export const AuthProvider = ({ children }) => {
             setUser(null)
             return null
           }
+          console.log("ASASS", res);
           const user = await res.json();
-          console.log("ASASS", user);
           setUser(user)
         })
       }

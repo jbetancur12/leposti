@@ -19,6 +19,7 @@ function MyApp({ Component, pageProps }) {
     }
   }, [isLoading, isAuthenticated, token]);
 
+  console.log(useAuth());
   return (
     <>
       {Component.requiresAuth && (

@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
-import { useAuth, ProtectRoute } from "../../context/auth";
+import React from 'react'
+import { useAuth } from "../../context/auth";
 import MyLayout from "../../components/LayoutDash"
 import ContentLoader from "react-content-loader";
-import { Skeleton } from 'antd';
 
 const Dashboard = () => {
   const { isAuthenticated } = useAuth();
