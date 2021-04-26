@@ -1,12 +1,4 @@
-import {
-  Form,
-  Input,
-  Button,
-  message,
-  Layout,
-  Row,
-  Col,
-} from 'antd';
+import { Form, Input, Button, message, Layout, Row, Col } from 'antd';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 

@@ -28,7 +28,7 @@ const columns = [
         <Space size='middle'>
           <a>Eliminar</a>
         </Space>
-      )
+      );
     },
   },
 ];

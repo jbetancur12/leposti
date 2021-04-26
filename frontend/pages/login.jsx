@@ -18,7 +18,6 @@ import MyFooter from '../components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
 import { useAuth } from '../context/auth';
 
-
 const NormalLoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [, setError] = useState(false);

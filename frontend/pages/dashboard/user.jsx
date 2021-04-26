@@ -5,7 +5,7 @@ const Home = () => (
   <MyLayout>
     <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>
       Perfil de Usuario
-      </h1>
+    </h1>
   </MyLayout>
 );
 

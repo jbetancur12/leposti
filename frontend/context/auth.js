@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
           return null;
         }
         const user = await res.json();
-        console.log("token", user)
+        console.log('token', user);
         setUser(user);
       });
     }
@@ -125,7 +125,7 @@ export const useAuth = () => useContext(AuthContext);
 //Higher Order Component to wrap our pages and logout simultaneously logged in tabs
 // THIS IS NOT USED in the tutorial, only provided if you wanted to implement
 export const withAuthSync = (Component) => {
-  const router = useRouter()
+  const router = useRouter();
   const Wrapper = (props) => {
     const syncLogout = (event) => {
       if (event.key === 'logout') {

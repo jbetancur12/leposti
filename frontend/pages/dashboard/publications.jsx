@@ -135,10 +135,10 @@ const data = [
 ];
 
 const Home = () => (
-    <MyLayout>
-      <style>
-        {
-          '\
+  <MyLayout>
+    <style>
+      {
+        '\
                 .ant-table-thead > tr > th:nth-child(2), .ant-table-tbody > tr > th:nth-child(2), .ant-table-thead > tr > th:nth-child(9), .ant-table-tbody > tr > th:nth-child(9) {\
                     min-width: 300px;\
                     padding: 0;\
@@ -153,11 +153,11 @@ const Home = () => (
                     width: auto !important;\
                 }\
             '
-        }
-      </style>
-      <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>Publicaciones</h1>
-      <Table columns={columns} dataSource={data} />
-    </MyLayout>
-  );
+      }
+    </style>
+    <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>Publicaciones</h1>
+    <Table columns={columns} dataSource={data} />
+  </MyLayout>
+);
 
 export default Home;

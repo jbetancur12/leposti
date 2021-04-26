@@ -10,7 +10,7 @@ import {
   Input,
   Modal,
   Divider,
-  BackTop
+  BackTop,
 } from 'antd';
 import React, { useState } from 'react';
 import moment from 'moment';
@@ -51,7 +51,9 @@ const formatter = new Intl.NumberFormat('es-CO', {
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   ssr: false,
-  loading: function loading() { return <p>Loading ...</p> },
+  loading: function loading() {
+    return <p>Loading ...</p>;
+  },
 });
 
 const Responsive = dynamic(import('../components/Responsive'), { ssr: false });
@@ -223,7 +225,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -581,10 +583,10 @@ const Home = ({ products }) => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -670,10 +672,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
