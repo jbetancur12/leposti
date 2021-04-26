@@ -400,7 +400,7 @@ const Home = ({ products }) => {
       test: '1',
       buyerEmail: email,
       responseUrl: '',
-      confirmationUrl: `${API_URL}/transactions`,
+      confirmationUrl: `${API_URL}/responses`,
     };
     let form = document.createElement('form');
     form.setAttribute('method', 'post');
