@@ -5,7 +5,6 @@ import ContentLoader from 'react-content-loader';
 
 const Dashboard = () => {
   const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated);
   return (
     <>
       {isAuthenticated ? (

@@ -32,7 +32,6 @@ export const AuthProvider = ({ children }) => {
           return null;
         }
         const user = await res.json();
-        console.log('token', user);
         setUser(user);
       });
     }
