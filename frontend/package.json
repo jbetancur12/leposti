@@ -8,7 +8,8 @@
     "start": "next start",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "eslint": "eslint --fix \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "prepare": "cd .. && husky install frontend/.husky"
+    "prepare": "cd .. && husky install frontend/.husky",
+    "test": "echo \"No test specified\""
   },
   "dependencies": {
     "antd": "^4.15.0",
