@@ -78,9 +78,9 @@ const MyLayout = ({ children }) => {
       <Layout className={styles.content}>
         <Sider
           style={{ height: '100vh' }}
-          breakpoint="lg"
-          collapsedWidth="0"
-          onBreakpoint={broken => {
+          breakpoint='lg'
+          collapsedWidth='0'
+          onBreakpoint={(broken) => {
             console.log(broken);
           }}
           onCollapse={(collapsed, type) => {
