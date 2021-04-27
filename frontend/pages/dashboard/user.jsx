@@ -1,8 +1,10 @@
 import MyLayout from '@components/LayoutDash';
 import UserProfile from '@components/UserProfile';
+import { NextSeo } from 'next-seo';
 
 const Home = () => (
   <MyLayout>
+    <NextSeo nofollow={true} noindex={true} />
     <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>
       Perfil de Usuario
     </h1>

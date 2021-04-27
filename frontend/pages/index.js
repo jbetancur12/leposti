@@ -16,6 +16,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
 import Cookie from 'js-cookie';
+import { NextSeo } from 'next-seo';
 
 import Link from 'next/link';
 import colombianHolidays from 'colombian-holidays';
@@ -225,7 +226,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-          finalPrice[0].precio
+        finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -488,6 +489,18 @@ const Home = ({ products }) => {
 
   return (
     <Layout className={styles.layout}>
+      <h1 style={{ visibility: "hidden" }}>LePosti.com</h1>
+      <NextSeo
+        title="Edictos y avisos de ley en Leposti.com"
+        description="Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura."
+        canonical="https://leposti.ml"
+        additionalLinkTags={[
+          {
+            rel: 'icon',
+            href: '/favicon.png',
+          }
+        ]}
+      />
       <BackTop />
       <MyHeader />
       <Content className={styles.main}>
@@ -584,10 +597,10 @@ const Home = ({ products }) => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
@@ -673,10 +686,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >

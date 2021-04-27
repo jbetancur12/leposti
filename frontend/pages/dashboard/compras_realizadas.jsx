@@ -3,6 +3,7 @@ import { useAuth } from '@context/auth';
 import fetch from 'isomorphic-fetch';
 import dynamic from 'next/dynamic';
 import { Table, Spin } from 'antd';
+import { NextSeo } from 'next-seo';
 
 import MyLayout from '@components/LayoutDash';
 
@@ -158,6 +159,7 @@ const SucessBuys = () => {
     <>
       {auth.isAuthenticated ? (
         <MyLayout>
+          <NextSeo nofollow={true} noindex={true}/>
           <style>
             {
               '\

@@ -4,6 +4,7 @@ import fetch from 'isomorphic-fetch';
 import { Table, Space, Tooltip, Popconfirm, message } from 'antd';
 import md5 from 'md5';
 import { DollarCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { NextSeo } from 'next-seo';
 
 import MyLayout from '@components/LayoutDash';
 
@@ -205,12 +206,13 @@ const PendingBuys = () => {
       <style>
         {
           '\
-                .ant-table-thead > tr > th, .ant-table-tbody > tr > td {\
-                    text-align: center;\
-                }\
-            '
+          .ant-table-thead > tr > th, .ant-table-tbody > tr > td {\
+            text-align: center;\
+          }\
+          '
         }
       </style>
+      <NexSeo nofollow={true} noindex={true} />
       <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>
         Compras Pendientes
       </h1>
