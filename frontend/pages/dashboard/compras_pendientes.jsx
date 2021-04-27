@@ -297,7 +297,7 @@ const PendingBuys = () => {
           '
         }
       </style>
-      <NextSeo nofollow={true} noindex={true} />
+      <NextSeo nofollow={true} noindex={true} title="Edictos y avisos de ley en Leposti.com" />
       <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>
         Compras Pendientes
       </h1>
