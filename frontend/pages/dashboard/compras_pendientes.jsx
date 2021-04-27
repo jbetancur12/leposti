@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../@context/auth';
+import { useAuth } from '@context/auth';
 import fetch from 'isomorphic-fetch';
 import { Table, Space, Tooltip, Popconfirm, message } from 'antd';
 import md5 from 'md5';

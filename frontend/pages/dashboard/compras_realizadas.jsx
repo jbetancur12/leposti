@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../@context/auth';
+import { useAuth } from '@context/auth';
 import fetch from 'isomorphic-fetch';
 import { Table } from 'antd';
 
@@ -107,7 +107,10 @@ const SucessBuys = () => {
           <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>
             Compras Realizadas
           </h1>
-          <Table columns={columns} dataSource={data} />
+          <Table expandable={{
+            expandedRowRender: record => (console.log(record)),
+            rowExpandable: record => record.name !== 'Not Expandable',
+          }} columns={columns} dataSource={data} />
         </MyLayout>
       ) : null}
     </>
