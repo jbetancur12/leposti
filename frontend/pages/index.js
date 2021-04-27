@@ -17,6 +17,7 @@ import moment from 'moment';
 import dynamic from 'next/dynamic';
 import Cookie from 'js-cookie';
 import { NextSeo, LogoJsonLd } from 'next-seo';
+import Head from 'next/head'
 
 import Link from 'next/link';
 import colombianHolidays from 'colombian-holidays';
