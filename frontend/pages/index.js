@@ -23,7 +23,6 @@ import Link from 'next/link';
 import colombianHolidays from 'colombian-holidays';
 import 'moment/locale/es-mx';
 import locale from 'antd/lib/locale/es_ES';
-import md5 from 'md5';
 import styles from '@styles/New.module.css';
 
 import About from '@components/About';
@@ -45,10 +44,6 @@ const API_URL = process.env.API_URL;
 const formatter = new Intl.NumberFormat('es-CO', {
   style: 'currency',
   currency: 'COP',
-
-  // These options are needed to round to whole numbers if that's what you want.
-  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 });
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
@@ -335,7 +330,11 @@ const Home = ({ products }) => {
     // openWindowWithPostRequest(order, finalPrice[0].iva, referenceCode);
   };
 
-  function openWindowWithPostRequest(order) {
+  async function openWindowWithPostRequest(order) {
+    const Md5 = (await import('md5')).default;
+    const signature = Md5(
+      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
+    );
     const { iva } = order;
     const referenceCode = order.referencia;
     const winName = 'MyWindow';
@@ -345,10 +344,6 @@ const Home = ({ products }) => {
     const withoutIva =
       iva > 0 ? order.total - order.total * (iva / 100) : order.total;
     const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
-
-    const signature = md5(
-      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
-    );
 
     const params = {
       accountId: '512321',
@@ -367,10 +362,7 @@ const Home = ({ products }) => {
     };
     const form = document.createElement('form');
     form.setAttribute('method', 'post');
-    form.setAttribute(
-      'action',
-      'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/',
-    );
+    form.setAttribute('action', process.env.PAYU_URL);
     form.setAttribute('target', winName);
     for (const i in params) {
       if (params.hasOwnProperty(i)) {

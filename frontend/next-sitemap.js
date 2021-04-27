@@ -7,11 +7,11 @@ module.exports = {
   exclude: ['/dashboard/*'],
   // Default transformation function
   transform: async (config, path) => ({
-      loc: path, // => this will be exported as http(s)://<config.siteUrl>/<path>
-      changefreq: config.changefreq,
-      priority: config.priority,
-      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
-    }),
+    loc: path, // => this will be exported as http(s)://<config.siteUrl>/<path>
+    changefreq: config.changefreq,
+    priority: config.priority,
+    lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
+  }),
   robotsTxtOptions: {
     policies: [
       {
