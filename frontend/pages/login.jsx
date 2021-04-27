@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import {
-  Form,
-  Input,
-  Button,
-  Layout,
-  Row,
-  message,
-  Col,
-  Spin,
-} from 'antd';
+import { Form, Input, Button, Layout, Row, message, Col, Spin } from 'antd';
 import { UserOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
 import styles from '@styles/Login.module.css';
 import MyHeader from '@components/MyHeader';

@@ -1,11 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@context/auth';
 import fetch from 'isomorphic-fetch';
-import { Table } from 'antd';
+import dynamic from 'next/dynamic';
+import { Table, Spin } from 'antd';
 
 import MyLayout from '@components/LayoutDash';
 
 //import styles from "@styles/Publications.module.css"
+
+const QuillNoSSRWrapper = dynamic(import('react-quill'), {
+  ssr: false,
+  loading: function loading() {
+    return <Spin />;
+  },
+});
+
+const config = {
+  theme: 'snow',
+  modules: {
+    toolbar: false,
+    clipboard: {},
+  },
+};
 
 const columns = [
   {
@@ -35,37 +51,16 @@ const columns = [
   },
 ];
 
-// const data = [
-//   {
-//     codigo: '981741',
-//     monto: '123000.00',
-//     referencia: '123987',
-//     fechaPago: '23/03/2021',
-//     fecha: '22/03/2021',
-//   },
-//   {
-//     codigo: '981741',
-//     monto: '123000.00',
-//     referencia: '123987',
-//     fechaPago: '23/03/2021',
-//     fecha: '22/03/2021',
-//   },
-//   {
-//     codigo: '981741',
-//     monto: '123000.00',
-//     referencia: '123987',
-//     fechaPago: '23/03/2021',
-//     fecha: '22/03/2021',
-//   }
-// ]
-
 const SucessBuys = () => {
   const auth = useAuth();
   const [paidOrders, setPaidOrders] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [providers, setProviders] = useState([]);
 
   const data =
     paidOrders &&
     paidOrders.map((paidOrder) => ({
+      key: paidOrder.id,
       codigo: paidOrder.id,
       monto: paidOrder.total,
       referencia: paidOrder.referencia,
@@ -89,8 +84,76 @@ const SucessBuys = () => {
           setPaidOrders(paidOrders);
         }
       });
+      fetch(`${process.env.API_URL}/products`, {
+        headers: {
+          Authorization: `Bearer ${process.env.TOKEN}`,
+        },
+      }).then(async (res) => {
+        if (res.ok) {
+          const _products = res.json();
+          _products.then((r) => setProducts(r));
+        }
+      });
+      fetch(`${process.env.API_URL}/providers`, {
+        headers: {
+          Authorization: `Bearer ${process.env.TOKEN}`,
+        },
+      }).then(async (res) => {
+        if (res.ok) {
+          const _providers = res.json();
+          _providers.then((r) => setProviders(r));
+        }
+      });
     }
   }, [auth.isAuthenticated]);
+
+  const infoRow = (id) => {
+    if (useAuth().user && useAuth().user.orders) {
+      const rowData = useAuth().user.orders.filter((order) => order.id === id);
+      const _product = products.filter(
+        (product) => product.id === rowData[0].product,
+      );
+      const _provider = providers.filter(
+        (provider) => provider.id === rowData[0].provider,
+      );
+      return (
+        <div>
+          <p>
+            <span>Producto:</span>
+            {_product[0].nombre}
+          </p>
+          <p>
+            <span>Medio:</span>
+            {_provider[0].nombre}
+          </p>
+          <p>
+            <span>Fecha Publicacion:</span>
+            {rowData[0].fechaPublicacion}
+          </p>
+          <p>
+            <span>Valor:</span>
+            {rowData[0].total}
+          </p>
+          <p>
+            <span>Publicado:</span>
+            {rowData[0].sePublico}
+          </p>
+          <p>
+            <span>contenido:</span>{' '}
+            <>
+              <QuillNoSSRWrapper
+                theme='snow'
+                modules={config.modules}
+                value={rowData[0].contenido}
+                readOnly={true}
+                placeholder='Contenido'
+              />
+            </>
+          </p>
+        </div>
+      );
+    }
+  };
   return (
     <>
       {auth.isAuthenticated ? (
@@ -107,10 +170,13 @@ const SucessBuys = () => {
           <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>
             Compras Realizadas
           </h1>
-          <Table expandable={{
-            expandedRowRender: record => (console.log(record)),
-            rowExpandable: record => record.name !== 'Not Expandable',
-          }} columns={columns} dataSource={data} />
+          <Table
+            expandable={{
+              expandedRowRender: (record) => infoRow(record.key),
+            }}
+            columns={columns}
+            dataSource={data}
+          />
         </MyLayout>
       ) : null}
     </>
