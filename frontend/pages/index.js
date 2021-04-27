@@ -16,7 +16,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
 import Cookie from 'js-cookie';
-import { NextSeo } from 'next-seo';
+import { NextSeo, LogoJsonLd } from 'next-seo';
 
 import Link from 'next/link';
 import colombianHolidays from 'colombian-holidays';
@@ -490,6 +490,25 @@ const Home = ({ products }) => {
   return (
     <Layout className={styles.layout}>
       <h1 style={{ visibility: "hidden" }}>LePosti.com</h1>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "http://www.schema.org",
+              "@type": "Organization",
+              "name": "LePosti.com",
+              "url": "https://leposti.com",
+              "logo": "/logoprincipalBlanco.png",
+              "description": "Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "Colombia"
+              }
+            })
+          }}
+        />
+      </Head>
       <NextSeo
         title="Edictos y avisos de ley en Leposti.com"
         description="Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura."
@@ -500,6 +519,10 @@ const Home = ({ products }) => {
             href: '/favicon.png',
           }
         ]}
+      />
+      <LogoJsonLd
+        logo="/logoprincipalBlanco"
+        url="https://www.leposti.com"
       />
       <BackTop />
       <MyHeader />
