@@ -42,7 +42,9 @@ a {
   outline: none !important;
   box-shadow: none !important;
 }
-
+span.ant-layout-sider-zero-width-trigger{
+  background: #1890ff;
+}
 .ant-back-top {
 bottom: 30%;
 }
