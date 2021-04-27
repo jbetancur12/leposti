@@ -32,7 +32,7 @@ const About = () => (
         <Col span={24} lg={12}>
           <div className={styles.imgContainer}>
             <Image
-              src='/hero_2.jpg'
+              src='/hero_2.webp'
               alt='hero 2'
               width={500}
               height={350}

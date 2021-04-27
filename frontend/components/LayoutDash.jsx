@@ -32,7 +32,7 @@ const MyLayout = ({ children }) => {
         <div className={styles.logo}>
           <a href='/' className={styles.img}>
             <Image
-              src='/logoPrincipalBlanco.png'
+              src='/logoprincipalBlanco.webp'
               alt='leposti logo'
               width={149}
               height={33}

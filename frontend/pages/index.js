@@ -500,7 +500,7 @@ const Home = ({ products }) => {
               "@type": "Organization",
               "name": "LePosti.com",
               "url": "https://leposti.com",
-              "logo": "/logoprincipalBlanco.png",
+              "logo": "/logoprincipalBlanco.webp",
               "description": "Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.",
               "address": {
                 "@type": "PostalAddress",
@@ -517,7 +517,7 @@ const Home = ({ products }) => {
         additionalLinkTags={[
           {
             rel: 'icon',
-            href: '/favicon.png',
+            href: '/favicon.webp',
           }
         ]}
       />

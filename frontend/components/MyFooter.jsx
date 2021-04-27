@@ -16,7 +16,7 @@ const MyFooter = () => (
         <Col span={24} sm={24} md={6} className={styles.footerCol}>
           <div className={`${styles.w100} ${styles.footerLogo}`}>
             <Image
-              src='/logoprincipalBlanco.png'
+              src='/logoprincipalBlanco.webp'
               alt='logo leposti'
               width={140}
               height={33}
@@ -57,7 +57,7 @@ const MyFooter = () => (
         <Col span={24} sm={24} md={6} className={styles.footerImg}>
           <div className={styles.footerSuper}>
             <Image
-              src='/logoSuperintendenciaIC.png'
+              src='/logoSuperintendenciaIC.webp'
               alt='logo industria y comercio'
               width={200}
               height={45}

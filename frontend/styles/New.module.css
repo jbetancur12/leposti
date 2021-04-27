@@ -75,7 +75,7 @@
 }
 
 .imgBanner1 {
-  background-image: url(../public/banner1.jpg);
+  background-image: url(../public/banner1.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -84,7 +84,7 @@
 }
 
 .imgBanner2 {
-  background-image: url(../public/banner2.jpg);
+  background-image: url(../public/banner2.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -93,7 +93,7 @@
 }
 
 .imgBanner3 {
-  background-image: url(../public/banner3.jpg);
+  background-image: url(../public/banner3.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

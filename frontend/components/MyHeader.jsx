@@ -24,7 +24,7 @@ const MyHeader = () => {
     <Header className={styles.header} id='header'>
       <a href='/' className={styles.img}>
         <Image
-          src='/logoprincipalBlanco.png'
+          src='/logoprincipalBlanco.webp'
           alt='Logo de Leposti'
           width={140}
           height={33}
