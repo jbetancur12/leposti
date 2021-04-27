@@ -3,6 +3,10 @@
   padding: 24px;
   background: #fff;
 }
+.ant-layout-sider-zero-width-trigger{
+ background: #1890ff;
+}
+
 #components-layout-demo-top .logo {
   float: left;
   width: 120px;
