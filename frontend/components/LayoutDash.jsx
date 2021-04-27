@@ -1,4 +1,4 @@
-import { useAuth } from '../context/auth';
+import { useAuth } from '@context/auth';
 import { Layout, Menu, Button, Popover, Tooltip, Badge, Spin } from 'antd';
 import {
   UserOutlined,
@@ -6,7 +6,7 @@ import {
   ShoppingCartOutlined,
 } from '@ant-design/icons';
 
-import styles from '../styles/LayoutDash.module.css';
+import styles from '@styles/LayoutDash.module.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -77,7 +77,7 @@ const MyLayout = ({ children }) => {
       </Header>
       <Layout className={styles.content}>
         <Sider
-          style={{ height: "100vh" }}
+          style={{ height: '100vh' }}
           width={200}
           className='site-layout-background'
         >

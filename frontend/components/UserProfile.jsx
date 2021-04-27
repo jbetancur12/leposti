@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Row, Col, Divider } from 'antd';
 import { useAuth } from '@context/auth';
-import styles from '../styles/User.module.css';
+import styles from '@styles/User.module.css';
 
 const UserProfile = () => {
   const [info, setInfo] = useState({

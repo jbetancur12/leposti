@@ -1,4 +1,4 @@
-import styles from '../styles/New.module.css';
+import styles from '@styles/New.module.css';
 
 const Title = (props) => (
   <h2 className={styles.title}>

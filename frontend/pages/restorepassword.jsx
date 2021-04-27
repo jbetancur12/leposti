@@ -2,10 +2,10 @@ import { Form, Input, Button, message, Layout, Row, Col } from 'antd';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
-import styles from '../styles/Login.module.css';
+import styles from '@styles/Login.module.css';
 
-import MyHeader from '../components/MyHeader';
-import MyFooter from '../components/MyFooter';
+import MyHeader from '@components/MyHeader';
+import MyFooter from '@components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
 
 const layout = {

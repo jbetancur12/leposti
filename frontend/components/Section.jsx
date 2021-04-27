@@ -1,4 +1,4 @@
-import styles from '../styles/New.module.css';
+import styles from '@styles/New.module.css';
 
 const Section = (props) => (
   <div className={styles.section}>

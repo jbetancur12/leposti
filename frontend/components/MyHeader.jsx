@@ -1,4 +1,4 @@
-import styles from '../styles/New.module.css';
+import styles from '@styles/New.module.css';
 
 import { useState } from 'react';
 import { FaBars } from 'react-icons/fa';

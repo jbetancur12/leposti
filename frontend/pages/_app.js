@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 
 import Head from 'next/head';
-import { useAuth, AuthProvider } from '../context/auth';
-import '../styles/globals.css';
+import { useAuth, AuthProvider } from '@context/auth';
+import '@styles/globals.css';
 import 'antd/dist/antd.css';
 import 'react-quill/dist/quill.snow.css';
 

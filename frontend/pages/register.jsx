@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/auth';
 import Cookie from 'js-cookie';
 import md5 from 'md5';
+import Link from 'next/link';
+import { useAuth } from '@context/auth';
+import MyHeader from '@components/MyHeader';
+import MyFooter from '@components/MyFooter';
+import styles from '@styles/Login.module.css';
 import {
   Form,
   Input,
@@ -15,11 +19,6 @@ import {
   Spin,
 } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-
-import MyHeader from '../components/MyHeader';
-import MyFooter from '../components/MyFooter';
-
-import styles from '../styles/Login.module.css';
 
 const { Option } = Select;
 
@@ -427,7 +426,10 @@ const RegistrationForm = () => {
                   ]}
                 >
                   <Checkbox>
-                    He leido los <a href=''>terminos y condiciones</a>
+                    He leido los{' '}
+                    <Link href='/terminos'>
+                      <a>terminos y condiciones</a>
+                    </Link>
                   </Checkbox>
                 </Form.Item>
               </Col>
@@ -456,18 +458,3 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
-
-// RegistrationForm.getInitialProps = async ({ req, res }) => {
-//   const data = parseCookies(req);
-
-//   if (res) {
-//     if (Object.keys(data).length === 0 && data.constructor === Object) {
-//       res.writeHead(301, { Location: '/' });
-//       res.end();
-//     }
-//   }
-
-//   return {
-//     data: data && data,
-//   };
-// };

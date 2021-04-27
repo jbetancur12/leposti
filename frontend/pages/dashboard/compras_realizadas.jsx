@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../../context/auth';
+import { useAuth } from '../@context/auth';
 import fetch from 'isomorphic-fetch';
 import { Table } from 'antd';
 
 import MyLayout from '@components/LayoutDash';
 
-//import styles from "../styles/Publications.module.css"
+//import styles from "@styles/Publications.module.css"
 
 const columns = [
   {

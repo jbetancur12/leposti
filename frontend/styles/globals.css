@@ -35,11 +35,16 @@ a {
 .ant-picker,
 .ant-input,
 .ant-input-number,
-.ant-input-password {
+.ant-input-password,
+.ant-form-item-control-input {
   border: none !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
   outline: none !important;
   box-shadow: none !important;
+}
+
+.ant-back-top {
+bottom: 30%;
 }
 
 .ant-select-focused > div,

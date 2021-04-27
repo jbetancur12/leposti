@@ -1,4 +1,4 @@
-import styles from '../styles/About.module.css';
+import styles from '@styles/About.module.css';
 import Image from 'next/image';
 import Title from './Title';
 import { Row, Col } from 'antd';

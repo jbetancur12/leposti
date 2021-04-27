@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../styles/Questions.module.css';
+import styles from '@styles/Questions.module.css';
 
 import Title from './Title';
 

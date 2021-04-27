@@ -1,18 +1,18 @@
-import MyHeader from '../components/MyHeader';
+import MyHeader from '@components/MyHeader';
 import { Layout } from 'antd';
-import MyFooter from '../components/MyFooter';
-import styles from '../styles/Login.module.css';
+import MyFooter from '@components/MyFooter';
+import styles from '@styles/Static.module.css';
 
 export default function Politica_privacidad() {
   return (
-    <Layout className={styles.layout}>
+    <Layout>
       <MyHeader />
-      <div id='placeholders'>
-        <h2 styles={{ textAlign: 'center' }}>
+      <div className={styles.content}>
+        <h2 className={styles.title}>
           <strong>7. USO DE COOKIES Y WEB BEACONS</strong>
         </h2>
 
-        <p styles={{ textAlign: 'justify' }}>
+        <p>
           Una cookie HTTP, que se denomina habitualmente “cookie” es un
           fragmento de texto que se envía y recibe entre el navegador web y el
           servidor al que accede. Su finalidad original es ofrecer un mecanismo
@@ -23,7 +23,7 @@ export default function Politica_privacidad() {
           mismo CLIENTE.{' '}
         </p>
 
-        <p styles={{ textAlign: 'justify' }}>
+        <p>
           Por este motivo, las Cookies se usan para diferenciar un CLIENTE de
           otro y para pasar información de una página a otra durante una sesión
           de sitio web de un único CLIENTE. Un servidor web usa las cookies para
@@ -38,7 +38,7 @@ export default function Politica_privacidad() {
           <strong>7.1 COOKIES PRETORI S.A.S. </strong>
         </p>
 
-        <p styles={{ textAlign: 'justify' }}>
+        <p>
           Cuando el CLIENTE visita la PLATAFORMA, la dirección IP usada para
           acceder al Sitio quedará almacenada junto con la fecha y hora del
           acceso. La información solamente es usada para analizar tendencias,
@@ -52,7 +52,7 @@ export default function Politica_privacidad() {
           <strong>7.2 USO DE COOKIES EN PRETORI S.A.S. </strong>
         </p>
 
-        <p styles={{ textAlign: 'justify' }}>
+        <p>
           PRETORI S.A.S podrá usar cookies cuando el CLIENTE ingrese al Sitio,
           al momento de generar una sesión. La cookie permite mantener el
           seguimiento, la navegación y la seguridad por el tiempo de uso de esta
@@ -64,7 +64,7 @@ export default function Politica_privacidad() {
           almacenando ninguna información personal del CLIENTE en la cookie.{' '}
         </p>
 
-        <p styles={{ textAlign: 'justify' }}>
+        <p>
           PRETORI S.A.S podrá usar una cookie como ID de sesión para hacer más
           fácil la navegación por la PLATAFORMA. La cookie de sesión expira
           cuando se cierra el navegador. PRETORI S.A.S podrá usar una cookie
@@ -83,7 +83,7 @@ export default function Politica_privacidad() {
           <strong>7.3 GOOGLE ANALYTICS COOKIES. </strong>
         </p>
 
-        <p styles={{ textAlign: 'justify' }}>
+        <p>
           PRETORI S.A.S usa Google como proveedor de servicios de analítica Web.
           Google usa las cookies para definir sesiones de CLIENTE, así como para
           proporcionar una serie de funciones clave en los informes de Google

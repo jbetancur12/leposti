@@ -2,7 +2,7 @@ import { Table } from 'antd';
 
 import MyLayout from '@components/LayoutDash';
 
-//import styles from "../styles/Publications.module.css"
+//import styles from "@styles/Publications.module.css"
 
 const columns = [
   {

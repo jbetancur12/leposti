@@ -11,10 +11,10 @@ import {
 } from 'antd';
 import React from 'react';
 
-import styles from '../styles/Login.module.css';
+import styles from '@styles/Login.module.css';
 
-import MyHeader from '../components/MyHeader';
-import MyFooter from '../components/MyFooter';
+import MyHeader from '@components/MyHeader';
+import MyFooter from '@components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
 import { useRouter } from 'next/router';
 

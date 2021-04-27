@@ -22,14 +22,14 @@ import colombianHolidays from 'colombian-holidays';
 import 'moment/locale/es-mx';
 import locale from 'antd/lib/locale/es_ES';
 import md5 from 'md5';
-import styles from '../styles/New.module.css';
+import styles from '@styles/New.module.css';
 
-import About from '../components/About';
-import Contact from '../components/Contact';
-import Question from '../components/Question';
-import MyHeader from '../components/MyHeader';
-import MyFooter from '../components/MyFooter';
-import Chats from '../components/Chats';
+import About from '@components/About';
+import Contact from '@components/Contact';
+import Question from '@components/Question';
+import MyHeader from '@components/MyHeader';
+import MyFooter from '@components/MyFooter';
+import Chats from '@components/Chats';
 
 const { Content } = Layout;
 
@@ -56,7 +56,7 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   },
 });
 
-const Responsive = dynamic(import('../components/Responsive'), { ssr: false });
+const Responsive = dynamic(import('@components/Responsive'), { ssr: false });
 const getColombianHolidays = colombianHolidays().map((colombianHoliday) => {
   const splited = [...colombianHoliday.celebrationDate.split('-')];
   const formated = `${splited[2]}/${splited[1]}/${splited[0]}`;

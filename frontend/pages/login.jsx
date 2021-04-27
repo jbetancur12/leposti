@@ -4,7 +4,6 @@ import {
   Form,
   Input,
   Button,
-  Checkbox,
   Layout,
   Row,
   message,
@@ -12,11 +11,11 @@ import {
   Spin,
 } from 'antd';
 import { UserOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
-import styles from '../styles/Login.module.css';
-import MyHeader from '../components/MyHeader';
-import MyFooter from '../components/MyFooter';
+import styles from '@styles/Login.module.css';
+import MyHeader from '@components/MyHeader';
+import MyFooter from '@components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
-import { useAuth } from '../context/auth';
+import { useAuth } from '@context/auth';
 
 const NormalLoginForm = () => {
   const [loading, setLoading] = useState(false);
@@ -73,6 +72,7 @@ const NormalLoginForm = () => {
               onFinish={onFinish}
             >
               <Form.Item
+                className={styles.item}
                 name='email'
                 rules={[
                   {
@@ -87,6 +87,7 @@ const NormalLoginForm = () => {
                 />
               </Form.Item>
               <Form.Item
+                className={styles.item}
                 name='password'
                 rules={[
                   {
@@ -102,12 +103,12 @@ const NormalLoginForm = () => {
                 />
               </Form.Item>
               <Form.Item>
-                <Form.Item name='remember' valuePropName='checked' noStyle>
-                  <Checkbox>Remember me</Checkbox>
-                </Form.Item>
+                {/* <Form.Item name='remember' valuePropName='checked' noStyle>
+                  <Checkbox>Recuerd</Checkbox>
+                </Form.Item> */}
 
                 <a className='login-form-forgot' href='/forgotpassword'>
-                  Forgot password
+                  Olvido Contraseña
                 </a>
               </Form.Item>
 
@@ -118,7 +119,7 @@ const NormalLoginForm = () => {
                   className='login-form-button'
                 >
                   {loading ? <Spin indicator={antIcon} /> : 'Login'}
-                </Button>
+                </Button>{' '}
                 O <a href='/register'>Registrate aca!</a>
               </Form.Item>
             </Form>
