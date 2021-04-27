@@ -1,5 +1,5 @@
 import { useAuth } from '../context/auth';
-import { Layout, Menu, Breadcrumb, Button, Popover, Tooltip } from 'antd';
+import { Layout, Menu, Button, Popover, Tooltip, Badge, Spin } from 'antd';
 import {
   UserOutlined,
   ToolOutlined,
@@ -17,6 +17,15 @@ const { Header, Content, Sider } = Layout;
 const MyLayout = ({ children }) => {
   const auth = useAuth();
 
+  let unpaidOrders = 0;
+
+  if (auth.user && auth.user.orders) {
+    const nOrders = auth.user.orders.filter(
+      (order) => order.estado === 'unpaid',
+    );
+    unpaidOrders = nOrders.length;
+  }
+
   return (
     <Layout className={styles.layout}>
       <Header className={styles.header}>
@@ -32,13 +41,19 @@ const MyLayout = ({ children }) => {
         </div>
         <div>
           <Tooltip title='Carrito'>
-            <Link href='/dashboard/carrito'>
-              <Button
-                shape='circle'
-                style={{ marginRight: '.5rem' }}
-                icon={<ShoppingCartOutlined />}
-              />
-            </Link>
+            <Badge
+              style={{ backgroundColor: '#52c41a' }}
+              count={unpaidOrders}
+              offset={[-38, -2]}
+            >
+              <Link href='/dashboard/compras_pendientes'>
+                <Button
+                  shape='circle'
+                  style={{ marginRight: '.5rem' }}
+                  icon={<ShoppingCartOutlined />}
+                />
+              </Link>
+            </Badge>
           </Tooltip>
           <Popover
             content={
@@ -51,13 +66,29 @@ const MyLayout = ({ children }) => {
             }
           >
             <Button type='primary' shape='round' icon={<UserOutlined />}>
-              Jorge
+              {auth.user && auth.user.firstname ? (
+                auth.user.firstname
+              ) : (
+                <Spin />
+              )}
             </Button>
           </Popover>
         </div>
       </Header>
       <Layout className={styles.content}>
-        <Sider width={200} className='site-layout-background'>
+        <Sider
+          style={{ height: "100vh" }}
+          width={200}
+          className='site-layout-background'
+          breakpoint='lg'
+          collapsedWidth='0'
+          onBreakpoint={(broken) => {
+            console.log(broken);
+          }}
+          onCollapse={(collapsed, type) => {
+            console.log(collapsed, type);
+          }}
+        >
           <Menu
             mode='inline'
             defaultSelectedKeys={['1']}
@@ -69,11 +100,11 @@ const MyLayout = ({ children }) => {
                 <a>Perfil</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key='2' icon={<UserOutlined />}>
+            {/* <Menu.Item key='2' icon={<UserOutlined />}>
               <Link href='/dashboard/publications'>
                 <a>Publicaciones</a>
               </Link>
-            </Menu.Item>
+            </Menu.Item> */}
             <SubMenu key='sub1' icon={<UserOutlined />} title='Compras'>
               <Menu.Item key='3' icon={<UserOutlined />}>
                 <Link href='/dashboard/compras_realizadas'>
@@ -91,20 +122,22 @@ const MyLayout = ({ children }) => {
                 <a href='/dashboard/edit'>Editar Perfil</a>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key='6' icon={<ShoppingCartOutlined />}>
-              <a href='/dashboard/carrito'>Carrito</a>
-            </Menu.Item>
-            <Menu.Item key='7' icon={<UserOutlined />}>
-              <a href='#'>Salir</a>
+            <Menu.Item key='6' icon={<UserOutlined />}>
+              <a
+                href='#'
+                onClick={() => auth.logout({ redirectLocation: '/' })}
+              >
+                Salir
+              </a>
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
+          {/* <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>MyLayout</Breadcrumb.Item>
             <Breadcrumb.Item>List</Breadcrumb.Item>
             <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
+          </Breadcrumb> */}
           <Content
             className={styles.container}
             style={{

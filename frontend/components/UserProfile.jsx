@@ -100,10 +100,7 @@ const UserProfile = () => {
             <DescriptionItem title='Contraseña' content='********' />
           </Col>
           <Col span={12}>
-            <DescriptionItem
-              title='Fecha creación'
-              content={'' || info.created_at}
-            />
+            <DescriptionItem title='Fecha creación' content={info.created_at} />
           </Col>
         </Row>
         <Divider />
