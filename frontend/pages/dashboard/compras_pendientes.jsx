@@ -1,18 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@context/auth';
 import fetch from 'isomorphic-fetch';
-import { Table, Space, Tooltip, Popconfirm, message } from 'antd';
+import { Table, Space, Tooltip, Popconfirm, message, Spin } from 'antd';
 import md5 from 'md5';
 import { DollarCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { NextSeo } from 'next-seo';
+import dynamic from 'next/dynamic';
 
 import MyLayout from '@components/LayoutDash';
 
 //import styles from "@styles/Publications.module.css"
 
+const QuillNoSSRWrapper = dynamic(import('react-quill'), {
+  ssr: false,
+  loading: function loading() {
+    return <Spin />;
+  },
+});
+
+const config = {
+  theme: 'snow',
+  modules: {
+    toolbar: false,
+    clipboard: {},
+  },
+};
+
 const PendingBuys = () => {
   const auth = useAuth();
   const [reload, setReload] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [providers, setProviders] = useState([]);
   const [unpaidOrders, setUnpaidOrders] = useState([
     {
       codigo: '1',
@@ -111,6 +129,26 @@ const PendingBuys = () => {
           setUnpaidOrders(paidOrders);
         }
       });
+      fetch(`${process.env.API_URL}/products`, {
+        headers: {
+          Authorization: `Bearer ${process.env.TOKEN}`,
+        },
+      }).then(async (res) => {
+        if (res.ok) {
+          const _products = res.json();
+          _products.then((r) => setProducts(r));
+        }
+      });
+      fetch(`${process.env.API_URL}/providers`, {
+        headers: {
+          Authorization: `Bearer ${process.env.TOKEN}`,
+        },
+      }).then(async (res) => {
+        if (res.ok) {
+          const _providers = res.json();
+          _providers.then((r) => setProviders(r));
+        }
+      });
     }
     if (reload) {
       setReload(false);
@@ -119,6 +157,53 @@ const PendingBuys = () => {
 
   const confirm = (record) => () => {
     deleteOrder(record.key);
+  };
+  const infoRow = (id) => {
+    if (useAuth().user && useAuth().user.orders) {
+      const rowData = useAuth().user.orders.filter((order) => order.id === id);
+      const _product = products.filter(
+        (product) => product.id === rowData[0].product,
+      );
+      const _provider = providers.filter(
+        (provider) => provider.id === rowData[0].provider,
+      );
+      return (
+        <div>
+          <p>
+            <span>Producto:</span>
+            {_product[0].nombre}
+          </p>
+          <p>
+            <span>Medio:</span>
+            {_provider[0].nombre}
+          </p>
+          <p>
+            <span>Fecha Publicacion:</span>
+            {rowData[0].fechaPublicacion}
+          </p>
+          <p>
+            <span>Valor:</span>
+            {rowData[0].total}
+          </p>
+          <p>
+            <span>Publicado:</span>
+            {rowData[0].sePublico}
+          </p>
+          <p>
+            <span>contenido:</span>{' '}
+            <>
+              <QuillNoSSRWrapper
+                theme='snow'
+                modules={config.modules}
+                value={rowData[0].contenido}
+                readOnly={true}
+                placeholder='Contenido'
+              />
+            </>
+          </p>
+        </div>
+      );
+    }
   };
 
   const deleteOrder = async (id) => {
@@ -212,11 +297,13 @@ const PendingBuys = () => {
           '
         }
       </style>
-      <NexSeo nofollow={true} noindex={true} />
+      <NextSeo nofollow={true} noindex={true} />
       <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>
         Compras Pendientes
       </h1>
-      <Table columns={columns} dataSource={data} />
+      <Table expandable={{
+        expandedRowRender: (record) => infoRow(record.key),
+      }} columns={columns} dataSource={data} />
     </MyLayout>
   );
 };
