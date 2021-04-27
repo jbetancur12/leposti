@@ -17,7 +17,7 @@ import moment from 'moment';
 import dynamic from 'next/dynamic';
 import Cookie from 'js-cookie';
 import { NextSeo, LogoJsonLd } from 'next-seo';
-import Head from 'next/head'
+import Head from 'next/head';
 
 import Link from 'next/link';
 import colombianHolidays from 'colombian-holidays';
@@ -31,7 +31,7 @@ import Contact from '@components/Contact';
 import Question from '@components/Question';
 import MyHeader from '@components/MyHeader';
 import MyFooter from '@components/MyFooter';
-import Chats from '@components/Chats';
+// import Chats from '@components/Chats';
 
 const { Content } = Layout;
 
@@ -227,7 +227,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -493,38 +493,36 @@ const Home = ({ products }) => {
       <h1 className={styles.ppalTitle}>LePosti.com</h1>
       <Head>
         <script
-          type="application/ld+json"
+          type='application/ld+json'
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              "@context": "http://www.schema.org",
-              "@type": "Organization",
-              "name": "LePosti.com",
-              "url": "https://leposti.com",
-              "logo": "/logoprincipalBlanco.webp",
-              "description": "Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.",
-              "address": {
-                "@type": "PostalAddress",
-                "addressCountry": "Colombia"
-              }
-            })
+              '@context': 'http://www.schema.org',
+              '@type': 'Organization',
+              name: 'LePosti.com',
+              url: 'https://leposti.com',
+              logo: '/logoprincipalBlanco.webp',
+              description:
+                'Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.',
+              address: {
+                '@type': 'PostalAddress',
+                addressCountry: 'Colombia',
+              },
+            }),
           }}
         />
       </Head>
       <NextSeo
-        title="Edictos y avisos de ley en Leposti.com"
-        description="Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura."
-        canonical="https://leposti.ml"
+        title='Edictos y avisos de ley en Leposti.com'
+        description='Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.'
+        canonical='https://leposti.ml'
         additionalLinkTags={[
           {
             rel: 'icon',
             href: '/favicon.webp',
-          }
+          },
         ]}
       />
-      <LogoJsonLd
-        logo="/logoprincipalBlanco"
-        url="https://www.leposti.com"
-      />
+      <LogoJsonLd logo='/logoprincipalBlanco' url='https://www.leposti.com' />
       <BackTop />
       <MyHeader />
       <Content className={styles.main}>
@@ -621,10 +619,10 @@ const Home = ({ products }) => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -710,10 +708,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -742,7 +740,7 @@ const Home = ({ products }) => {
         </div>
       </Content>
       <MyFooter />
-      <Chats />
+      {/* <Chats /> */}
     </Layout>
   );
 };

@@ -63,7 +63,12 @@ const MyFooter = () => (
               height={45}
             />
           </div>
-          <Image src='/LogoPayu.webp' alt='logo payu' width={250} height={140} />
+          <Image
+            src='/LogoPayu.webp'
+            alt='logo payu'
+            width={250}
+            height={140}
+          />
         </Col>
       </Row>
     </Footer>

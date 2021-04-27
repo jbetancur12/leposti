@@ -9,7 +9,14 @@ const Dashboard = () => {
   return (
     <>
       {isAuthenticated ? (
-        <><NextSeo nofollow={true} noindex={true} title="Edictos y avisos de ley en Leposti.com" /><MyLayout /></>
+        <>
+          <NextSeo
+            nofollow={true}
+            noindex={true}
+            title='Edictos y avisos de ley en Leposti.com'
+          />
+          <MyLayout />
+        </>
       ) : (
         <ContentLoader uniqueKey='aUniqueKeyToMatchSSR'>
           <rect y='10' rx='3' ry='3' width='1000' height='20' />

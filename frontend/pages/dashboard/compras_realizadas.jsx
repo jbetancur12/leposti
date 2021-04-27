@@ -159,7 +159,11 @@ const SucessBuys = () => {
     <>
       {auth.isAuthenticated ? (
         <MyLayout>
-          <NextSeo nofollow={true} noindex={true} title="Edictos y avisos de ley en Leposti.com" />
+          <NextSeo
+            nofollow={true}
+            noindex={true}
+            title='Edictos y avisos de ley en Leposti.com'
+          />
           <style>
             {
               '\

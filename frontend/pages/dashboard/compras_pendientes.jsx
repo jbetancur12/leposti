@@ -297,13 +297,21 @@ const PendingBuys = () => {
           '
         }
       </style>
-      <NextSeo nofollow={true} noindex={true} title="Edictos y avisos de ley en Leposti.com" />
+      <NextSeo
+        nofollow={true}
+        noindex={true}
+        title='Edictos y avisos de ley en Leposti.com'
+      />
       <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>
         Compras Pendientes
       </h1>
-      <Table expandable={{
-        expandedRowRender: (record) => infoRow(record.key),
-      }} columns={columns} dataSource={data} />
+      <Table
+        expandable={{
+          expandedRowRender: (record) => infoRow(record.key),
+        }}
+        columns={columns}
+        dataSource={data}
+      />
     </MyLayout>
   );
 };
