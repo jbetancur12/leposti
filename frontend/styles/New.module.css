@@ -68,6 +68,11 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+.ppalTitle{
+  visibility: hidden;
+  position: absolute;
+}
+
 .main {
   width: 100%;
   margin: 0 auto;

@@ -490,7 +490,7 @@ const Home = ({ products }) => {
 
   return (
     <Layout className={styles.layout}>
-      <h1 style={{ visibility: "hidden" }}>LePosti.com</h1>
+      <h1 className={styles.ppalTitle}>LePosti.com</h1>
       <Head>
         <script
           type="application/ld+json"
