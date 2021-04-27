@@ -52,31 +52,33 @@ const PendingBuys = () => {
       title: '',
       key: 'action',
       render: function eliminar(text, record) {
-        <>
-          <Space size='large'>
-            <Tooltip title='Pagar'>
-              <a style={{ color: 'inherit' }}>
-                <DollarCircleOutlined
-                  onClick={onClickPay(record)}
-                  style={{ fontSize: '20px' }}
-                />
-              </a>
-            </Tooltip>
-            <Tooltip title='Eliminar'>
-              <Popconfirm
-                placement='left'
-                title='Esta seguro de eliminar esta orden?'
-                onConfirm={confirm(record)}
-                okText='Si'
-                cancelText='No'
-              >
+        return (
+          <>
+            <Space size='large'>
+              <Tooltip title='Pagar'>
                 <a style={{ color: 'inherit' }}>
-                  <DeleteOutlined style={{ fontSize: '20px' }} />
+                  <DollarCircleOutlined
+                    onClick={onClickPay(record)}
+                    style={{ fontSize: '20px' }}
+                  />
                 </a>
-              </Popconfirm>
-            </Tooltip>
-          </Space>
-        </>;
+              </Tooltip>
+              <Tooltip title='Eliminar'>
+                <Popconfirm
+                  placement='left'
+                  title='Esta seguro de eliminar esta orden?'
+                  onConfirm={confirm(record)}
+                  okText='Si'
+                  cancelText='No'
+                >
+                  <a style={{ color: 'inherit' }}>
+                    <DeleteOutlined style={{ fontSize: '20px' }} />
+                  </a>
+                </Popconfirm>
+              </Tooltip>
+            </Space>
+          </>
+        );
       },
     },
   ];
