@@ -6,6 +6,26 @@ import '@styles/globals.css';
 import 'antd/dist/antd.css';
 import 'react-quill/dist/quill.snow.css';
 
+export function reportWebVitals(metric) {
+  switch (metric.name) {
+    case "FID":
+      console.log("FID=> ", metric.value)
+      break;
+    case "LCP":
+      console.log("LCP=> ", metric.value)
+      break;
+    case "CLS":
+      console.log("CLS=> ", metric.value)
+      break;
+    case "FCP":
+      console.log("FCP=> ", metric.value)
+      break;
+
+    default:
+      break;
+  }
+}
+
 function MyApp({ Component, pageProps }) {
   const { isAuthenticated, isLoading, token, logout } = useAuth();
 
