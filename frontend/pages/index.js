@@ -222,7 +222,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-          finalPrice[0].precio
+        finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -332,9 +332,7 @@ const Home = ({ products }) => {
 
   async function openWindowWithPostRequest(order) {
     const Md5 = (await import('md5')).default;
-    const signature = Md5(
-      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
-    );
+
     const { iva } = order;
     const referenceCode = order.referencia;
     const winName = 'MyWindow';
@@ -344,6 +342,10 @@ const Home = ({ products }) => {
     const withoutIva =
       iva > 0 ? order.total - order.total * (iva / 100) : order.total;
     const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
+
+    const signature = md5(
+      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
+    );
 
     const params = {
       accountId: '512321',
@@ -611,10 +613,10 @@ const Home = ({ products }) => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
@@ -700,10 +702,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
