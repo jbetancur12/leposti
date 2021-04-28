@@ -223,7 +223,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-          finalPrice[0].precio
+        finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -331,7 +331,7 @@ const Home = ({ products }) => {
     // openWindowWithPostRequest(order, finalPrice[0].iva, referenceCode);
   };
 
-  async function openWindowWithPostRequest(order) {
+  function openWindowWithPostRequest(order) {
     const { iva } = order;
     const referenceCode = order.referencia;
     const winName = 'MyWindow';
@@ -612,10 +612,10 @@ const Home = ({ products }) => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
@@ -701,10 +701,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
