@@ -17,6 +17,7 @@ import moment from 'moment';
 import dynamic from 'next/dynamic';
 import Cookie from 'js-cookie';
 import { NextSeo, LogoJsonLd } from 'next-seo';
+import md5 from 'md5';
 import Head from 'next/head';
 
 import Link from 'next/link';
@@ -222,7 +223,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -331,8 +332,6 @@ const Home = ({ products }) => {
   };
 
   async function openWindowWithPostRequest(order) {
-    const Md5 = (await import('md5')).default;
-
     const { iva } = order;
     const referenceCode = order.referencia;
     const winName = 'MyWindow';
@@ -613,10 +612,10 @@ const Home = ({ products }) => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -702,10 +701,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
