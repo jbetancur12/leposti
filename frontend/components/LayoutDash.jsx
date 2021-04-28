@@ -1,10 +1,6 @@
 import { useAuth } from '@context/auth';
 import { Layout, Menu, Button, Popover, Tooltip, Badge, Spin } from 'antd';
-import {
-  UserOutlined,
-  ToolOutlined,
-  ShoppingCartOutlined,
-} from '@ant-design/icons';
+import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 import styles from '@styles/LayoutDash.module.css';
 
@@ -117,11 +113,11 @@ const MyLayout = ({ children }) => {
                 </Link>
               </Menu.Item>
             </SubMenu>
-            <SubMenu key='sub2' icon={<ToolOutlined />} title='Configuración'>
+            {/* <SubMenu key='sub2' icon={<ToolOutlined />} title='Configuración'>
               <Menu.Item key='5' icon={<UserOutlined />}>
                 <a href='/dashboard/edit'>Editar Perfil</a>
               </Menu.Item>
-            </SubMenu>
+            </SubMenu> */}
             <Menu.Item key='6' icon={<UserOutlined />}>
               <a
                 href='#'

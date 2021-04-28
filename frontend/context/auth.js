@@ -92,6 +92,36 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  const editUser = (id, body) => {
+    const json = JSON.stringify(body);
+    //prevent function from being ran on the server
+    if (typeof window === 'undefined') {
+      return;
+    }
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`${API_URL}/users/${id}`, json, {
+          headers: {
+            // Overwrite Axios's automatically set Content-Type
+            Authorization: `Bearer ${process.env.TOKEN}`,
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((res) => {
+          //set token response from Strapi for server validation
+          setUser(res.data.user);
+          //resolve the promise to set loading to false in SignUp form
+          resolve(res);
+          //redirect back to home page for restaurance selection
+          router.push('/dashboard/user');
+        })
+        .catch((error) => {
+          //reject the promise and pass the error object back to the form
+          reject(error);
+        });
+    });
+  };
+
   const logout = ({ redirectLocation }) => {
     //remove token and user cookie
     Cookie.remove('token');
@@ -113,6 +143,7 @@ export const AuthProvider = ({ children }) => {
         login,
         loading,
         logout,
+        editUser,
       }}
     >
       {children}

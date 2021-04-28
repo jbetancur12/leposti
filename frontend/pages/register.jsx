@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Register from '@components/Register';
-import { LoadingOutlined } from '@ant-design/icons';
+import MyHeader from '@components/MyHeader';
+import MyFooter from '@components/MyFooter';
 
+const Registration = () => (
+  <>
+    <MyHeader />
+    <Register edit={false} />
+    <MyFooter />
+  </>
+);
 
-const RegistrationForm = () => {
-  return (
-    <Register />
-  )
-};
-
-export default RegistrationForm;
+export default Registration;
