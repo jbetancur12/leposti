@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'ew';
+  src: url('fonts/ew.eot?t39no9');
+  src: url('fonts/ew.eot?#iefixt39no9') format('embedded-opentype'),
+    url('fonts/ew.woff?t39no9') format('woff'),
+    url('fonts/ew.ttf?t39no9') format('truetype'),
+    url('fonts/ew.svg?t39no9#ew') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

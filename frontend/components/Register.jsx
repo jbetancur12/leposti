@@ -80,12 +80,12 @@ const RegistrationForm = (props) => {
       };
       return temp;
     });
+
     setCities(returne);
   };
 
   React.useEffect(() => {
     getCities();
-
     if (Cookie.get('email')) {
       form.setFieldsValue({
         email: Cookie.get('email'),
@@ -141,7 +141,9 @@ const RegistrationForm = (props) => {
     const resAskUser = await resPost.json();
 
     if (resAskUser.length > 0) {
-      return Promise.reject(new Error('Cedula ya existe'));
+      return Promise.reject(
+        new Error('El numero de documento ya esta registrado'),
+      );
     }
     return Promise.resolve();
   };
@@ -230,9 +232,9 @@ const RegistrationForm = (props) => {
   const [focused2, setFocused2] = useState(false);
 
   const sm = props.edit ? 18 : 12;
-  const lg = props.edit ? 18 : 12;
-  const xl = props.edit ? 18 : 12;
-  const background = props.edit ? '#fff' : 'eee';
+  const lg = props.edit ? 18 : 10;
+  const xl = props.edit ? 18 : 8;
+  const background = props.edit ? '#fff' : '#eee';
   const title = props.edit ? 'Editar Información' : 'Registrate';
   // const cascaderDefault = props.edit ? [auth.user.departamento, auth.user.city] : []
 
@@ -326,11 +328,11 @@ const RegistrationForm = (props) => {
                   rules={[
                     {
                       type: 'email',
-                      message: 'The input is not valid E-mail!',
+                      message: 'El valor ingresado no es un E-mail valido!',
                     },
                     {
                       required: true,
-                      message: 'Please input your E-mail!',
+                      message: 'Por favor ingrese su email!',
                     },
                     {
                       validator: emailValidator,
@@ -344,20 +346,20 @@ const RegistrationForm = (props) => {
             <Col span={24} md={12}>
               <Form.Item
                 name='password'
-                label='Password'
+                label='Contraseña'
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
                 className={styles.item}
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your password!',
+                    message: 'Por favor ingrese su contraseña!',
                   },
                 ]}
                 hasFeedback
               >
                 <Input.Password
-                  placeholder='Password'
+                  placeholder='Contraseña'
                   className={focused ? 'focused' : ''}
                   onFocus={() => {
                     setFocused(true);
@@ -371,7 +373,7 @@ const RegistrationForm = (props) => {
             <Col span={24} md={12}>
               <Form.Item
                 name='confirm'
-                label='Confirm Password'
+                label='Confirmar Contraseña'
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
                 className={styles.item}
@@ -380,7 +382,7 @@ const RegistrationForm = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please confirm your password!',
+                    message: 'Por favor confirme su contraseña!',
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
@@ -389,16 +391,14 @@ const RegistrationForm = (props) => {
                       }
 
                       return Promise.reject(
-                        new Error(
-                          'The two passwords that you entered do not match!',
-                        ),
+                        new Error('Las contraseñas no coinciden!'),
                       );
                     },
                   }),
                 ]}
               >
                 <Input.Password
-                  placeholder='Password'
+                  placeholder='Contraseña'
                   className={focused2 ? 'focused' : ''}
                   onFocus={() => {
                     setFocused2(true);
@@ -419,7 +419,7 @@ const RegistrationForm = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your phone number!',
+                    message: 'Por favor ingrese su numero de telefono!',
                   },
                 ]}
               >
@@ -443,7 +443,7 @@ const RegistrationForm = (props) => {
                   {
                     type: 'array',
                     required: true,
-                    message: 'Please select your habitual residence!',
+                    message: 'Por favor seleccione Ciudad!',
                   },
                 ]}
               >
@@ -460,7 +460,7 @@ const RegistrationForm = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Direccion!',
+                    message: 'Por favor ingrese una dirección!',
                     whitespace: true,
                   },
                 ]}
@@ -480,7 +480,7 @@ const RegistrationForm = (props) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error('Should accept agreement'),
+                              new Error('Debe aceptar terminos y condiciones'),
                             ),
                     },
                   ]}
