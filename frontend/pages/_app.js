@@ -41,6 +41,7 @@ function MyApp({ Component, pageProps }) {
       {Component.requiresAuth && (
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
+          <link rel="canonical" href="https://www.leposti.com/"></link>
           <script
             // If no token is found, redirect inmediately
             dangerouslySetInnerHTML={{

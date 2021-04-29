@@ -19,6 +19,7 @@ import Cookie from 'js-cookie';
 import { NextSeo, LogoJsonLd } from 'next-seo';
 import md5 from 'md5';
 import Head from 'next/head';
+import CookieConsent from "react-cookie-consent";
 
 import Link from 'next/link';
 import colombianHolidays from 'colombian-holidays';
@@ -732,6 +733,7 @@ const Home = ({ products }) => {
           <Question></Question>
         </div>
       </Content>
+      <CookieConsent buttonText="Entendido!" style={{ background: "#002855", maxWidth: "600px", left: "50%", transform: "translate(-50%,0)" }}>Al continuar navegando el usuario acepta que el portal web, propiedad de Pretori S.A.S en el que se encuentra navegando, haga uso de Cookies de acuerdo con esta <Link href="/cookies"><a title="Politica Cookies">Politica</a></Link></CookieConsent>
       <MyFooter />
       {/* <Chats /> */}
     </Layout>

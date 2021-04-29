@@ -7,7 +7,7 @@ import { NextSeo } from 'next-seo';
 
 export default function Politica_privacidad() {
   return (
-    <Layout>
+    <Layout className={styles.layout}>
       <NextSeo
         nofollow={true}
         noindex={true}
