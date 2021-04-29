@@ -7,6 +7,7 @@ import MyHeader from '@components/MyHeader';
 import MyFooter from '@components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
 import { useAuth } from '@context/auth';
+import { NextSeo } from 'next-seo';
 
 const NormalLoginForm = () => {
   const [loading, setLoading] = useState(false);
@@ -43,6 +44,11 @@ const NormalLoginForm = () => {
 
   return (
     <Layout className={styles.layout}>
+      <NextSeo
+        nofollow={true}
+        noindex={true}
+        title='Login | Leposti.com'
+      />
       <MyHeader />
       <Content className={styles.content}>
         <Row justify='space-around' style={{ width: '100%' }}>

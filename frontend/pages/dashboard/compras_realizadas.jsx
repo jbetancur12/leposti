@@ -162,7 +162,7 @@ const SucessBuys = () => {
           <NextSeo
             nofollow={true}
             noindex={true}
-            title='Edictos y avisos de ley en Leposti.com'
+            title='Compras Realizadas | Leposti.com'
           />
           <style>
             {

@@ -17,6 +17,7 @@ import MyHeader from '@components/MyHeader';
 import MyFooter from '@components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 const layout = {
   labelCol: { span: 8 },
@@ -115,6 +116,11 @@ const ForgotPassword = () => {
   return (
     <>
       <Layout className={styles.layout}>
+        <NextSeo
+          nofollow={true}
+          noindex={true}
+          title='Olvido Contraseña | Leposti.com'
+        />
         <MyHeader />
         <Content className={styles.content}>
           <Row justify='space-around' style={{ width: '100%' }}>

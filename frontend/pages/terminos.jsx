@@ -2,10 +2,16 @@ import MyHeader from '@components/MyHeader';
 import { Layout, BackTop } from 'antd';
 import MyFooter from '@components/MyFooter';
 import styles from '@styles/Static.module.css';
+import { NextSeo } from 'next-seo';
 
 export default function terminos() {
   return (
     <Layout>
+      <NextSeo
+        nofollow={true}
+        noindex={true}
+        title='Terminos y Condiciones | Leposti.com'
+      />
       <MyHeader />
       <BackTop />
       <div className={styles.content}>

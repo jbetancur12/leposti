@@ -6,6 +6,12 @@ import styles from '@styles/Static.module.css';
 export default function Politica_privacidad() {
   return (
     <Layout>
+      import { NextSeo} from 'next-seo';
+      <NextSeo
+        nofollow={true}
+        noindex={true}
+        title='Método de Cobro | Leposti.com'
+      />
       <MyHeader />
       <div className={styles.content}>
         <h2 className={styles.title}>

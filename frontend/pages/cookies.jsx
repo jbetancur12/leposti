@@ -2,10 +2,16 @@ import MyHeader from '@components/MyHeader';
 import { Layout } from 'antd';
 import MyFooter from '@components/MyFooter';
 import styles from '@styles/Static.module.css';
+import { NextSeo } from 'next-seo';
 
 export default function Politica_privacidad() {
   return (
     <Layout>
+      <NextSeo
+        nofollow={true}
+        noindex={true}
+        title='Cookies | Leposti.com'
+      />
       <MyHeader />
       <div className={styles.content}>
         <h2 className={styles.title}>
