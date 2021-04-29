@@ -4,7 +4,7 @@ module.exports = {
   priority: 0.7,
   sitemapSize: 5000,
   generateRobotsTxt: true,
-  exclude: ['/dashboard/*', '/dashboard/*', "/login", "/register", "/forgotpassword", "/restorepassword", "/cookies", "/metodo_cobro", "/politica_privacidad", "/terminos"],
+  exclude: ['/dashboard', '/dashboard/*', "/login", "/register", "/forgotpassword", "/restorepassword", "/cookies", "/metodo_cobro", "/politica_privacidad", "/terminos"],
   // Default transformation function
   transform: async (config, path) => ({
     loc: path, // => this will be exported as http(s)://<config.siteUrl>/<path>
