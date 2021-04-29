@@ -1,5 +1,14 @@
 import { useAuth } from '@context/auth';
-import { Layout, Menu, Button, Popover, Tooltip, Badge, Spin } from 'antd';
+import {
+  Layout,
+  Menu,
+  Button,
+  Popover,
+  Tooltip,
+  Badge,
+  Spin,
+  Grid,
+} from 'antd';
 import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 import styles from '@styles/LayoutDash.module.css';
@@ -9,9 +18,12 @@ import Link from 'next/link';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
+const { useBreakpoint } = Grid;
 
 const MyLayout = ({ children }) => {
+  const { md } = useBreakpoint();
   const auth = useAuth();
+  const isMd = !md ? '' : auth.user.firstname;
 
   let unpaidOrders = 0;
 
@@ -35,7 +47,7 @@ const MyLayout = ({ children }) => {
             />
           </a>
         </div>
-        <div>
+        <div className={styles.icons}>
           <Tooltip title='Carrito'>
             <Badge
               style={{ backgroundColor: '#52c41a' }}
@@ -62,11 +74,7 @@ const MyLayout = ({ children }) => {
             }
           >
             <Button type='primary' shape='round' icon={<UserOutlined />}>
-              {auth.user && auth.user.firstname ? (
-                auth.user.firstname
-              ) : (
-                <Spin />
-              )}
+              {auth.user && auth.user.firstname ? isMd : <Spin />}
             </Button>
           </Popover>
         </div>

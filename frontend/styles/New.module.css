@@ -68,7 +68,7 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-.ppalTitle{
+.ppalTitle {
   visibility: hidden;
   position: absolute;
 }
@@ -249,13 +249,13 @@
 
   .loginBtn {
     position: absolute !important;
-    bottom: 0.5rem;
+    /* bottom: 0.5rem; */
     right: 7rem;
   }
 
   .registerBtn {
     position: absolute !important;
-    bottom: 0.5rem;
+    /* bottom: 0.5rem; */
     right: 0.5rem;
   }
 

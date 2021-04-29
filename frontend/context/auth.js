@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }) => {
   const registerUser = (body) => {
     const json = JSON.stringify(body);
     //prevent function from being ran on the server
+    console.log(json);
     if (typeof window === 'undefined') {
       return;
     }
@@ -87,6 +88,7 @@ export const AuthProvider = ({ children }) => {
         })
         .catch((error) => {
           //reject the promise and pass the error object back to the form
+          console.log(error);
           reject(error);
         });
     });
