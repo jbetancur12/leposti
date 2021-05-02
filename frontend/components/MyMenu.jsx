@@ -25,7 +25,7 @@ const MyMenu = (props) => {
       </Menu.Item>
       {isAuthenticated ? (
         <Menu.Item key='4' className={`${styles.item} ${styles.loginBtn}`}>
-          <Link href='/dashboard'>
+          <Link href='/dashboard/user'>
             <a>Dashboard</a>
           </Link>
         </Menu.Item>
