@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@context/auth';
 import fetch from 'isomorphic-fetch';
 import dynamic from 'next/dynamic';
-import { Table, Spin } from 'antd';
+import { Table, Spin, Space } from 'antd';
 import { NextSeo } from 'next-seo';
 
 import MyLayout from '@components/LayoutDash';
@@ -120,24 +120,32 @@ const SucessBuys = () => {
       return (
         <div>
           <p>
-            <span>Producto:</span>
-            {_product[0].nombre}
+            <Space>
+              <span>Producto:</span>
+              {_product[0].nombre}
+            </Space>
           </p>
           <p>
-            <span>Medio:</span>
-            {_provider[0].nombre}
+            <Space>
+              <span>Medio:</span>
+              {_provider[0].nombre}
+            </Space>
           </p>
           <p>
             <span>Fecha Publicacion:</span>
             {rowData[0].fechaPublicacion}
           </p>
           <p>
-            <span>Valor:</span>
-            {rowData[0].total}
+            <Space>
+              <span>Valor:</span>
+              {rowData[0].total}
+            </Space>
           </p>
           <p>
-            <span>Publicado:</span>
-            {rowData[0].sePublico}
+            <Space>
+              <span>Publicado:</span>
+              {rowData[0].sePublico}
+            </Space>
           </p>
           <p>
             <span>contenido:</span>{' '}
