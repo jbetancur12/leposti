@@ -211,11 +211,17 @@ const Home = ({ products }) => {
       },
     });
     const prices = await res.json();
+    console.log("Error=>,", productProvider)
     const price = prices.filter(
-      (price) =>
-        price.product.id === productProvider.product &&
-        price.provider.id === productProvider.provider &&
-        price.dias.includes(dayWeek),
+      (price) => {
+        console.log(price.provider);
+        if (price.provider && price.product) {
+          return price.product.id === productProvider.product &&
+            price.provider.id === productProvider.provider &&
+            price.dias.includes(dayWeek)
+        }
+        return
+      }
     );
 
     let finalPrice = '';
@@ -393,6 +399,11 @@ const Home = ({ products }) => {
     openWindowWithPostRequest(orderReady);
     setOpenQuote(false);
   };
+
+  const handleClean = () => {
+    setValueEditorText("")
+    setValueEditor("")
+  }
 
   const onClickEditar = () => {
     setOpenQuote(false);
@@ -613,7 +624,7 @@ const Home = ({ products }) => {
                   </Space>
                 </FormItem>
                 <FormItem
-                  label='Contenido:'
+                  label='Contenido aviso a publicar:'
                   labelCol={{ span: 14 }}
                   wrapperCol={{ span: 24 }}
                   rules={[
@@ -659,7 +670,7 @@ const Home = ({ products }) => {
                     </>
                   </Responsive>
                   <Modal
-                    title='Contenido'
+                    title='Contenido aviso a publicar'
                     visible={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}
@@ -667,6 +678,9 @@ const Home = ({ products }) => {
                     cancelText="Cancelar"
                     width='1000px'
                   >
+                    <div className={styles.editButton}>
+                      <Button onClick={handleClean}>Limpiar</Button>
+                    </div>
                     <QuillNoSSRWrapper
                       onChange={onChangeEditor}
                       theme='snow'
@@ -677,7 +691,7 @@ const Home = ({ products }) => {
                     />
                     {valueEditorText.length > 3000 ? (
                       <p style={{ color: 'red' }}>
-                        Contenido supera los 3000 caracteres
+                        Contenido supera los 3000 caracteres, Actualmente no ofrecemos este producto. Contáctanos en servicioalcliente@leposti.com o a través del chat
                       </p>
                     ) : null}
                   </Modal>

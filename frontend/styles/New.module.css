@@ -3,6 +3,12 @@
   overflow: auto;
 }
 
+.editButton {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

@@ -59,7 +59,7 @@ const NormalLoginForm = () => {
             xl={6}
             className={styles.formContainer}
           >
-            <h1 className={styles.title}>Iniciar Sesion</h1>
+            <h1 className={styles.title}>Iniciar Sesión</h1>
             <Form
               name='normal_login'
               className='login-form'
@@ -89,7 +89,7 @@ const NormalLoginForm = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Password!',
+                    message: 'Por favor ingresa tu contraseña!',
                   },
                 ]}
               >
@@ -115,9 +115,9 @@ const NormalLoginForm = () => {
                   htmlType='submit'
                   className='login-form-button'
                 >
-                  {loading ? <Spin indicator={antIcon} /> : 'Login'}
+                  {loading ? <Spin indicator={antIcon} /> : 'Iniciar Sesión '}
                 </Button>{' '}
-                O <a href='/register'>Registrate aca!</a>
+                O <a href='/register'>Registrate acá!</a>
               </Form.Item>
             </Form>
           </Col>
