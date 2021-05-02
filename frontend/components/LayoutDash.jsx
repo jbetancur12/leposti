@@ -84,12 +84,6 @@ const MyLayout = ({ children }) => {
           style={{ height: '100vh' }}
           breakpoint='lg'
           collapsedWidth='0'
-          onBreakpoint={(broken) => {
-            console.log(broken);
-          }}
-          onCollapse={(collapsed, type) => {
-            console.log(collapsed, type);
-          }}
           width={200}
           className='site-layout-background'
         >

@@ -44,11 +44,7 @@ const NormalLoginForm = () => {
 
   return (
     <Layout className={styles.layout}>
-      <NextSeo
-        nofollow={true}
-        noindex={true}
-        title='Login | Leposti.com'
-      />
+      <NextSeo nofollow={true} noindex={true} title='Login | Leposti.com' />
       <MyHeader />
       <Content className={styles.content}>
         <Row justify='space-around' style={{ width: '100%' }}>

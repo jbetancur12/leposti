@@ -7,11 +7,7 @@ import { NextSeo } from 'next-seo';
 export default function Politica_privacidad() {
   return (
     <Layout className={styles.layout}>
-      <NextSeo
-        nofollow={true}
-        noindex={true}
-        title='Cookies | Leposti.com'
-      />
+      <NextSeo nofollow={true} noindex={true} title='Cookies | Leposti.com' />
       <MyHeader />
       <div className={styles.content}>
         <h2 className={styles.title}>
@@ -103,7 +99,10 @@ export default function Politica_privacidad() {
           no los puede modificar ni recuperar ningún servicio en otro dominio.
           Para más información sobre las políticas de Google Analytics, visitar
           la siguiente página
-          <a href="http://code.google.com/intl/ES/apis/analytics/docs/concepts/gaConceptsCookies.html"> Cookies Google</a>
+          <a href='http://code.google.com/intl/ES/apis/analytics/docs/concepts/gaConceptsCookies.html'>
+            {' '}
+            Cookies Google
+          </a>
         </p>
       </div>
       <MyFooter />

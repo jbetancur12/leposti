@@ -11,7 +11,7 @@ import {
   Modal,
   Divider,
   BackTop,
-  ConfigProvider
+  ConfigProvider,
 } from 'antd';
 import React, { useState } from 'react';
 import moment from 'moment';
@@ -20,7 +20,7 @@ import Cookie from 'js-cookie';
 import { NextSeo, LogoJsonLd } from 'next-seo';
 import md5 from 'md5';
 import Head from 'next/head';
-import CookieConsent from "react-cookie-consent";
+import CookieConsent from 'react-cookie-consent';
 
 import Link from 'next/link';
 import colombianHolidays from 'colombian-holidays';
@@ -87,8 +87,8 @@ const Home = ({ products }) => {
   const [editing, setEditing] = useState(false);
   const [orderReady, setOrder] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [tempEditor, setTempEditor] = useState('')
-  const [tempEditorTxt, setTempEditorTxt] = useState("")
+  const [tempEditor, setTempEditor] = useState('');
+  const [tempEditorTxt, setTempEditorTxt] = useState('');
   const [, setQuotation] = useState([]);
   const [form] = Form.useForm();
   const [referencia, setReferencia] = useState();
@@ -115,8 +115,8 @@ const Home = ({ products }) => {
   }
 
   const showModal = () => {
-    setTempEditor(valueEditor)
-    setTempEditorTxt(valueEditorText)
+    setTempEditor(valueEditor);
+    setTempEditorTxt(valueEditorText);
     setIsModalVisible(true);
   };
 
@@ -125,8 +125,8 @@ const Home = ({ products }) => {
   };
 
   const handleCancel = () => {
-    setValueEditor(tempEditor)
-    setValueEditorText(tempEditorTxt)
+    setValueEditor(tempEditor);
+    setValueEditorText(tempEditorTxt);
     setIsModalVisible(false);
   };
 
@@ -211,18 +211,16 @@ const Home = ({ products }) => {
       },
     });
     const prices = await res.json();
-    console.log("Error=>,", productProvider)
-    const price = prices.filter(
-      (price) => {
-        console.log(price.provider);
-        if (price.provider && price.product) {
-          return price.product.id === productProvider.product &&
-            price.provider.id === productProvider.provider &&
-            price.dias.includes(dayWeek)
-        }
-        return
+    const price = prices.filter((price) => {
+      if (price.provider && price.product) {
+        return (
+          price.product.id === productProvider.product &&
+          price.provider.id === productProvider.provider &&
+          price.dias.includes(dayWeek)
+        );
       }
-    );
+      return;
+    });
 
     let finalPrice = '';
 
@@ -237,7 +235,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -401,9 +399,9 @@ const Home = ({ products }) => {
   };
 
   const handleClean = () => {
-    setValueEditorText("")
-    setValueEditor("")
-  }
+    setValueEditorText('');
+    setValueEditor('');
+  };
 
   const onClickEditar = () => {
     setOpenQuote(false);
@@ -633,10 +631,10 @@ const Home = ({ products }) => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -674,8 +672,8 @@ const Home = ({ products }) => {
                     visible={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}
-                    okText="Aceptar"
-                    cancelText="Cancelar"
+                    okText='Aceptar'
+                    cancelText='Cancelar'
                     width='1000px'
                   >
                     <div className={styles.editButton}>
@@ -691,7 +689,9 @@ const Home = ({ products }) => {
                     />
                     {valueEditorText.length > 3000 ? (
                       <p style={{ color: 'red' }}>
-                        Contenido supera los 3000 caracteres, Actualmente no ofrecemos este producto. Contáctanos en servicioalcliente@leposti.com o a través del chat
+                        Contenido supera los 3000 caracteres, Actualmente no
+                        ofrecemos este producto. Contáctanos en
+                        servicioalcliente@leposti.com o a través del chat
                       </p>
                     ) : null}
                   </Modal>
@@ -727,10 +727,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -758,7 +758,21 @@ const Home = ({ products }) => {
           <Question></Question>
         </div>
       </Content>
-      <CookieConsent buttonText="Entendido!" style={{ background: "#002855", maxWidth: "600px", left: "50%", transform: "translate(-50%,0)" }}>Al continuar navegando en este sitio web, aceptas la <Link href="/cookies"><a title="Politica Cookies">Politica de privacidad </a></Link> y uso de Cookies. </CookieConsent>
+      <CookieConsent
+        buttonText='Entendido!'
+        style={{
+          background: '#002855',
+          maxWidth: '600px',
+          left: '50%',
+          transform: 'translate(-50%,0)',
+        }}
+      >
+        Al continuar navegando en este sitio web, aceptas la{' '}
+        <Link href='/cookies'>
+          <a title='Politica Cookies'>Politica de privacidad </a>
+        </Link>{' '}
+        y uso de Cookies.{' '}
+      </CookieConsent>
       <MyFooter />
       {/* <Chats /> */}
     </Layout>

@@ -6,11 +6,7 @@ import { NextSeo } from 'next-seo';
 
 const Registration = () => (
   <>
-    <NextSeo
-      nofollow={true}
-      noindex={true}
-      title='Registro | Leposti.com'
-    />
+    <NextSeo nofollow={true} noindex={true} title='Registro | Leposti.com' />
     <MyHeader />
     <Register edit={false} />
     <MyFooter />

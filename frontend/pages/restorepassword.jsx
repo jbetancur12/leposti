@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
-
 import styles from '@styles/Login.module.css';
 
 import MyHeader from '@components/MyHeader';

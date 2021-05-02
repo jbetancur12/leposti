@@ -4,7 +4,6 @@ import MyFooter from '@components/MyFooter';
 import styles from '@styles/Static.module.css';
 import { NextSeo } from 'next-seo';
 
-
 export default function Politica_privacidad() {
   return (
     <Layout className={styles.layout}>
