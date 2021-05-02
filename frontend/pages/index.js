@@ -11,6 +11,7 @@ import {
   Modal,
   Divider,
   BackTop,
+  ConfigProvider
 } from 'antd';
 import React, { useState } from 'react';
 import moment from 'moment';
@@ -596,17 +597,19 @@ const Home = ({ products }) => {
                   ]}
                 >
                   <Space direction='vertical' style={{ width: '100%' }}>
-                    <DatePicker
-                      ref={myRef}
-                      style={{ width: '100%' }}
-                      locale={locale}
-                      disabledDate={disabledDate}
-                      disabled={!productProvider.provider}
-                      //defaultValue={defaultDate}
-                      value={valueDate}
-                      format={dateFormat}
-                      onChange={onChangeDate}
-                    />
+                    <ConfigProvider locale={locale}>
+                      <DatePicker
+                        ref={myRef}
+                        style={{ width: '100%' }}
+                        // locale={locale}
+                        disabledDate={disabledDate}
+                        disabled={!productProvider.provider}
+                        //defaultValue={defaultDate}
+                        value={valueDate}
+                        format={dateFormat}
+                        onChange={onChangeDate}
+                      />
+                    </ConfigProvider>
                   </Space>
                 </FormItem>
                 <FormItem
@@ -739,7 +742,7 @@ const Home = ({ products }) => {
           <Question></Question>
         </div>
       </Content>
-      <CookieConsent buttonText="Entendido!" style={{ background: "#002855", maxWidth: "600px", left: "50%", transform: "translate(-50%,0)" }}>Al continuar navegando el usuario acepta que el portal web, propiedad de Pretori S.A.S en el que se encuentra navegando, haga uso de Cookies de acuerdo con esta <Link href="/cookies"><a title="Politica Cookies">Politica</a></Link></CookieConsent>
+      <CookieConsent buttonText="Entendido!" style={{ background: "#002855", maxWidth: "600px", left: "50%", transform: "translate(-50%,0)" }}>Al continuar navegando en este sitio web, aceptas la <Link href="/cookies"><a title="Politica Cookies">Politica de privacidad </a></Link> y uso de Cookies. </CookieConsent>
       <MyFooter />
       {/* <Chats /> */}
     </Layout>
