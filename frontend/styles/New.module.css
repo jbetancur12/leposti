@@ -85,6 +85,24 @@
   position: relative;
 }
 
+.carousel {
+  /* position: relative; */
+  width: 100%;
+  /* padding-top: 66.66%; */
+}
+
+.imgContainer {
+  /* position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center; */
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .imgBanner1 {
   background-image: url(../public/banner1.webp);
   background-position: center;

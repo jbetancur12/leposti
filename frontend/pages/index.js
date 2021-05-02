@@ -235,7 +235,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-          finalPrice[0].precio
+        finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -536,10 +536,21 @@ const Home = ({ products }) => {
       <BackTop />
       <MyHeader />
       <Content className={styles.main}>
-        <Carousel autoplay>
-          <div className={styles.imgBanner1}></div>
+        <Carousel className={styles.carousel} autoplay>
+          {/* <div className={styles.imgBanner1}></div>
           <div className={styles.imgBanner2}></div>
-          <div className={styles.imgBanner3}></div>
+          <div className={styles.imgBanner3}></div> */}
+          <img
+            src='/banner1.webp'
+            layout='fill'
+            className={styles.imgContainer}
+          ></img>
+          <img
+            src='/banner2.webp'
+            layout='fill'
+            className={styles.imgContainer}
+          ></img>
+          {/* <img src="/banner3.webp" layout="fill" className={styles.imgContainer}></img> */}
         </Carousel>
         <div className={styles.formContainer}>
           <Form
@@ -631,10 +642,10 @@ const Home = ({ products }) => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
@@ -727,10 +738,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
