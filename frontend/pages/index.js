@@ -663,6 +663,8 @@ const Home = ({ products }) => {
                     visible={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}
+                    okText="Aceptar"
+                    cancelText="Cancelar"
                     width='1000px'
                   >
                     <QuillNoSSRWrapper
