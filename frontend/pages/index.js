@@ -86,6 +86,8 @@ const Home = ({ products }) => {
   const [editing, setEditing] = useState(false);
   const [orderReady, setOrder] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [tempEditor, setTempEditor] = useState('')
+  const [tempEditorTxt, setTempEditorTxt] = useState("")
   const [, setQuotation] = useState([]);
   const [form] = Form.useForm();
   const [referencia, setReferencia] = useState();
@@ -112,6 +114,8 @@ const Home = ({ products }) => {
   }
 
   const showModal = () => {
+    setTempEditor(valueEditor)
+    setTempEditorTxt(valueEditorText)
     setIsModalVisible(true);
   };
 
@@ -120,6 +124,8 @@ const Home = ({ products }) => {
   };
 
   const handleCancel = () => {
+    setValueEditor(tempEditor)
+    setValueEditorText(tempEditorTxt)
     setIsModalVisible(false);
   };
 
@@ -344,12 +350,12 @@ const Home = ({ products }) => {
     const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
 
     const signature = md5(
-      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
+      `${process.env.PAYU_KEY}~${process.env.PAYU_MERCHANT_ID}~${referenceCode}~${order.total}~COP`,
     );
 
     const params = {
-      accountId: '512321',
-      merchantId: '508029',
+      accountId: process.env.PAYU_ACCOUNT_ID,
+      merchantId: process.env.PAYU_MERCHANT_ID,
       description: `${providers.nombre} - ${provide.nombre} - ${order.fechaPublicacion}`,
       referenceCode: referenceCode,
       amount: order.total,

@@ -26,9 +26,9 @@ export function reportWebVitals(metric) {
   }
 }
 
+
 function MyApp({ Component, pageProps }) {
   const { isAuthenticated, isLoading, token, logout } = useAuth();
-
   useEffect(() => {
     if (Component.requiresAuth && token && !isAuthenticated && !isLoading) {
       // Invalid token

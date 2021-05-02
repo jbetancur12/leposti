@@ -24,5 +24,9 @@ module.exports = ({ env }) => ({
       defaultReplyTo: env("EMAIL_ADDRESS_REPLY"),
     },
   },
+  sentry: {
+    dsn: env('SENTRY_DSN'),
+    sendMetadata: true,
+  },
   // ...
 });
