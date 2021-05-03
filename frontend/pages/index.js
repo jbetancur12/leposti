@@ -1,10 +1,6 @@
 import {
   Layout,
-  Menu,
-  Breadcrumb,
   Carousel,
-  Row,
-  Col,
   Select,
   Form,
   DatePicker,
@@ -13,72 +9,56 @@ import {
   Button,
   Input,
   Modal,
-  Drawer,
-  Divider
+  Divider,
+  BackTop,
+  ConfigProvider,
 } from 'antd';
-import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
-import { useCookies } from 'react-cookie';
+import Cookie from 'js-cookie';
+import { NextSeo, LogoJsonLd } from 'next-seo';
+import md5 from 'md5';
+import CookieConsent from 'react-cookie-consent';
 
 import Link from 'next/link';
 import colombianHolidays from 'colombian-holidays';
 import 'moment/locale/es-mx';
 import locale from 'antd/lib/locale/es_ES';
-import md5 from 'md5';
-import styles from '../styles/New.module.css';
+import styles from '@styles/New.module.css';
 
-import Section from '../components/Section';
-import Product from '../components/Product';
-import MyMenu from '../components/MyMenu';
-import About from '../components/About';
-import Contact from '../components/Contact';
-import Question from '../components/Question';
-import UpBtn from '../components/UpBtn';
-import MyHeader from '../components/MyHeader';
-import MyFooter from '../components/MyFooter';
-import Chats from '../components/Chats';
+import About from '@components/About';
+import Contact from '@components/Contact';
+import Question from '@components/Question';
+import MyHeader from '@components/MyHeader';
+import MyFooter from '@components/MyFooter';
+// import Chats from '@components/Chats';
 
-import {
-  FaTwitter,
-  FaInstagram,
-  FaFacebook,
-  FaLinkedin,
-  FaBars,
-  FaAngleUp,
-} from 'react-icons/fa';
-
-import { useState } from 'react';
-
-const { Header, Content, Footer } = Layout;
+const { Content } = Layout;
 
 const { Option } = Select;
 const dateFormat = 'DD/MM/YYYY';
 
 const FormItem = Form.Item;
 
-//const urlApi = "http://localhost:1337"
-const urlApi = "https://api.leposti.ml"
+const API_URL = process.env.API_URL;
 
 const formatter = new Intl.NumberFormat('es-CO', {
   style: 'currency',
   currency: 'COP',
-
-  // These options are needed to round to whole numbers if that's what you want.
-  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 });
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   ssr: false,
-  loading: () => <p>Loading ...</p>,
+  loading: function loading() {
+    return <p>Loading ...</p>;
+  },
 });
 
-const Responsive = dynamic(import('../components/Responsive'), { ssr: false });
+const Responsive = dynamic(import('@components/Responsive'), { ssr: false });
 const getColombianHolidays = colombianHolidays().map((colombianHoliday) => {
-  let splited = [...colombianHoliday.celebrationDate.split('-')];
-  let formated = `${splited[2]}/${splited[1]}/${splited[0]}`;
+  const splited = [...colombianHoliday.celebrationDate.split('-')];
+  const formated = `${splited[2]}/${splited[1]}/${splited[0]}`;
   return formated;
 });
 
@@ -90,38 +70,36 @@ const config = {
   },
 };
 
-const Home = ({ products }) => {
+const Home = () => {
   const myRef = React.useRef();
+  const [products, setProducts] = useState([]);
   const [product, setProduct] = useState('');
   const [provider, setProvider] = useState('');
-  const [open, setOpen] = useState(false);
-  const [openProviders, setOpenProviders] = useState(false);
   const [productProvider, setProductProvider] = useState([]);
   const [providers, setProviders] = useState([]);
   const [valueDate, setValueDate] = useState('');
   const [readOnly, setReadOnly] = useState(true);
   const [valueEditor, setValueEditor] = useState('');
   const [valueEditorText, setValueEditorText] = useState('');
-  const [editorDesktop, setEditorDesktop] = useState('');
-  const [terms, setTerms] = useState(false);
   const [dayWeek, setDayWeek] = useState('lunes');
   const [email, setEmail] = useState('');
   const [openQuote, setOpenQuote] = useState(false);
   const [editing, setEditing] = useState(false);
   const [orderReady, setOrder] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [quotation, setQuotation] = useState([]);
+  const [tempEditor, setTempEditor] = useState('');
+  const [tempEditorTxt, setTempEditorTxt] = useState('');
+  const [, setQuotation] = useState([]);
   const [form] = Form.useForm();
-  const [cookie, setCookie] = useCookies(['email']);
   const [referencia, setReferencia] = useState();
 
   //Functions
   async function onChangeProduct(value) {
-    console.log('Token-webhoodk-8.12', process.env.NEXT_PUBLIC_JWT_TOKEN);
-    const response = await fetch(`${urlApi}/products/${value}`, {
+    const response = await fetch(`${API_URL}/products/${value}`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
     const responseProduct = await response.json();
@@ -138,6 +116,8 @@ const Home = ({ products }) => {
   }
 
   const showModal = () => {
+    setTempEditor(valueEditor);
+    setTempEditorTxt(valueEditorText);
     setIsModalVisible(true);
   };
 
@@ -146,12 +126,13 @@ const Home = ({ products }) => {
   };
 
   const handleCancel = () => {
+    setValueEditor(tempEditor);
+    setValueEditorText(tempEditorTxt);
     setIsModalVisible(false);
   };
 
   function onChangeProvider(value) {
     setProvider(value);
-    console.log('Vlauye', value);
     const test = { ...productProvider, provider: value };
     setProductProvider(test);
     setValueDate('');
@@ -159,7 +140,6 @@ const Home = ({ products }) => {
 
   function onChangeDate(date, dateString) {
     setReadOnly(false);
-    const isHoliday = getColombianHolidays.includes(dateString);
     const dayOfWeek = {
       0: 'domingo',
       1: 'lunes',
@@ -171,13 +151,12 @@ const Home = ({ products }) => {
     };
     setDayWeek(dayOfWeek[moment(date).day()]);
     setProductProvider({ ...productProvider, fecha: dateString });
-    console.log('DAte', date);
     setValueDate(date);
   }
 
   function disabledDate(current) {
     //let date = '2021-05-14 12:02';
-    let date = new Date();
+    const date = new Date();
 
     const hoursDiff = moment(date)
       .startOf('day')
@@ -225,20 +204,25 @@ const Home = ({ products }) => {
     setEmail(event.target.value);
   };
 
-  const onFinish = async (values) => {
-    const res = await fetch(`${urlApi}/prices`, {
+  const onFinish = async () => {
+    const res = await fetch(`${API_URL}/prices`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
     const prices = await res.json();
-    const price = prices.filter(
-      (price) =>
-        price.product.id === productProvider.product &&
-        price.provider.id === productProvider.provider &&
-        price.dias.includes(dayWeek),
-    );
+    const price = prices.filter((price) => {
+      if (price.provider && price.product) {
+        return (
+          price.product.id === productProvider.product &&
+          price.provider.id === productProvider.provider &&
+          price.dias.includes(dayWeek)
+        );
+      }
+      return;
+    });
 
     let finalPrice = '';
 
@@ -253,7 +237,7 @@ const Home = ({ products }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -283,18 +267,16 @@ const Home = ({ products }) => {
     };
 
     let orderUpdated = {};
-    const userExist = await fetch(
-      `${urlApi}/users?email=${email}`,
-      {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-          'Content-Type': 'application/json',
-        },
+    const userExist = await fetch(`${API_URL}/users?email=${email}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.TOKEN}`,
+        'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
-    );
+    });
 
     if (userExist.ok) {
-      let userExistJson = await userExist.json();
+      const userExistJson = await userExist.json();
       let userBuyer = '';
       if (userExistJson.length > 0) {
         userBuyer = userExistJson[0].id;
@@ -307,11 +289,12 @@ const Home = ({ products }) => {
     }
 
     if (!editing) {
-      const resPost = await fetch(`${urlApi}/orders`, {
+      const resPost = await fetch(`${API_URL}/orders`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+          Authorization: `Bearer ${process.env.TOKEN}`,
           'Content-Type': 'application/json',
+          'Accept-Encoding': 'gzip',
         },
         body: JSON.stringify(orderUpdated), // body data type must match "Content-Type" header
       });
@@ -325,8 +308,8 @@ const Home = ({ products }) => {
         setProvider('');
         setProduct('');
         const resul = await resPost.json();
+        Cookie.set('order', resul.id, { expires: 1 });
         setReferencia(resul);
-        console.log('Posteado', order);
         setOpenQuote(true);
       }
     } else {
@@ -346,17 +329,15 @@ const Home = ({ products }) => {
         sePublico: false,
         iva: finalPrice[0].iva,
       };
-      const resPut = await fetch(
-        `${urlApi}/orders/${referencia.id}`,
-        {
-          method: 'PUT', // *GET, POST, PUT, DELETE, etc.
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(orderEdited), // body data type must match "Content-Type" header
+      await fetch(`${API_URL}/orders/${referencia.id}`, {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          Authorization: `Bearer ${process.env.TOKEN}`,
+          'Content-Type': 'application/json',
+          'Accept-Encoding': 'gzip',
         },
-      );
+        body: JSON.stringify(orderEdited), // body data type must match "Content-Type" header
+      });
       setValueEditor('');
       setValueDate('');
       setProvider('');
@@ -369,26 +350,22 @@ const Home = ({ products }) => {
 
   function openWindowWithPostRequest(order) {
     const { iva } = order;
-    console.log('==>', order.total, iva);
     const referenceCode = order.referencia;
-    let winName = 'MyWindow';
-    let windowoption =
-      'resizable=yes,height=600,width=800,location=0,menubar=0,scrollbars=1';
+    const winName = 'MyWindow';
     const provide = providers.providers.find(
       (pro) => pro.id === productProvider.provider,
     );
-    const withEjemplar = order.ejemplar ? 'con ' : 'sin ';
     const withoutIva =
       iva > 0 ? order.total - order.total * (iva / 100) : order.total;
     const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
 
     const signature = md5(
-      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
+      `${process.env.PAYU_KEY}~${process.env.PAYU_MERCHANT_ID}~${referenceCode}~${order.total}~COP`,
     );
 
-    let params = {
-      accountId: '512321',
-      merchantId: '508029',
+    const params = {
+      accountId: process.env.PAYU_ACCOUNT_ID,
+      merchantId: process.env.PAYU_MERCHANT_ID,
       description: `${providers.nombre} - ${provide.nombre} - ${order.fechaPublicacion}`,
       referenceCode: referenceCode,
       amount: order.total,
@@ -399,18 +376,15 @@ const Home = ({ products }) => {
       test: '1',
       buyerEmail: email,
       responseUrl: '',
-      confirmationUrl: `${urlApi}/transactions`,
+      confirmationUrl: `${API_URL}/responses`,
     };
-    let form = document.createElement('form');
+    const form = document.createElement('form');
     form.setAttribute('method', 'post');
-    form.setAttribute(
-      'action',
-      'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/',
-    );
+    form.setAttribute('action', process.env.PAYU_URL);
     form.setAttribute('target', winName);
-    for (let i in params) {
+    for (const i in params) {
       if (params.hasOwnProperty(i)) {
-        let input = document.createElement('input');
+        const input = document.createElement('input');
         input.type = 'hidden';
         input.name = i;
         input.value = params[i];
@@ -426,7 +400,12 @@ const Home = ({ products }) => {
 
   const onClickBuy = async () => {
     openWindowWithPostRequest(orderReady);
-    setOpenQuote(false)
+    setOpenQuote(false);
+  };
+
+  const handleClean = () => {
+    setValueEditorText('');
+    setValueEditor('');
   };
 
   const onClickEditar = () => {
@@ -444,17 +423,17 @@ const Home = ({ products }) => {
   const Quote = () => {
     let button;
     if (orderReady.user.id > 0) {
-      button = <Button type="primary" onClick={onClickBuy}>Comprar</Button>;
+      button = (
+        <Button type='primary' onClick={onClickBuy}>
+          Comprar
+        </Button>
+      );
     } else {
-      setCookie('email', email);
+      Cookie.set('email', email);
       button = (
         <div>
-          <p>
-            El correo electronico no se encuntra registrado, por favor
-            registrate para continuar con la compra
-          </p>
           <Link href='/register'>
-            <a>Registrate</a>
+            <Button>Registrate</Button>
           </Link>
         </div>
       );
@@ -467,7 +446,7 @@ const Home = ({ products }) => {
     const quotation = (
       <div>
         <h1 className={styles.quotationTitle}>Detalles de la compra</h1>
-        <Divider style={{ marginTop: "0" }} />
+        <Divider style={{ marginTop: '0' }} />
         <div className={styles.quotationDetails}>
           <span>Producto </span>
           {providers.nombre}
@@ -480,13 +459,22 @@ const Home = ({ products }) => {
           <span>Fecha de publicación </span>
           {orderReady.fechaPublicacion}
         </div>
-        <Divider style={{ marginBottom: "10px" }} dashed />
+        <Divider style={{ marginBottom: '10px' }} dashed />
         <div className={styles.quotationDetails}>
-          <span style={{ fontWeight: "600" }}>Total </span>
-          <div style={{ fontWeight: "600" }} className={styles.amount}>{formatter.format(orderReady.total)}
-            <span style={{ fontSize: "12px" }}><em>(Iva Incluido)</em></span>
+          <span style={{ fontWeight: '600' }}>Total </span>
+          <div style={{ fontWeight: '600' }} className={styles.amount}>
+            {formatter.format(orderReady.total)}
+            <span style={{ fontSize: '12px' }}>
+              <em>(Iva Incluido)</em>
+            </span>
           </div>
         </div>
+        {!orderReady.user.id > 0 ? (
+          <p style={{ fontSize: '10px', fontStyle: 'italic' }}>
+            El correo electronico no se encuntra registrado, por favor
+            registrate para continuar con la compra
+          </p>
+        ) : null}
         <div className={styles.buttonsQuote}>
           {button}
           <Button onClick={onClickEditar}>Editar</Button>
@@ -497,36 +485,92 @@ const Home = ({ products }) => {
     return quotation;
   };
 
-  React.useEffect(() => {
-    //setProductProvider({ ...productProvider, fecha: referencia.fechaPublicacion });
+  React.useEffect(async () => {
+    const res = await fetch(`${API_URL}/products?_sort=id:ASC`, {
+      headers: {
+        Authorization: `Bearer ${process.env.TOKEN}`,
+        'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
+      },
+    });
+    const _products = await res.json();
+    setProducts(_products);
   }, []);
 
-  const optionsProducts = products.map((product) => {
-    return (
-      <Option value={product.id} key={product.id}>
-        {product.nombre}
-      </Option>
-    );
-  });
+  const optionsProducts = products.map((product) => (
+    <Option value={product.id} key={product.id}>
+      {product.nombre}
+    </Option>
+  ));
 
   const optionsProviders =
     providers.providers &&
-    providers.providers.map((provider) => {
-      return (
-        <Option value={provider.id} key={provider.id}>
-          {provider.nombre}
-        </Option>
-      );
-    });
+    providers.providers.map((provider) => (
+      <Option value={provider.id} key={provider.id}>
+        {provider.nombre}
+      </Option>
+    ));
 
   return (
     <Layout className={styles.layout}>
+      <h1 className={styles.ppalTitle}>LePosti.com</h1>
+
+      <NextSeo
+        title='Edictos, Avisos de ley | Leposti.com'
+        description='Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.'
+        canonical={process.env.CANONICAL_URL}
+        openGraph={{
+          type: 'website',
+          locale: 'es_ES',
+          url: process.env.CANONICAL_URL,
+          title: 'Edictos, Avisos de ley | Leposti.com',
+          description:
+            'Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.',
+          images: [
+            {
+              url: '/banner1.webp',
+              width: '800',
+              height: 600,
+              alt: 'Banner 1 Leposti',
+            },
+          ],
+        }}
+        twitter={{
+          handle: '@leposti_edictos',
+          site: '@leposti_edictos',
+          cardType: 'summary_large_image',
+        }}
+        additionalLinkTags={[
+          {
+            rel: 'icon',
+            href: '/favicon.webp',
+          },
+        ]}
+      />
+      <LogoJsonLd logo='/logoprincipalBlanco' url='https://www.leposti.com' />
+      <BackTop />
       <MyHeader />
       <Content className={styles.main}>
-        <Carousel autoplay>
-          <div className={styles.imgBanner1}></div>
-          <div className={styles.imgBanner2}></div>
-          <div className={styles.imgBanner3}></div>
+        <Carousel className={styles.carousel} autoplay>
+          <img
+            src='/banner1.webp'
+            layout='fill'
+            className={styles.imgContainer}
+            alt='banner1'
+            title='banner1'
+            width={1200}
+            height={700}
+          ></img>
+          <img
+            src='/banner2.webp'
+            layout='fill'
+            className={styles.imgContainer}
+            alt='banner2'
+            title='banner2'
+            width={1200}
+            height={700}
+          ></img>
+          {/* <img src="/banner3.webp" layout="fill" className={styles.imgContainer}></img> */}
         </Carousel>
         <div className={styles.formContainer}>
           <Form
@@ -593,33 +637,35 @@ const Home = ({ products }) => {
                   ]}
                 >
                   <Space direction='vertical' style={{ width: '100%' }}>
-                    <DatePicker
-                      ref={myRef}
-                      style={{ width: '100%' }}
-                      locale={locale}
-                      disabledDate={disabledDate}
-                      disabled={!productProvider.provider}
-                      //defaultValue={defaultDate}
-                      value={valueDate}
-                      format={dateFormat}
-                      onChange={onChangeDate}
-                    />
+                    <ConfigProvider locale={locale}>
+                      <DatePicker
+                        ref={myRef}
+                        style={{ width: '100%' }}
+                        // locale={locale}
+                        disabledDate={disabledDate}
+                        disabled={!productProvider.provider}
+                        //defaultValue={defaultDate}
+                        value={valueDate}
+                        format={dateFormat}
+                        onChange={onChangeDate}
+                      />
+                    </ConfigProvider>
                   </Space>
                 </FormItem>
                 <FormItem
-                  label='Contenido:'
+                  label='Contenido aviso a publicar:'
                   labelCol={{ span: 14 }}
                   wrapperCol={{ span: 24 }}
                   rules={[
                     {
-                      validator: (_, value) =>
+                      validator: () =>
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -653,12 +699,17 @@ const Home = ({ products }) => {
                     </>
                   </Responsive>
                   <Modal
-                    title='Contenido'
+                    title='Contenido aviso a publicar'
                     visible={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}
+                    okText='Aceptar'
+                    cancelText='Cancelar'
                     width='1000px'
                   >
+                    <div className={styles.editButton}>
+                      <Button onClick={handleClean}>Limpiar</Button>
+                    </div>
                     <QuillNoSSRWrapper
                       onChange={onChangeEditor}
                       theme='snow'
@@ -669,7 +720,9 @@ const Home = ({ products }) => {
                     />
                     {valueEditorText.length > 3000 ? (
                       <p style={{ color: 'red' }}>
-                        Contenido supera los 3000 caracteres
+                        Contenido supera los 3000 caracteres, Actualmente no
+                        ofrecemos este producto. Contáctanos en
+                        servicioalcliente@leposti.com o a través del chat
                       </p>
                     ) : null}
                   </Modal>
@@ -705,10 +758,10 @@ const Home = ({ products }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -736,22 +789,25 @@ const Home = ({ products }) => {
           <Question></Question>
         </div>
       </Content>
+      <CookieConsent
+        buttonText='Entendido!'
+        style={{
+          background: '#002855',
+          maxWidth: '600px',
+          left: '50%',
+          transform: 'translate(-50%,0)',
+        }}
+      >
+        Al continuar navegando en este sitio web, aceptas la{' '}
+        <Link href='/cookies'>
+          <a title='Politica Cookies'>Politica de privacidad </a>
+        </Link>{' '}
+        y uso de Cookies.{' '}
+      </CookieConsent>
       <MyFooter />
-      <Chats />
+      {/* <Chats /> */}
     </Layout>
   );
-};
-
-Home.getInitialProps = async (ctx) => {
-  const res = await fetch(`${urlApi}/products?_sort=id:ASC`, {
-    headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-      'Content-Type': 'application/json',
-    },
-  });
-  const products = await res.json();
-
-  return { products };
 };
 
 export default Home;

@@ -18,13 +18,12 @@ module.exports = {
     const formatter = new Intl.NumberFormat("es-CO", {
       style: "currency",
       currency: "COP",
-
-      // These options are needed to round to whole numbers if that's what you want.
-      //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-      //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
     });
 
     /* $2,500.00 */
+
+    console.log(data)
+    console.log(entry)
 
     if (data.estado === "paid") {
       try {
@@ -57,8 +56,34 @@ module.exports = {
             },
           }
         );
+
+
+        await strapi.plugins["email-designer"].services.email.sendTemplatedEmail(
+          {
+            to: entry.provider.email, // required
+            //from: "from@example.com", // optional if /config/plugins.js -> email.settings.defaultFrom is set
+            //replyTo: "reply@example.com", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
+          },
+          {
+            templateId: 4, // required - you can get the template id from the admin panel
+            //subject: `Welcome to My Project`, // If provided here will override the template's subject. Can include variables like `Welcome to <%= project_name %>`
+          },
+          {
+            // this object must include all variables you're using in your email template
+            medio: {
+              nombre: entry.provider.nombre,
+              consecutivo: entry.id,
+              producto: entry.product.nombre,
+              fechaPublicacion: dateFormat(
+                entry.fechaPublicacion,
+                "dd/mm/yyyy"
+              ),
+              contenido: entry.contenido
+            },
+          }
+        );
       } catch (err) {
-        strapi.log.debug("📺: =>", err);
+        strapi.log.debug("📺: 2=>", err);
       }
     }
 

@@ -1,66 +1,68 @@
-import React, { useEffect, useState } from "react";
-import Cookie from "js-cookie";
-import fetch from "isomorphic-fetch";
-import AppContext from "../context/AppContext";
-import '../styles/globals.css'
-import 'antd/dist/antd.css'
+import React, { useEffect } from 'react';
+
+import Head from 'next/head';
+import { useAuth, AuthProvider } from '@context/auth';
+import '@styles/globals.css';
+import 'antd/dist/antd.css';
 import 'react-quill/dist/quill.snow.css';
 
-function MyApp({ Component, pageProps }) {
-  const [user, setUser] = useState(null)
-  const [products, setProducts] = useState(null)
+export function reportWebVitals(metric) {
+  switch (metric.name) {
+    case 'FID':
+      // eslint-disable-next-line no-console
+      console.log('FID=> ', metric.value);
+      break;
+    case 'LCP':
+      // eslint-disable-next-line no-console
+      console.log('LCP=> ', metric.value);
+      break;
+    case 'CLS':
+      // eslint-disable-next-line no-console
+      console.log('CLS=> ', metric.value);
+      break;
+    case 'FCP':
+      // eslint-disable-next-line no-console
+      console.log('FCP=> ', metric.value);
+      break;
 
-  const userLoged = (user) => {
-    setUser(user)
+    default:
+      break;
   }
-
-  useEffect(() => {
-    const token = Cookie.get("token");
-
-    if (token) {
-      fetch('https://api.leposti.ml/users/me', {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-        }
-      }).then(async (res) => {
-        if (!res.ok) {
-          Cookie.remove('token')
-          setUser(null)
-          return null
-        }
-        const user = await res.json();
-        userLoged(user)
-
-      })
-
-    }
-
-    fetch('https://api.leposti.ml/products', {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
-      }
-    }).then(async (res) => {
-      if (res.ok) {
-        const products = await res.json()
-        console.log("····", products);
-        setProducts(products)
-      }
-
-    })
-  }, [])
-
-  return (
-    <AppContext.Provider
-      value={{
-        user: user,
-        isAuthenticated: !!user,
-        setUserLoged: userLoged,
-        products: products
-      }}>
-
-      <Component {...pageProps} />)
-    </AppContext.Provider>
-  )
 }
 
-export default MyApp
+function MyApp({ Component, pageProps }) {
+  const { isAuthenticated, isLoading, token, logout } = useAuth();
+  useEffect(() => {
+    if (Component.requiresAuth && token && !isAuthenticated && !isLoading) {
+      // Invalid token
+      logout({ redirectLocation: Component.redirectUnauthenticatedTo });
+    }
+  }, [isLoading, isAuthenticated, token]);
+
+  return (
+    <>
+      {Component.requiresAuth && (
+        <Head>
+          <link rel='shortcut icon' href='/favicon.ico' />
+          <link rel='canonical' href='https://www.leposti.com/'></link>
+          <script
+            // If no token is found, redirect inmediately
+            dangerouslySetInnerHTML={{
+              __html: `if(!document.cookie || document.cookie.indexOf('token') === -1)
+            {location.replace(
+              "/login?next=" +
+                encodeURIComponent(location.pathname + location.search)
+            )}
+            else {document.documentElement.classList.add("render")}`,
+            }}
+          />
+        </Head>
+      )}
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+    </>
+  );
+}
+
+export default MyApp;

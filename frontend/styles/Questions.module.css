@@ -9,6 +9,10 @@
     padding: 2rem;
 }
 
+.ant-collapse{
+  border: 0px;
+}
+
 .textQ {
     font-size: 24px;
 }

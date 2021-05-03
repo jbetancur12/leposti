@@ -3,24 +3,55 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3002",
+    "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start"
+    "postbuild": "next-sitemap",
+    "start": "next start",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "eslint": "eslint --fix \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "prepare": "cd .. && husky install frontend/.husky",
+    "test": "echo \"No test specified\""
   },
   "dependencies": {
     "antd": "^4.15.0",
-    "antd-mobile": "^2.3.4",
     "axios": "^0.21.1",
+    "babel-eslint": "^10.1.0",
     "colombian-holidays": "^1.7.1",
+    "dotenv": "^8.2.0",
     "isomorphic-fetch": "^3.0.0",
     "js-cookie": "^2.2.1",
     "md5": "^2.3.0",
     "moment": "^2.29.1",
     "next": "10.1.3",
+    "next-seo": "^4.24.0",
+    "next-sitemap": "^1.6.25",
     "react": "17.0.2",
+    "react-content-loader": "^6.0.3",
     "react-cookie": "^4.0.3",
+    "react-cookie-consent": "^6.2.3",
     "react-dom": "17.0.2",
     "react-icons": "^4.2.0",
-    "react-quill": "^1.3.5"
+    "react-quill": "^1.3.5",
+    "swr": "^0.5.5"
+  },
+  "devDependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-json": "^2.1.2",
+    "eslint-plugin-react": "^7.23.2",
+    "husky": "^6.0.0",
+    "lint-staged": "^10.5.4",
+    "next-purgecss": "^4.0.0",
+    "prettier": "^2.2.1"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,json}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.js": "eslint --cache --fix",
+    "*.{js,jsx,ts,tsx,json,md}": "prettier --write"
   }
 }

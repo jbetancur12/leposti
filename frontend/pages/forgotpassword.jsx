@@ -9,14 +9,15 @@ import {
   Col,
   message,
 } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 
-import styles from '../styles/Login.module.css';
+import styles from '@styles/Login.module.css';
 
-import MyHeader from '../components/MyHeader';
-import MyFooter from '../components/MyFooter';
+import MyHeader from '@components/MyHeader';
+import MyFooter from '@components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 const layout = {
   labelCol: { span: 8 },
@@ -33,14 +34,14 @@ const ForgotPassword = () => {
   const onFinish = async (values) => {
     let email = { email: '' };
     if (values.way === 'id') {
-      console.log(values);
       const resGet = await fetch(
-        'https://api.leposti.ml/users?docId=' + values.cedula,
+        `${process.env.API_URL}/users?docId=${values.cedula}`,
         {
           method: 'GET', // *GET, POST, PUT, DELETE, etc.
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+            Authorization: `Bearer ${process.env.TOKEN}`,
             'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip',
           },
           // body data type must match "Content-Type" header
         },
@@ -57,17 +58,18 @@ const ForgotPassword = () => {
       email = { ...email, email: values.email };
     }
 
-    const resPost = await fetch('https://api.leposti.ml/auth/forgot-password', {
+    const resPost = await fetch(`${process.env.API_URL}/auth/forgot-password`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        'Accept-Encoding': 'gzip',
+        Authorization: `Bearer ${process.env.TOKEN}`,
       },
       body: JSON.stringify(email), // body data type must match "Content-Type" header
     });
 
     if (resPost.ok) {
-      message.success('Email enviado a: ' + email.email);
+      message.success(`Email enviado a: ${email.email}`);
       router.push('/');
     } else {
       message.error('No se encontro el email');
@@ -116,6 +118,11 @@ const ForgotPassword = () => {
   return (
     <>
       <Layout className={styles.layout}>
+        <NextSeo
+          nofollow={true}
+          noindex={true}
+          title='Olvido Contraseña | Leposti.com'
+        />
         <MyHeader />
         <Content className={styles.content}>
           <Row justify='space-around' style={{ width: '100%' }}>

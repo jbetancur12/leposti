@@ -1,4 +1,4 @@
-import styles from '../styles/Contact.module.css';
+import styles from '@styles/Contact.module.css';
 
 import Title from './Title';
 
@@ -9,10 +9,11 @@ const Contact = () => {
   const onFinishHandler = async (values) => {
     const body = { email: values.email, content: values.message };
 
-    const postMessage = await fetch('https://api.leposti.ml/messages', {
+    const postMessage = await fetch(`${process.env.API_URL}/messages`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
       body: JSON.stringify(body), // body data type must match "Content-Type" header
     });

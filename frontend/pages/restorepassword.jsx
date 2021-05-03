@@ -1,21 +1,12 @@
-import {
-  Form,
-  Input,
-  Button,
-  Radio,
-  InputNumber,
-  message,
-  Layout,
-  Row,
-  Col,
-} from 'antd';
+import { Form, Input, Button, message, Layout, Row, Col } from 'antd';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
-import styles from '../styles/Login.module.css';
+import styles from '@styles/Login.module.css';
 
-import MyHeader from '../components/MyHeader';
-import MyFooter from '../components/MyFooter';
+import MyHeader from '@components/MyHeader';
+import MyFooter from '@components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
 
 const layout = {
@@ -35,11 +26,12 @@ const RestorePassword = () => {
       password: values.password,
       passwordConfirmation: values.confirm,
     };
-    const resPost = await fetch('https://api.leposti.ml/auth/reset-password', {
+    const resPost = await fetch(`${process.env.API_URL}/auth/reset-password`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3OTM5NzA2LCJleHAiOjE2MjA1MzE3MDZ9.lwwNZWcqvDCkmzxKHWaglDtYjkFTizqD5s_0oXEHcgQ`,
+        'Accept-Encoding': 'gzip',
+        Authorization: `Bearer ${process.env.TOKEN}`,
       },
       body: JSON.stringify(body), // body data type must match "Content-Type" header
     });
@@ -58,6 +50,11 @@ const RestorePassword = () => {
   return (
     <>
       <Layout className={styles.layout}>
+        <NextSeo
+          nofollow={true}
+          noindex={true}
+          title='Restaurar Contraseña | Leposti.com'
+        />
         <MyHeader />
         <Content className={styles.content}>
           <Row justify='space-around' style={{ width: '100%' }}>

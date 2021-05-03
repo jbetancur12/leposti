@@ -3,6 +3,20 @@
   overflow: auto;
 }
 
+.editButton {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+
+.fa,
+.fa:hover,
+.fa:focus,
+.fa:active {
+  text-decoration: none;
+  color: inherit;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -68,14 +82,37 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+.ppalTitle {
+  visibility: hidden;
+  position: absolute;
+}
+
 .main {
   width: 100%;
   margin: 0 auto;
   position: relative;
 }
 
+.carousel {
+  /* position: relative; */
+  width: 100%;
+  /* padding-top: 66.66%; */
+}
+
+.imgContainer {
+  /* position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center; */
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .imgBanner1 {
-  background-image: url(../public/banner1.jpg);
+  background-image: url(../public/banner1.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -84,7 +121,7 @@
 }
 
 .imgBanner2 {
-  background-image: url(../public/banner2.jpg);
+  background-image: url(../public/banner2.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -93,7 +130,7 @@
 }
 
 .imgBanner3 {
-  background-image: url(../public/banner3.jpg);
+  background-image: url(../public/banner3.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -244,13 +281,13 @@
 
   .loginBtn {
     position: absolute !important;
-    bottom: 0.5rem;
+    /* bottom: 0.5rem; */
     right: 7rem;
   }
 
   .registerBtn {
     position: absolute !important;
-    bottom: 0.5rem;
+    /* bottom: 0.5rem; */
     right: 0.5rem;
   }
 

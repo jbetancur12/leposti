@@ -1,0 +1,44 @@
+{
+  "extends": ["plugin:react/recommended", "prettier", "plugin:json/recommended"],
+  "parser": "babel-eslint",
+  "parserOptions":{
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+        "jsx": true
+    }
+  },
+    "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "env":{
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "plugins": [],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    // allow jsx syntax in js files (for next.js project)
+   "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], 
+    "react/prop-types": [0],
+    "no-extra-semi": "error",
+    "no-console": "error",
+    "no-template-curly-in-string": "error",
+    "no-undef": "error",
+    "no-unreachable": "error",
+    "eqeqeq": "error",
+    "no-unused-vars": "error",
+    "arrow-body-style": ["error", "as-needed"],
+    "arrow-spacing": "error",
+    "no-const-assign": "error",
+    "no-duplicate-imports": "error",
+    "no-var": "error",
+    "prefer-arrow-callback": "warn",
+    "prefer-const": "error",
+    "prefer-template": "warn"
+  }
+}

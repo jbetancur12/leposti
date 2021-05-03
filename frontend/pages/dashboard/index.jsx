@@ -1,24 +1,38 @@
-import React, { useContext, useEffect } from 'react'
-import AppContext from "../../context/AppContext";
-import { useRouter } from 'next/router';
-import MyLayout from "../../components/LayoutDash"
-import { Skeleton } from 'antd';
+import React from 'react';
+import { useAuth } from '@context/auth';
+import MyLayout from '@components/LayoutDash';
+import ContentLoader from 'react-content-loader';
+import { NextSeo } from 'next-seo';
 
 const Dashboard = () => {
-  const { isAuthenticated } = useContext(AppContext);
-  console.log("USER", isAuthenticated);
-  const router = useRouter();
-  useEffect(() => {
-
-    if (!isAuthenticated) {
-      //router.push("/"); // redirect if you're already logged in
-    }
-
-  }, [])
+  const { isAuthenticated } = useAuth();
   return (
     <>
-      {isAuthenticated ? <MyLayout /> : <Skeleton />}
-    </>)
-}
+      {isAuthenticated ? (
+        <>
+          <NextSeo
+            nofollow={true}
+            noindex={true}
+            title='Dashboard | Leposti.com'
+            additionalLinkTags={[
+              {
+                rel: 'icon',
+                href: '/favicon.webp',
+              },
+            ]}
+          />
+          <MyLayout />
+        </>
+      ) : (
+        <ContentLoader uniqueKey='aUniqueKeyToMatchSSR'>
+          <rect y='10' rx='3' ry='3' width='1000' height='20' />
+        </ContentLoader>
+      )}
+    </>
+  );
+};
+
+Dashboard.requiresAuth = true;
+Dashboard.redirectUnauthenticated = '/login';
 
 export default Dashboard;
