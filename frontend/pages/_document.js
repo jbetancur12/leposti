@@ -1,5 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import Chat from '@components/Chats'
+import Chat from '@components/Chats';
 
 export default class MyDocument extends Document {
   render() {
