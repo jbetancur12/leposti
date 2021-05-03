@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Chat from '@components/Chats'
 
 export default class MyDocument extends Document {
   render() {
@@ -44,6 +45,7 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          <Chat />
         </body>
       </Html>
     );
