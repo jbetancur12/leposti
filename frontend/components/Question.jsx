@@ -14,6 +14,7 @@ const Question = () => {
     const response = await fetch(`${process.env.API_URL}/pqrs`, {
       headers: {
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
     const pqrResult = await response.json();

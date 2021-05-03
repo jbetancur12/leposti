@@ -30,6 +30,7 @@ const RestorePassword = () => {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
         Authorization: `Bearer ${process.env.TOKEN}`,
       },
       body: JSON.stringify(body), // body data type must match "Content-Type" header

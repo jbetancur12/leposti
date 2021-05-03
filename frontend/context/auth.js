@@ -74,6 +74,7 @@ export const AuthProvider = ({ children }) => {
           headers: {
             // Overwrite Axios's automatically set Content-Type
             'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip',
           },
         })
         .then((res) => {
@@ -105,6 +106,7 @@ export const AuthProvider = ({ children }) => {
             // Overwrite Axios's automatically set Content-Type
             Authorization: `Bearer ${process.env.TOKEN}`,
             'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip',
           },
         })
         .then((res) => {

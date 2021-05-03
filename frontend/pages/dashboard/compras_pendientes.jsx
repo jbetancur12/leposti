@@ -229,6 +229,7 @@ const PendingBuys = () => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
 
@@ -246,6 +247,7 @@ const PendingBuys = () => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
     if (!res.ok) {

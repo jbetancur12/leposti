@@ -99,6 +99,7 @@ const Home = () => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
     const responseProduct = await response.json();
@@ -208,6 +209,7 @@ const Home = () => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
     const prices = await res.json();
@@ -235,7 +237,7 @@ const Home = () => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -269,6 +271,7 @@ const Home = () => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
 
@@ -291,6 +294,7 @@ const Home = () => {
         headers: {
           Authorization: `Bearer ${process.env.TOKEN}`,
           'Content-Type': 'application/json',
+          'Accept-Encoding': 'gzip',
         },
         body: JSON.stringify(orderUpdated), // body data type must match "Content-Type" header
       });
@@ -330,6 +334,7 @@ const Home = () => {
         headers: {
           Authorization: `Bearer ${process.env.TOKEN}`,
           'Content-Type': 'application/json',
+          'Accept-Encoding': 'gzip',
         },
         body: JSON.stringify(orderEdited), // body data type must match "Content-Type" header
       });
@@ -485,11 +490,12 @@ const Home = () => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
     const _products = await res.json();
-    setProducts(_products)
-  }, [products]);
+    setProducts(_products);
+  }, []);
 
   const optionsProducts = products.map((product) => (
     <Option value={product.id} key={product.id}>
@@ -550,8 +556,8 @@ const Home = () => {
             src='/banner1.webp'
             layout='fill'
             className={styles.imgContainer}
-            alt="banner1"
-            title="banner1"
+            alt='banner1'
+            title='banner1'
             width={1200}
             height={700}
           ></img>
@@ -559,8 +565,8 @@ const Home = () => {
             src='/banner2.webp'
             layout='fill'
             className={styles.imgContainer}
-            alt="banner2"
-            title="banner2"
+            alt='banner2'
+            title='banner2'
             width={1200}
             height={700}
           ></img>
@@ -656,10 +662,10 @@ const Home = () => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -752,10 +758,10 @@ const Home = () => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -803,7 +809,5 @@ const Home = () => {
     </Layout>
   );
 };
-
-
 
 export default Home;

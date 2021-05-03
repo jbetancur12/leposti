@@ -41,6 +41,7 @@ const ForgotPassword = () => {
           headers: {
             Authorization: `Bearer ${process.env.TOKEN}`,
             'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip',
           },
           // body data type must match "Content-Type" header
         },
@@ -61,6 +62,7 @@ const ForgotPassword = () => {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
         Authorization: `Bearer ${process.env.TOKEN}`,
       },
       body: JSON.stringify(email), // body data type must match "Content-Type" header

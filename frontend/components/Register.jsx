@@ -113,6 +113,7 @@ const RegistrationForm = (props) => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
       // body data type must match "Content-Type" header
     });
@@ -134,6 +135,7 @@ const RegistrationForm = (props) => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
       // body data type must match "Content-Type" header
     });

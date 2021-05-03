@@ -86,7 +86,7 @@ const MyFooter = () => (
             alt='logo payu'
             width={250}
             height={140}
-            title="Logo PaYu"
+            title='Logo PaYu'
           />
         </Col>
       </Row>
