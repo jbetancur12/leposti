@@ -18,6 +18,7 @@ const MyFooter = () => (
             <Image
               src='/logoprincipalBlanco.webp'
               alt='logo leposti'
+              title='logo leposti'
               width={140}
               height={33}
             />
@@ -77,6 +78,7 @@ const MyFooter = () => (
             <Image
               src='/logoSuperintendenciaIC.webp'
               alt='logo industria y comercio'
+              title='logo industria y comercio'
               width={200}
               height={45}
             />
