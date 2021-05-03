@@ -513,7 +513,7 @@ const Home = () => {
 
   return (
     <Layout className={styles.layout}>
-      <h1 className={styles.ppalTitle}>Edictos, Avisos de ley | Leposti.com</h1>
+      <h1 className={styles.ppalTitle}>Edictos, Avisos de ley | leposti.com</h1>
 
       <NextSeo
         title='Edictos, Avisos de ley | Leposti.com'
