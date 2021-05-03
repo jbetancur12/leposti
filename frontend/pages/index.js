@@ -237,7 +237,7 @@ const Home = () => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-          finalPrice[0].precio
+        finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -513,7 +513,7 @@ const Home = () => {
 
   return (
     <Layout className={styles.layout}>
-      <h1 className={styles.ppalTitle}>LePosti.com</h1>
+      <h1 className={styles.ppalTitle}>Edictos, Avisos de ley | Leposti.com</h1>
 
       <NextSeo
         title='Edictos, Avisos de ley | Leposti.com'
@@ -662,10 +662,10 @@ const Home = () => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
@@ -758,10 +758,10 @@ const Home = () => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
