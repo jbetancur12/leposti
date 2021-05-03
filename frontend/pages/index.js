@@ -538,18 +538,23 @@ const Home = ({ products }) => {
       <MyHeader />
       <Content className={styles.main}>
         <Carousel className={styles.carousel} autoplay>
-          {/* <div className={styles.imgBanner1}></div>
-          <div className={styles.imgBanner2}></div>
-          <div className={styles.imgBanner3}></div> */}
           <img
             src='/banner1.webp'
             layout='fill'
             className={styles.imgContainer}
+            alt="banner1"
+            title="banner1"
+            width={1200}
+            height={700}
           ></img>
           <img
             src='/banner2.webp'
             layout='fill'
             className={styles.imgContainer}
+            alt="banner2"
+            title="banner2"
+            width={1200}
+            height={700}
           ></img>
           {/* <img src="/banner3.webp" layout="fill" className={styles.imgContainer}></img> */}
         </Carousel>

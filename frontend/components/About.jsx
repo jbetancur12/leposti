@@ -34,6 +34,7 @@ const About = () => (
             <Image
               src='/hero_2.webp'
               alt='hero 2'
+              title="hero 2"
               width={500}
               height={350}
               className={styles.img}
