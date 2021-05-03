@@ -1,5 +1,11 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import Chat from '@components/Chats';
+import dynamic from 'next/dynamic';
+
+const Comm101 = dynamic(() => import('@components/Chats'), {
+  loading: function loading() {
+    return <p>Loading ...</p>;
+  },
+});
 
 export default class MyDocument extends Document {
   render() {
@@ -45,7 +51,7 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          <Chat />
+          <Comm101 />
         </body>
       </Html>
     );
