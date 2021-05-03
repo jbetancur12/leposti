@@ -501,30 +501,29 @@ const Home = ({ products }) => {
   return (
     <Layout className={styles.layout}>
       <h1 className={styles.ppalTitle}>LePosti.com</h1>
-      <Head>
-        <script
-          type='application/ld+json'
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'http://www.schema.org',
-              '@type': 'Organization',
-              name: 'LePosti.com',
-              url: 'https://leposti.com',
-              logo: '/logoprincipalBlanco.webp',
-              description:
-                'Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.',
-              address: {
-                '@type': 'PostalAddress',
-                addressCountry: 'Colombia',
-              },
-            }),
-          }}
-        />
-      </Head>
+
       <NextSeo
         title='Edictos, Avisos de ley | Leposti.com'
         description='Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.'
-        canonical='https://leposti.ml'
+        canonical={process.env.CANONICAL_URL}
+        openGraph={{
+          type: 'website',
+          locale: 'es_ES',
+          url: process.env.CANONICAL_URL,
+          title: 'Edictos, Avisos de ley | Leposti.com',
+          description: 'Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.',
+          images: [{
+            url: '/banner1.webp',
+            width: '800',
+            height: 600,
+            alt: 'Banner 1 Leposti'
+          }]
+        }}
+        twitter={{
+          handle: '@leposti_edictos',
+          site: '@leposti_edictos',
+          cardType: 'summary_large_image',
+        }}
         additionalLinkTags={[
           {
             rel: 'icon',

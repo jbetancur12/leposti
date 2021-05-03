@@ -5,6 +5,7 @@ module.exports = {
   sitemapSize: 5000,
   generateRobotsTxt: true,
   exclude: [
+    'maintenance.html',
     '/dashboard',
     '/dashboard/*',
     '/login',

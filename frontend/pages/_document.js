@@ -22,6 +22,24 @@ export default class MyDocument extends Document {
           `,
             }}
           />
+          <script
+            type='application/ld+json'
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'http://www.schema.org',
+                '@type': 'Organization',
+                name: 'LePosti.com',
+                url: `${process.env.CANONICAL_URL}`,
+                logo: '/logoprincipalBlanco.webp',
+                description:
+                  'Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.',
+                address: {
+                  '@type': 'PostalAddress',
+                  addressCountry: 'Colombia',
+                },
+              }),
+            }}
+          />
         </Head>
         <body>
           <Main />

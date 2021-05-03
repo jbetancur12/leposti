@@ -23,10 +23,14 @@ const MyFooter = () => (
             />
           </div>
           <div className={styles.redes}>
-            <FaTwitter />
-            <FaInstagram />
-            <FaFacebook />
-            <FaLinkedin />
+            <Link href="https://twitter.com/leposti_edictos"><a className={styles.fa}><FaTwitter /></a></Link>
+            <Link href="https://www.instagram.com/leposti_edictos/"><a className={styles.fa}><FaInstagram /></a></Link>
+            <Link href="https://www.facebook.com/Leposti/"><a className={styles.fa}> <FaFacebook /></a></Link>
+            <Link href="https://www.linkedin.com/in/leposti-edictos-5b87581a9/"><a className={styles.fa}>  <FaLinkedin /></a></Link>
+
+
+
+
           </div>
         </Col>
         <Col
