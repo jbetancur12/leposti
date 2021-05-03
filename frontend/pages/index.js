@@ -70,8 +70,9 @@ const config = {
   },
 };
 
-const Home = ({ products }) => {
+const Home = () => {
   const myRef = React.useRef();
+  const [products, setProducts] = useState([]);
   const [product, setProduct] = useState('');
   const [provider, setProvider] = useState('');
   const [productProvider, setProductProvider] = useState([]);
@@ -479,9 +480,16 @@ const Home = ({ products }) => {
     return quotation;
   };
 
-  React.useEffect(() => {
-    //setProductProvider({ ...productProvider, fecha: referencia.fechaPublicacion });
-  }, []);
+  React.useEffect(async () => {
+    const res = await fetch(`${API_URL}/products?_sort=id:ASC`, {
+      headers: {
+        Authorization: `Bearer ${process.env.TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    const _products = await res.json();
+    setProducts(_products)
+  }, [products]);
 
   const optionsProducts = products.map((product) => (
     <Option value={product.id} key={product.id}>
@@ -796,16 +804,6 @@ const Home = ({ products }) => {
   );
 };
 
-Home.getInitialProps = async () => {
-  const res = await fetch(`${API_URL}/products?_sort=id:ASC`, {
-    headers: {
-      Authorization: `Bearer ${process.env.TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-  });
-  const products = await res.json();
 
-  return { products };
-};
 
 export default Home;
