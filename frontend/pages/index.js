@@ -19,7 +19,6 @@ import dynamic from 'next/dynamic';
 import Cookie from 'js-cookie';
 import { NextSeo, LogoJsonLd } from 'next-seo';
 import md5 from 'md5';
-import Head from 'next/head';
 import CookieConsent from 'react-cookie-consent';
 
 import Link from 'next/link';
@@ -511,13 +510,16 @@ const Home = ({ products }) => {
           locale: 'es_ES',
           url: process.env.CANONICAL_URL,
           title: 'Edictos, Avisos de ley | Leposti.com',
-          description: 'Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.',
-          images: [{
-            url: '/banner1.webp',
-            width: '800',
-            height: 600,
-            alt: 'Banner 1 Leposti'
-          }]
+          description:
+            'Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.',
+          images: [
+            {
+              url: '/banner1.webp',
+              width: '800',
+              height: 600,
+              alt: 'Banner 1 Leposti',
+            },
+          ],
         }}
         twitter={{
           handle: '@leposti_edictos',
