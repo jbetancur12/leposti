@@ -47,11 +47,16 @@ export default class MyDocument extends Document {
               }),
             }}
           />
+          <script
+            src='//code-eu1.jivosite.com/widget/pMevzsttmR'
+            async
+          ></script>
         </Head>
         <body>
           <Main />
           <NextScript />
-          <Comm101 />
+          {/* <Comm101 /> */}
+          {/* <script src="//code.tidio.co/43vtz6ozvejfwutoqsn5bka3kznbs5oj.js" async></script> */}
         </body>
       </Html>
     );
