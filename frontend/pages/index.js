@@ -72,7 +72,7 @@ const config = {
   },
 };
 
-const Home = () => {
+const Home = ({ pqrs }) => {
   const myRef = React.useRef();
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState('');
@@ -790,7 +790,7 @@ const Home = () => {
           <Experience />
           <About></About>
           <Contact></Contact>
-          <Question></Question>
+          <Question pqrs={pqrs}></Question>
         </div>
       </Content>
       <CookieConsent
@@ -813,5 +813,16 @@ const Home = () => {
     </Layout>
   );
 };
+
+Home.getInitialProps = async () => {
+  const response = await fetch(`${process.env.API_URL}/pqrs`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept-Encoding': 'gzip',
+    },
+  });
+  const pqrResult = await response.json();
+  return { pqrs: pqrResult }
+}
 
 export default Home;
