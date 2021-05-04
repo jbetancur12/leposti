@@ -28,10 +28,12 @@ import locale from 'antd/lib/locale/es_ES';
 import styles from '@styles/New.module.css';
 
 import About from '@components/About';
+import Products from '@components/Products';
 import Contact from '@components/Contact';
 import Question from '@components/Question';
 import MyHeader from '@components/MyHeader';
 import MyFooter from '@components/MyFooter';
+import Experience from '@components/Experience';
 // import Chats from '@components/Chats';
 
 const { Content } = Layout;
@@ -237,7 +239,7 @@ const Home = () => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -662,10 +664,10 @@ const Home = () => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -758,10 +760,10 @@ const Home = () => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -784,6 +786,8 @@ const Home = () => {
           </Form>
         </div>
         <div>
+          <Products />
+          <Experience />
           <About></About>
           <Contact></Contact>
           <Question></Question>

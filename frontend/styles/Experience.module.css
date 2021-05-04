@@ -1,0 +1,22 @@
+.container {
+  background: #fff;
+}
+
+.content {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.icon {
+  font-size: 78px;
+  padding: 3rem 2rem 0rem 0;
+  text-align: center;
+}
+
+.text {
+  padding: 0rem 2rem 3rem 0;
+  font-size: 16px;
+  text-align: center;
+  color: #555;
+}
