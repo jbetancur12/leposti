@@ -8,8 +8,6 @@ import { Collapse } from 'antd';
 const { Panel } = Collapse;
 
 const Question = ({ pqrs }) => {
-
-
   const PQR = () => (
     <Collapse bordered={false} defaultActiveKey={['1']}>
       {pqrs &&
@@ -30,6 +28,5 @@ const Question = ({ pqrs }) => {
     </div>
   );
 };
-
 
 export default Question;
