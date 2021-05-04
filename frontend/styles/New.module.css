@@ -35,7 +35,7 @@
 .menu {
   background: transparent;
   color: #fff;
-  min-width: 600px;
+  width: 100%;
 }
 
 .item {
