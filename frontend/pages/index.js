@@ -239,7 +239,7 @@ const Home = () => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-          finalPrice[0].precio
+        finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -375,7 +375,7 @@ const Home = () => {
       taxReturnBase: withoutIva,
       currency: 'COP',
       signature: signature,
-      test: '1',
+      test: process.env.TEST_PAYU,
       buyerEmail: email,
       responseUrl: '',
       confirmationUrl: `${API_URL}/responses`,
@@ -664,10 +664,10 @@ const Home = () => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
@@ -760,10 +760,10 @@ const Home = () => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
