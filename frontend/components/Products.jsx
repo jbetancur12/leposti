@@ -1,6 +1,7 @@
 import styles from '@styles/Products.module.css';
 import Title from './Title';
 import { Row, Col } from 'antd';
+import Image from 'next/image'
 
 const Products = () => (
   <div className={styles.container} id='about'>
@@ -9,14 +10,14 @@ const Products = () => (
       <Row justify='space-around'>
         <Col span={24} lg={6}>
           <div className={styles.imgContainer}>
-            <img
+            <Image
               src='/Edicto-peq.webp'
               alt='hero 2'
               title='hero 2'
               width={500}
               height={350}
               className={styles.img}
-            ></img>
+            ></Image>
           </div>
           <div className={styles.text}>
             <h3 className={styles.subTitle}>Edicto</h3>
@@ -29,14 +30,14 @@ const Products = () => (
         </Col>
         <Col span={24} lg={6}>
           <div className={styles.imgContainer}>
-            <img
+            <Image
               src='/edicto-radio-peq.webp'
               alt='hero 2'
               title='hero 2'
               width={500}
               height={350}
               className={styles.img}
-            ></img>
+            ></Image>
           </div>
           <div className={styles.text}>
             <h3 className={styles.subTitle}>Edicto + radio</h3>
@@ -50,14 +51,14 @@ const Products = () => (
         </Col>
         <Col span={24} lg={6}>
           <div className={styles.imgContainer}>
-            <img
+            <Image
               src='/aviso-de-ley.webp'
               alt='hero 2'
               title='hero 2'
               width={500}
               height={350}
               className={styles.img}
-            ></img>
+            ></Image>
           </div>
           <div className={styles.text}>
             <h3 className={styles.subTitle}>Avisos de ley</h3>

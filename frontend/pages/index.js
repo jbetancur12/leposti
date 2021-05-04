@@ -22,6 +22,7 @@ import md5 from 'md5';
 import CookieConsent from 'react-cookie-consent';
 
 import Link from 'next/link';
+import Image from 'next/image'
 import colombianHolidays from 'colombian-holidays';
 import 'moment/locale/es-mx';
 import locale from 'antd/lib/locale/es_ES';
@@ -559,24 +560,24 @@ const Home = ({ pqrs }) => {
       <MyHeader />
       <Content className={styles.main}>
         <Carousel className={styles.carousel} autoplay>
-          <img
+          <Image
             src='/banner1.webp'
-            layout='fill'
+            layout="responsive"
             className={styles.imgContainer}
             alt='banner1'
             title='banner1'
-            width={1200}
+            width={1050}
             height={700}
-          ></img>
-          <img
+          ></Image>
+          <Image
             src='/banner2.webp'
-            layout='fill'
+            layout="responsive"
             className={styles.imgContainer}
             alt='banner2'
             title='banner2'
-            width={1200}
+            width={1050}
             height={700}
-          ></img>
+          ></Image>
           {/* <img src="/banner3.webp" layout="fill" className={styles.imgContainer}></img> */}
         </Carousel>
         <div className={styles.formContainer}>
