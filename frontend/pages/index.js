@@ -551,7 +551,7 @@ const Home = ({ pqrs }) => {
           },
         ]}
       />
-      <LogoJsonLd logo='/logoprincipalBlanco' url='https://www.leposti.com' />
+      <LogoJsonLd logo='/logoprincipalBlanco.webp' url='https://www.leposti.com' />
       <FAQPageJsonLd
         mainEntity={faq}
       />
