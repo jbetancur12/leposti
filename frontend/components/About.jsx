@@ -5,7 +5,7 @@ import { Row, Col } from 'antd';
 
 const About = () => (
   <div className={styles.container} id='about'>
-    <Title title='Quiénes' titleW='somos' />
+    <Title title='Nuestra' titleW='historia' />
     <div className={styles.content}>
       <Row>
         <Col span={24} lg={12}>

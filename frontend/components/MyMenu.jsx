@@ -7,7 +7,7 @@ import Link from 'next/link';
 const MyMenu = (props) => {
   const { isAuthenticated } = useAuth();
   return (
-    <Menu className={styles.menu} mode={props.type}>
+    <Menu className={styles.menu} mode='horizontal' forceSubMenuRender={true}>
       <Menu.Item key='1' className={styles.item}>
         <Link href='/#about'>
           <a>Quiénes somos</a>
