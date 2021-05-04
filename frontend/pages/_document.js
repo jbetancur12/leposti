@@ -1,12 +1,4 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import dynamic from 'next/dynamic';
-
-const Comm101 = dynamic(() => import('@components/Chats'), {
-  loading: function loading() {
-    return <p>Loading ...</p>;
-  },
-});
-
 export default class MyDocument extends Document {
   render() {
     return (

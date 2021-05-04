@@ -72,7 +72,7 @@ const config = {
   },
 };
 
-const Home = () => {
+const Home = ({ pqrs }) => {
   const myRef = React.useRef();
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState('');
@@ -239,7 +239,7 @@ const Home = () => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -664,10 +664,10 @@ const Home = () => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -760,10 +760,10 @@ const Home = () => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -790,7 +790,7 @@ const Home = () => {
           <Experience />
           <About></About>
           <Contact></Contact>
-          <Question></Question>
+          <Question pqrs={pqrs}></Question>
         </div>
       </Content>
       <CookieConsent
@@ -812,6 +812,17 @@ const Home = () => {
       {/* <Chats /> */}
     </Layout>
   );
+};
+
+Home.getInitialProps = async () => {
+  const response = await fetch(`${process.env.API_URL}/pqrs`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept-Encoding': 'gzip',
+    },
+  });
+  const pqrResult = await response.json();
+  return { pqrs: pqrResult };
 };
 
 export default Home;
