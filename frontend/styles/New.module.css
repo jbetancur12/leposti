@@ -35,7 +35,7 @@
 .menu {
   background: transparent;
   color: #fff;
-  width: 100%;
+  min-width: 800px;
 }
 
 .item {
@@ -261,7 +261,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .barsMenu {
     display: inline-block;
   }
