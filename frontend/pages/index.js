@@ -17,7 +17,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
 import Cookie from 'js-cookie';
-import { NextSeo, LogoJsonLd } from 'next-seo';
+import { NextSeo, LogoJsonLd, FAQPageJsonLd } from 'next-seo';
 import md5 from 'md5';
 import CookieConsent from 'react-cookie-consent';
 
@@ -94,6 +94,8 @@ const Home = ({ pqrs }) => {
   const [, setQuotation] = useState([]);
   const [form] = Form.useForm();
   const [referencia, setReferencia] = useState();
+
+  const faq = pqrs && pqrs.map(pqr => ({ questionName: pqr.question, acceptedAnswerText: pqr.answer }))
 
   //Functions
   async function onChangeProduct(value) {
@@ -239,7 +241,7 @@ const Home = ({ pqrs }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-          finalPrice[0].precio
+        finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -550,6 +552,9 @@ const Home = ({ pqrs }) => {
         ]}
       />
       <LogoJsonLd logo='/logoprincipalBlanco' url='https://www.leposti.com' />
+      <FAQPageJsonLd
+        mainEntity={faq}
+      />
       <BackTop />
       <MyHeader />
       <Content className={styles.main}>
@@ -664,10 +669,10 @@ const Home = ({ pqrs }) => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
@@ -760,10 +765,10 @@ const Home = ({ pqrs }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(
-                                'Debe aceptar los terminos y condiciones',
-                              ),
+                            new Error(
+                              'Debe aceptar los terminos y condiciones',
                             ),
+                          ),
                     },
                   ]}
                 >
