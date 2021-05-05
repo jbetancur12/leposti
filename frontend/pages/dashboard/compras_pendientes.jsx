@@ -283,7 +283,7 @@ const PendingBuys = () => {
 
     const form = document.createElement('form');
     form.setAttribute('method', 'post');
-    form.setAttribute(process.env.PAYU_URL);
+    form.setAttribute('action', process.env.PAYU_URL);
     const winName = 'MyWindow';
     form.setAttribute('target', winName);
     for (const i in params) {
