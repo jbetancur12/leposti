@@ -10,9 +10,9 @@ databases:
 routers:
 - name: "main-leposti"
   routes:
-  - application_name: "Backend"
+  - application_name: "leposti"
     paths:
     - /backend
-  - application_name: "Frontend"
+  - application_name: "leposti"
     paths:
-    - /frontned
+    - /frontend
