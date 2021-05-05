@@ -262,7 +262,7 @@ const PendingBuys = () => {
 
   const goToPayu = (order) => {
     const signature = md5(
-      `${process.env.PAYU_KEY}~${process.env.PAYU_MERCHANT_ID}~~${order.referencia}~${order.total}~COP`,
+      `${process.env.PAYU_KEY}~${process.env.PAYU_MERCHANT_ID}~${order.referencia}~${order.total}~COP`,
     );
 
     const params = {
