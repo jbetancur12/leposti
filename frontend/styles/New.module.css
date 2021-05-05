@@ -17,6 +17,13 @@
   color: inherit;
 }
 
+.contact,
+.contact:focus,
+.contact:active {
+  text-decoration: none;
+  color: inherit;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

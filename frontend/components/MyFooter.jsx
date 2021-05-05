@@ -70,8 +70,8 @@ const MyFooter = () => (
         </Col>
         <Col span={24} sm={12} md={6} className={styles.footerCol}>
           <h3>Contacto</h3>
-          <a href='#'>email: servicioalcliente@leposti.com</a>
-          <span>Tel: +57 310 6503663</span>
+          <span>email: <a className={styles.contact} href="mailto:servicioalcliente@leposti.com?subject=Mail desde leposti.com">servicioalcliente@leposti.com</a></span>
+          <span>Tel: <a className={styles.contact} href="https://wa.me/573106503663/?text=Buen+dia%2C+estoy+interesado+en+publicar+un+aviso">+57 310 6503663</a></span>
         </Col>
         <Col span={24} sm={24} md={6} className={styles.footerImg}>
           <div className={styles.footerSuper}>
