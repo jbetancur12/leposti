@@ -262,12 +262,12 @@ const PendingBuys = () => {
 
   const goToPayu = (order) => {
     const signature = md5(
-      `4Vj8eK4rloUd272L48hsrarnUA~508029~${order.referencia}~${order.total}~COP`,
+      `${process.env.PAYU_KEY}~${process.env.PAYU_MERCHANT_ID}~${referenceCode}~${order.total}~COP`,
     );
 
     const params = {
-      accountId: '512321',
-      merchantId: '508029',
+      accountId: process.env.PAYU_ACCOUNT_ID,
+      merchantId: process.env.PAYU_MERCHANT_ID, ∫
       description: `${order.provider.nombre} - ${order.product.nombre} - ${order.fechaPublicacion}`,
       referenceCode: order.referencia,
       amount: order.total,
@@ -275,7 +275,7 @@ const PendingBuys = () => {
       taxReturnBase: (order.total / 1.16).toFixed(2),
       currency: 'COP',
       signature: signature,
-      test: '1',
+      test: process.env.TEST_PAYU, ∫,
       buyerEmail: order.user.email,
       responseUrl: '',
       confirmationUrl: `${process.env.API_URL}/responses`,
@@ -283,10 +283,7 @@ const PendingBuys = () => {
 
     const form = document.createElement('form');
     form.setAttribute('method', 'post');
-    form.setAttribute(
-      'action',
-      'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/',
-    );
+    form.setAttribute(process.env.PAYU_URL);
     const winName = 'MyWindow';
     form.setAttribute('target', winName);
     for (const i in params) {
