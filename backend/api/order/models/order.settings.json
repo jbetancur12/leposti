@@ -59,7 +59,7 @@
       "type": "boolean",
       "default": false
     },
-    "negociado": {
+    "ordenado": {
       "type": "boolean",
       "default": false
     }

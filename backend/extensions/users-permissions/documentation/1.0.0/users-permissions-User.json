@@ -1303,7 +1303,7 @@
                 "publicado": {
                   "type": "boolean"
                 },
-                "negociado": {
+                "ordenado": {
                   "type": "boolean"
                 },
                 "published_at": {

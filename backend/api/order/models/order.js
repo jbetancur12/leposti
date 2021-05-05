@@ -8,7 +8,7 @@ const dateFormat = require("dateformat");
 module.exports = {
   lifecycles: {
     async afterUpdate(result, params, data) {
-
+      console.log(data.publicado && data.ordenado)
       if (data.publicado && data.ordenado) {
         try {
           await strapi.plugins["email-designer"].services.email.sendTemplatedEmail(

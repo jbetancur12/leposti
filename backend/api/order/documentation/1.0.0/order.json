@@ -726,7 +726,7 @@
             "type": "boolean",
             "default": false
           },
-          "negociado": {
+          "ordenado": {
             "type": "boolean",
             "default": false
           },
@@ -785,7 +785,7 @@
             "type": "boolean",
             "default": false
           },
-          "negociado": {
+          "ordenado": {
             "type": "boolean",
             "default": false
           },
