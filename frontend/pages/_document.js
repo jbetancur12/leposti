@@ -5,7 +5,7 @@ export default class MyDocument extends Document {
       <Html lang='es'>
         <Head>
           {/* Global Site Tag (gtag.js) - Google Analytics */}
-          <link rel="preload" href="/banner1.webp" as="image"></link>
+          <link rel='preload' href='/banner1.webp' as='image'></link>
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_TRACKING_ID}`}
@@ -40,10 +40,7 @@ export default class MyDocument extends Document {
               }),
             }}
           />
-          <script
-            src='//code-eu1.jivosite.com/widget/pMevzsttmR'
-            async
-          ></script>
+          <script src='//code.jivosite.com/widget/DV6i9i6RS3' async></script>
         </Head>
         <body>
           <Main />

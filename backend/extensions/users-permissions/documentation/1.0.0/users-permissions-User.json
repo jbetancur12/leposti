@@ -1291,9 +1291,6 @@
                 "fechaPublicacion": {
                   "type": "string"
                 },
-                "sePublico": {
-                  "type": "boolean"
-                },
                 "ejemplar": {
                   "type": "boolean"
                 },
@@ -1302,6 +1299,12 @@
                 },
                 "metodoPago": {
                   "type": "string"
+                },
+                "publicado": {
+                  "type": "boolean"
+                },
+                "negociado": {
+                  "type": "boolean"
                 },
                 "published_at": {
                   "type": "string"

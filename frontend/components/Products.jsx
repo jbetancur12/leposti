@@ -1,7 +1,7 @@
 import styles from '@styles/Products.module.css';
 import Title from './Title';
 import { Row, Col } from 'antd';
-import Image from 'next/image'
+import Image from 'next/image';
 
 const Products = () => (
   <div className={styles.container} id='about'>

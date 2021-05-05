@@ -22,7 +22,7 @@ import md5 from 'md5';
 import CookieConsent from 'react-cookie-consent';
 
 import Link from 'next/link';
-import Image from 'next/image'
+import Image from 'next/image';
 import colombianHolidays from 'colombian-holidays';
 import 'moment/locale/es-mx';
 import locale from 'antd/lib/locale/es_ES';
@@ -96,7 +96,12 @@ const Home = ({ pqrs }) => {
   const [form] = Form.useForm();
   const [referencia, setReferencia] = useState();
 
-  const faq = pqrs && pqrs.map(pqr => ({ questionName: pqr.question, acceptedAnswerText: pqr.answer }))
+  const faq =
+    pqrs &&
+    pqrs.map((pqr) => ({
+      questionName: pqr.question,
+      acceptedAnswerText: pqr.answer,
+    }));
 
   //Functions
   async function onChangeProduct(value) {
@@ -242,7 +247,7 @@ const Home = ({ pqrs }) => {
     const totalIVA =
       finalPrice[0].iva > 0
         ? (finalPrice[0].precio * finalPrice[0].iva) / 100 +
-        finalPrice[0].precio
+          finalPrice[0].precio
         : finalPrice[0].precio;
     const reformatDate = productProvider.fecha.split('/');
     const newDateFormated = `${reformatDate[2]}-${reformatDate[1]}-${reformatDate[0]}`;
@@ -552,17 +557,18 @@ const Home = ({ pqrs }) => {
           },
         ]}
       />
-      <LogoJsonLd logo='/logoprincipalBlanco.webp' url='https://www.leposti.com' />
-      <FAQPageJsonLd
-        mainEntity={faq}
+      <LogoJsonLd
+        logo='/logoprincipalBlanco.webp'
+        url='https://www.leposti.com'
       />
+      <FAQPageJsonLd mainEntity={faq} />
       <BackTop />
       <MyHeader />
       <Content className={styles.main}>
         <Carousel className={styles.carousel} autoplay>
           <Image
             src='/banner1.webp'
-            layout="responsive"
+            layout='responsive'
             className={styles.imgContainer}
             alt='banner1'
             title='banner1'
@@ -571,7 +577,7 @@ const Home = ({ pqrs }) => {
           ></Image>
           <Image
             src='/banner2.webp'
-            layout="responsive"
+            layout='responsive'
             className={styles.imgContainer}
             alt='banner2'
             title='banner2'
@@ -670,10 +676,10 @@ const Home = ({ pqrs }) => {
                         false
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >
@@ -766,10 +772,10 @@ const Home = ({ pqrs }) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                            new Error(
-                              'Debe aceptar los terminos y condiciones',
+                              new Error(
+                                'Debe aceptar los terminos y condiciones',
+                              ),
                             ),
-                          ),
                     },
                   ]}
                 >

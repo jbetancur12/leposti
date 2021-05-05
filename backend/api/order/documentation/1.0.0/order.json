@@ -712,10 +712,6 @@
             "type": "string",
             "format": "date"
           },
-          "sePublico": {
-            "type": "boolean",
-            "default": false
-          },
           "ejemplar": {
             "type": "boolean",
             "default": false
@@ -725,6 +721,14 @@
           },
           "metodoPago": {
             "type": "string"
+          },
+          "publicado": {
+            "type": "boolean",
+            "default": false
+          },
+          "negociado": {
+            "type": "boolean",
+            "default": false
           },
           "published_at": {
             "type": "string",
@@ -767,10 +771,6 @@
             "type": "string",
             "format": "date"
           },
-          "sePublico": {
-            "type": "boolean",
-            "default": false
-          },
           "ejemplar": {
             "type": "boolean",
             "default": false
@@ -780,6 +780,14 @@
           },
           "metodoPago": {
             "type": "string"
+          },
+          "publicado": {
+            "type": "boolean",
+            "default": false
+          },
+          "negociado": {
+            "type": "boolean",
+            "default": false
           },
           "published_at": {
             "type": "string",
