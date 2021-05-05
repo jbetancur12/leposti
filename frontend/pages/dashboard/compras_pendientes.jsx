@@ -262,12 +262,12 @@ const PendingBuys = () => {
 
   const goToPayu = (order) => {
     const signature = md5(
-      `${process.env.PAYU_KEY}~${process.env.PAYU_MERCHANT_ID}~${referenceCode}~${order.total}~COP`,
+      `${process.env.PAYU_KEY}~${process.env.PAYU_MERCHANT_ID}~~${order.referencia}~${order.total}~COP`,
     );
 
     const params = {
       accountId: process.env.PAYU_ACCOUNT_ID,
-      merchantId: process.env.PAYU_MERCHANT_ID, ∫
+      merchantId: process.env.PAYU_MERCHANT_ID,
       description: `${order.provider.nombre} - ${order.product.nombre} - ${order.fechaPublicacion}`,
       referenceCode: order.referencia,
       amount: order.total,
@@ -275,7 +275,7 @@ const PendingBuys = () => {
       taxReturnBase: (order.total / 1.16).toFixed(2),
       currency: 'COP',
       signature: signature,
-      test: process.env.TEST_PAYU, ∫,
+      test: process.env.TEST_PAYU,
       buyerEmail: order.user.email,
       responseUrl: '',
       confirmationUrl: `${process.env.API_URL}/responses`,
