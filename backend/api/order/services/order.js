@@ -20,11 +20,6 @@ module.exports = {
       currency: "COP",
     });
 
-    /* $2,500.00 */
-
-    console.log(data)
-    console.log(entry)
-
     if (data.estado === "paid") {
       try {
         await strapi.plugins["email-designer"].services.email.sendTemplatedEmail(
