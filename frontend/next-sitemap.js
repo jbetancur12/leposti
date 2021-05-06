@@ -1,5 +1,5 @@
 module.exports = {
-  siteUrl: 'https://leposti.ml',
+  siteUrl: process.env.CANONICAL_URL,
   changefreq: 'weekly',
   priority: 0.7,
   sitemapSize: 5000,
