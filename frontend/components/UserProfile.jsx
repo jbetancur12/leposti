@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Divider, Button } from 'antd';
+import { Row, Col, Divider } from 'antd';
 import { useAuth } from '@context/auth';
 import styles from '@styles/User.module.css';
 import Register from '@components/Register';
-import { EditOutlined } from '@ant-design/icons';
+// import { EditOutlined } from '@ant-design/icons';
+import moment from 'moment';
 
 const UserProfile = () => {
-  const [modalEdit, setEdit] = useState(false);
+  const [modalEdit] = useState(false);
   const [info, setInfo] = useState({
     docId: '',
     firstname: '',
@@ -27,9 +28,9 @@ const UserProfile = () => {
     }
   }, [auth.user]);
 
-  const showModal = () => {
-    setEdit(true);
-  };
+  // const showModal = () => {
+  //   setEdit(true);
+  // };
 
   const DescriptionItem = ({ title, content }) => (
     <div className={styles.item}>
@@ -115,16 +116,16 @@ const UserProfile = () => {
             <Col span={12}>
               <DescriptionItem
                 title='Fecha creación'
-                content={info.created_at}
+                content={moment(info.created_at).format('MMMM DD, h:mm A')}
               />
             </Col>
           </Row>
           <Divider />
-          <Row>
+          {/* <Row>
             <Button type='primary' icon={<EditOutlined />} onClick={showModal}>
               Editar Información
             </Button>
-          </Row>
+          </Row> */}
         </Col>
       )}
     </Row>

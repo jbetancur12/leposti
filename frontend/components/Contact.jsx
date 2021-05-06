@@ -13,6 +13,7 @@ const Contact = () => {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
       body: JSON.stringify(body), // body data type must match "Content-Type" header
     });

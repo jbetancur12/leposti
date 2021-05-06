@@ -7,7 +7,7 @@ import Link from 'next/link';
 const MyMenu = (props) => {
   const { isAuthenticated } = useAuth();
   return (
-    <Menu className={styles.menu} mode={props.type}>
+    <Menu className={styles.menu} mode={props.type} forceSubMenuRender={true}>
       <Menu.Item key='1' className={styles.item}>
         <Link href='/#about'>
           <a>Quiénes somos</a>
@@ -25,7 +25,7 @@ const MyMenu = (props) => {
       </Menu.Item>
       {isAuthenticated ? (
         <Menu.Item key='4' className={`${styles.item} ${styles.loginBtn}`}>
-          <Link href='/dashboard'>
+          <Link href='/dashboard/user'>
             <a>Dashboard</a>
           </Link>
         </Menu.Item>

@@ -1,6 +1,7 @@
 import { Form, Input, Button, message, Layout, Row, Col } from 'antd';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 import styles from '@styles/Login.module.css';
 
@@ -29,6 +30,7 @@ const RestorePassword = () => {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
         Authorization: `Bearer ${process.env.TOKEN}`,
       },
       body: JSON.stringify(body), // body data type must match "Content-Type" header
@@ -48,6 +50,11 @@ const RestorePassword = () => {
   return (
     <>
       <Layout className={styles.layout}>
+        <NextSeo
+          nofollow={true}
+          noindex={true}
+          title='Restaurar Contraseña | Leposti.com'
+        />
         <MyHeader />
         <Content className={styles.content}>
           <Row justify='space-around' style={{ width: '100%' }}>

@@ -9,7 +9,12 @@ import {
   Spin,
   Grid,
 } from 'antd';
-import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  ShoppingCartOutlined,
+  ShoppingOutlined,
+  ShoppingFilled,
+} from '@ant-design/icons';
 
 import styles from '@styles/LayoutDash.module.css';
 
@@ -84,12 +89,6 @@ const MyLayout = ({ children }) => {
           style={{ height: '100vh' }}
           breakpoint='lg'
           collapsedWidth='0'
-          onBreakpoint={(broken) => {
-            console.log(broken);
-          }}
-          onCollapse={(collapsed, type) => {
-            console.log(collapsed, type);
-          }}
           width={200}
           className='site-layout-background'
         >
@@ -101,7 +100,7 @@ const MyLayout = ({ children }) => {
           >
             <Menu.Item key='1' icon={<UserOutlined />}>
               <Link href='/dashboard/user'>
-                <a>Perfil</a>
+                <a>Mi Cuenta</a>
               </Link>
             </Menu.Item>
             {/* <Menu.Item key='2' icon={<UserOutlined />}>
@@ -109,17 +108,17 @@ const MyLayout = ({ children }) => {
                 <a>Publicaciones</a>
               </Link>
             </Menu.Item> */}
-            <SubMenu key='sub1' icon={<UserOutlined />} title='Compras'>
-              <Menu.Item key='3' icon={<UserOutlined />}>
+            <SubMenu key='sub1' icon={<ShoppingOutlined />} title='Compras'>
+              <Menu.Item key='3' icon={<ShoppingFilled />}>
                 <Link href='/dashboard/compras_realizadas'>
                   <a>Realizadas</a>
                 </Link>
               </Menu.Item>
-              <Menu.Item key='4' icon={<UserOutlined />}>
+              {/* <Menu.Item key='4' icon={<UserOutlined />}>
                 <Link href='/dashboard/compras_pendientes'>
                   <a>Pendientes</a>
                 </Link>
-              </Menu.Item>
+              </Menu.Item> */}
             </SubMenu>
             {/* <SubMenu key='sub2' icon={<ToolOutlined />} title='Configuración'>
               <Menu.Item key='5' icon={<UserOutlined />}>

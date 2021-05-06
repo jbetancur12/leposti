@@ -6,8 +6,14 @@ import md5 from 'md5';
 import { DollarCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { NextSeo } from 'next-seo';
 import dynamic from 'next/dynamic';
+import moment from 'moment';
 
 import MyLayout from '@components/LayoutDash';
+
+const formatter = new Intl.NumberFormat('es-CO', {
+  style: 'currency',
+  currency: 'COP',
+});
 
 //import styles from "@styles/Publications.module.css"
 
@@ -46,6 +52,9 @@ const PendingBuys = () => {
       title: 'Código',
       dataIndex: 'codigo',
       key: 'codigo',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.codigo - b.codigo,
+      // sortDirections: ['descend', 'ascend'],
     },
     {
       title: 'Monto',
@@ -61,11 +70,7 @@ const PendingBuys = () => {
       title: 'Fecha de Pago',
       dataIndex: 'fechaPago',
       key: 'fechaPago',
-    },
-    {
-      title: 'Fecha de Creación',
-      dataIndex: 'fecha',
-      key: 'fecha',
+      sorter: (a, b) => moment(a.fechaPago).unix() - moment(b.fechaPago).unix(),
     },
     {
       title: '',
@@ -107,7 +112,7 @@ const PendingBuys = () => {
     unpaidOrders.map((unpaidOrder) => ({
       key: unpaidOrder.id,
       codigo: unpaidOrder.id,
-      monto: unpaidOrder.total,
+      monto: formatter.format(unpaidOrder.total),
       referencia: unpaidOrder.referencia,
       fechaPago: unpaidOrder.fechaPublicacion,
       fecha: '22/03/2021',
@@ -169,38 +174,50 @@ const PendingBuys = () => {
       );
       return (
         <div>
-          <p>
-            <span>Producto:</span>
-            {_product[0].nombre}
-          </p>
-          <p>
-            <span>Medio:</span>
-            {_provider[0].nombre}
-          </p>
-          <p>
-            <span>Fecha Publicacion:</span>
-            {rowData[0].fechaPublicacion}
-          </p>
-          <p>
-            <span>Valor:</span>
-            {rowData[0].total}
-          </p>
-          <p>
-            <span>Publicado:</span>
-            {rowData[0].sePublico}
-          </p>
-          <p>
-            <span>contenido:</span>{' '}
-            <>
-              <QuillNoSSRWrapper
-                theme='snow'
-                modules={config.modules}
-                value={rowData[0].contenido}
-                readOnly={true}
-                placeholder='Contenido'
-              />
-            </>
-          </p>
+          <div>
+            <p>
+              <Space>
+                <span style={{ fontWeight: 'bold' }}>Producto:</span>
+                {_product[0].nombre}
+              </Space>
+            </p>
+            <p>
+              <Space>
+                <span style={{ fontWeight: 'bold' }}>Medio:</span>
+                {_provider[0].nombre}
+              </Space>
+            </p>
+            <p>
+              <Space>
+                <span style={{ fontWeight: 'bold' }}>Fecha Publicacion:</span>
+                {rowData[0].fechaPublicacion}
+              </Space>
+            </p>
+            <p>
+              <Space>
+                <span style={{ fontWeight: 'bold' }}>Valor:</span>
+                {formatter.format(rowData[0].total)}
+              </Space>
+            </p>
+            <p>
+              <Space>
+                <span style={{ fontWeight: 'bold' }}>Publicado:</span>
+                {rowData[0].sePublico}
+              </Space>
+            </p>
+            <p>
+              <span style={{ fontWeight: 'bold' }}>Aviso Publicado:</span>{' '}
+            </p>
+          </div>
+          <>
+            <QuillNoSSRWrapper
+              theme='snow'
+              modules={config.modules}
+              value={rowData[0].contenido}
+              readOnly={true}
+              placeholder='Aviso Publicado'
+            />
+          </>
         </div>
       );
     }
@@ -212,6 +229,7 @@ const PendingBuys = () => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
 
@@ -229,6 +247,7 @@ const PendingBuys = () => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
     if (!res.ok) {
@@ -243,12 +262,12 @@ const PendingBuys = () => {
 
   const goToPayu = (order) => {
     const signature = md5(
-      `4Vj8eK4rloUd272L48hsrarnUA~508029~${order.referencia}~${order.total}~COP`,
+      `${process.env.PAYU_KEY}~${process.env.PAYU_MERCHANT_ID}~${order.referencia}~${order.total}~COP`,
     );
 
     const params = {
-      accountId: '512321',
-      merchantId: '508029',
+      accountId: process.env.PAYU_ACCOUNT_ID,
+      merchantId: process.env.PAYU_MERCHANT_ID,
       description: `${order.provider.nombre} - ${order.product.nombre} - ${order.fechaPublicacion}`,
       referenceCode: order.referencia,
       amount: order.total,
@@ -256,7 +275,7 @@ const PendingBuys = () => {
       taxReturnBase: (order.total / 1.16).toFixed(2),
       currency: 'COP',
       signature: signature,
-      test: '1',
+      test: process.env.TEST_PAYU,
       buyerEmail: order.user.email,
       responseUrl: '',
       confirmationUrl: `${process.env.API_URL}/responses`,
@@ -264,10 +283,7 @@ const PendingBuys = () => {
 
     const form = document.createElement('form');
     form.setAttribute('method', 'post');
-    form.setAttribute(
-      'action',
-      'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/',
-    );
+    form.setAttribute('action', process.env.PAYU_URL);
     const winName = 'MyWindow';
     form.setAttribute('target', winName);
     for (const i in params) {
@@ -300,12 +316,19 @@ const PendingBuys = () => {
       <NextSeo
         nofollow={true}
         noindex={true}
-        title='Edictos y avisos de ley en Leposti.com'
+        title='Compras Pendientes | Leposti.com'
       />
       <h1 style={{ fontSize: '28px', marginBottom: '2rem' }}>
         Compras Pendientes
       </h1>
       <Table
+        locale={{
+          emptyText: 'No hay compras pendientes',
+          triggerDesc: 'Click para ordernar por descendentes',
+          triggerAsc: 'Click para ordernar por ascendentes',
+          cancelSort: 'Click para ordenar por default',
+          expand: 'Mostras mas información',
+        }}
         expandable={{
           expandedRowRender: (record) => infoRow(record.key),
         }}

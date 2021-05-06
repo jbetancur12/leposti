@@ -7,6 +7,7 @@ import MyHeader from '@components/MyHeader';
 import MyFooter from '@components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
 import { useAuth } from '@context/auth';
+import { NextSeo } from 'next-seo';
 
 const NormalLoginForm = () => {
   const [loading, setLoading] = useState(false);
@@ -43,6 +44,7 @@ const NormalLoginForm = () => {
 
   return (
     <Layout className={styles.layout}>
+      <NextSeo nofollow={true} noindex={true} title='Login | Leposti.com' />
       <MyHeader />
       <Content className={styles.content}>
         <Row justify='space-around' style={{ width: '100%' }}>
@@ -53,7 +55,7 @@ const NormalLoginForm = () => {
             xl={6}
             className={styles.formContainer}
           >
-            <h1 className={styles.title}>Iniciar Sesion</h1>
+            <h1 className={styles.title}>Iniciar Sesión</h1>
             <Form
               name='normal_login'
               className='login-form'
@@ -83,7 +85,7 @@ const NormalLoginForm = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Password!',
+                    message: 'Por favor ingresa tu contraseña!',
                   },
                 ]}
               >
@@ -109,9 +111,9 @@ const NormalLoginForm = () => {
                   htmlType='submit'
                   className='login-form-button'
                 >
-                  {loading ? <Spin indicator={antIcon} /> : 'Login'}
+                  {loading ? <Spin indicator={antIcon} /> : 'Iniciar Sesión '}
                 </Button>{' '}
-                O <a href='/register'>Registrate aca!</a>
+                O <a href='/register'>Registrate acá!</a>
               </Form.Item>
             </Form>
           </Col>

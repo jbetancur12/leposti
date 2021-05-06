@@ -9,15 +9,19 @@ import 'react-quill/dist/quill.snow.css';
 export function reportWebVitals(metric) {
   switch (metric.name) {
     case 'FID':
+      // eslint-disable-next-line no-console
       console.log('FID=> ', metric.value);
       break;
     case 'LCP':
+      // eslint-disable-next-line no-console
       console.log('LCP=> ', metric.value);
       break;
     case 'CLS':
+      // eslint-disable-next-line no-console
       console.log('CLS=> ', metric.value);
       break;
     case 'FCP':
+      // eslint-disable-next-line no-console
       console.log('FCP=> ', metric.value);
       break;
 
@@ -28,7 +32,6 @@ export function reportWebVitals(metric) {
 
 function MyApp({ Component, pageProps }) {
   const { isAuthenticated, isLoading, token, logout } = useAuth();
-
   useEffect(() => {
     if (Component.requiresAuth && token && !isAuthenticated && !isLoading) {
       // Invalid token
@@ -40,6 +43,8 @@ function MyApp({ Component, pageProps }) {
     <>
       {Component.requiresAuth && (
         <Head>
+          <link rel='shortcut icon' href='/favicon.ico' />
+          <link rel='canonical' href='https://www.leposti.com/'></link>
           <script
             // If no token is found, redirect inmediately
             dangerouslySetInnerHTML={{

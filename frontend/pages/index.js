@@ -11,26 +11,30 @@ import {
   Modal,
   Divider,
   BackTop,
+  ConfigProvider,
 } from 'antd';
 import React, { useState } from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
 import Cookie from 'js-cookie';
-import { NextSeo, LogoJsonLd } from 'next-seo';
+import { NextSeo, LogoJsonLd, FAQPageJsonLd } from 'next-seo';
 import md5 from 'md5';
-import Head from 'next/head';
+import CookieConsent from 'react-cookie-consent';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import colombianHolidays from 'colombian-holidays';
 import 'moment/locale/es-mx';
 import locale from 'antd/lib/locale/es_ES';
 import styles from '@styles/New.module.css';
 
 import About from '@components/About';
+import Products from '@components/Products';
 import Contact from '@components/Contact';
 import Question from '@components/Question';
 import MyHeader from '@components/MyHeader';
 import MyFooter from '@components/MyFooter';
+import Experience from '@components/Experience';
 // import Chats from '@components/Chats';
 
 const { Content } = Layout;
@@ -69,8 +73,9 @@ const config = {
   },
 };
 
-const Home = ({ products }) => {
+const Home = ({ pqrs }) => {
   const myRef = React.useRef();
+  const [products, setProducts] = useState([]);
   const [product, setProduct] = useState('');
   const [provider, setProvider] = useState('');
   const [productProvider, setProductProvider] = useState([]);
@@ -85,9 +90,18 @@ const Home = ({ products }) => {
   const [editing, setEditing] = useState(false);
   const [orderReady, setOrder] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [tempEditor, setTempEditor] = useState('');
+  const [tempEditorTxt, setTempEditorTxt] = useState('');
   const [, setQuotation] = useState([]);
   const [form] = Form.useForm();
   const [referencia, setReferencia] = useState();
+
+  const faq =
+    pqrs &&
+    pqrs.map((pqr) => ({
+      questionName: pqr.question,
+      acceptedAnswerText: pqr.answer,
+    }));
 
   //Functions
   async function onChangeProduct(value) {
@@ -95,6 +109,7 @@ const Home = ({ products }) => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
     const responseProduct = await response.json();
@@ -111,6 +126,8 @@ const Home = ({ products }) => {
   }
 
   const showModal = () => {
+    setTempEditor(valueEditor);
+    setTempEditorTxt(valueEditorText);
     setIsModalVisible(true);
   };
 
@@ -119,6 +136,8 @@ const Home = ({ products }) => {
   };
 
   const handleCancel = () => {
+    setValueEditor(tempEditor);
+    setValueEditorText(tempEditorTxt);
     setIsModalVisible(false);
   };
 
@@ -200,15 +219,20 @@ const Home = ({ products }) => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
     const prices = await res.json();
-    const price = prices.filter(
-      (price) =>
-        price.product.id === productProvider.product &&
-        price.provider.id === productProvider.provider &&
-        price.dias.includes(dayWeek),
-    );
+    const price = prices.filter((price) => {
+      if (price.provider && price.product) {
+        return (
+          price.product.id === productProvider.product &&
+          price.provider.id === productProvider.provider &&
+          price.dias.includes(dayWeek)
+        );
+      }
+      return;
+    });
 
     let finalPrice = '';
 
@@ -257,6 +281,7 @@ const Home = ({ products }) => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
     });
 
@@ -279,6 +304,7 @@ const Home = ({ products }) => {
         headers: {
           Authorization: `Bearer ${process.env.TOKEN}`,
           'Content-Type': 'application/json',
+          'Accept-Encoding': 'gzip',
         },
         body: JSON.stringify(orderUpdated), // body data type must match "Content-Type" header
       });
@@ -318,6 +344,7 @@ const Home = ({ products }) => {
         headers: {
           Authorization: `Bearer ${process.env.TOKEN}`,
           'Content-Type': 'application/json',
+          'Accept-Encoding': 'gzip',
         },
         body: JSON.stringify(orderEdited), // body data type must match "Content-Type" header
       });
@@ -343,12 +370,12 @@ const Home = ({ products }) => {
     const ivaValue = iva > 0 ? order.total * (iva / 100) : 0;
 
     const signature = md5(
-      `4Vj8eK4rloUd272L48hsrarnUA~508029~${referenceCode}~${order.total}~COP`,
+      `${process.env.PAYU_KEY}~${process.env.PAYU_MERCHANT_ID}~${referenceCode}~${order.total}~COP`,
     );
 
     const params = {
-      accountId: '512321',
-      merchantId: '508029',
+      accountId: process.env.PAYU_ACCOUNT_ID,
+      merchantId: process.env.PAYU_MERCHANT_ID,
       description: `${providers.nombre} - ${provide.nombre} - ${order.fechaPublicacion}`,
       referenceCode: referenceCode,
       amount: order.total,
@@ -356,7 +383,7 @@ const Home = ({ products }) => {
       taxReturnBase: withoutIva,
       currency: 'COP',
       signature: signature,
-      test: '1',
+      test: process.env.TEST_PAYU,
       buyerEmail: email,
       responseUrl: '',
       confirmationUrl: `${API_URL}/responses`,
@@ -384,6 +411,11 @@ const Home = ({ products }) => {
   const onClickBuy = async () => {
     openWindowWithPostRequest(orderReady);
     setOpenQuote(false);
+  };
+
+  const handleClean = () => {
+    setValueEditorText('');
+    setValueEditor('');
   };
 
   const onClickEditar = () => {
@@ -463,8 +495,16 @@ const Home = ({ products }) => {
     return quotation;
   };
 
-  React.useEffect(() => {
-    //setProductProvider({ ...productProvider, fecha: referencia.fechaPublicacion });
+  React.useEffect(async () => {
+    const res = await fetch(`${API_URL}/products?_sort=id:ASC`, {
+      headers: {
+        Authorization: `Bearer ${process.env.TOKEN}`,
+        'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
+      },
+    });
+    const _products = await res.json();
+    setProducts(_products);
   }, []);
 
   const optionsProducts = products.map((product) => (
@@ -483,31 +523,33 @@ const Home = ({ products }) => {
 
   return (
     <Layout className={styles.layout}>
-      <h1 className={styles.ppalTitle}>LePosti.com</h1>
-      <Head>
-        <script
-          type='application/ld+json'
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'http://www.schema.org',
-              '@type': 'Organization',
-              name: 'LePosti.com',
-              url: 'https://leposti.com',
-              logo: '/logoprincipalBlanco.webp',
-              description:
-                'Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.',
-              address: {
-                '@type': 'PostalAddress',
-                addressCountry: 'Colombia',
-              },
-            }),
-          }}
-        />
-      </Head>
+      <h1 className={styles.ppalTitle}>Edictos, Avisos de ley | leposti.com</h1>
+
       <NextSeo
-        title='Edictos y avisos de ley en Leposti.com'
+        title='Edictos, Avisos de ley | Leposti.com'
         description='Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.'
-        canonical='https://leposti.ml'
+        canonical={process.env.CANONICAL_URL}
+        openGraph={{
+          type: 'website',
+          locale: 'es_ES',
+          url: process.env.CANONICAL_URL,
+          title: 'Edictos, Avisos de ley | Leposti.com',
+          description:
+            'Pague y publique Edictos y Avisos de ley, en medios de comunicación nacionales y/o regionales, desde la comodidad de su casa u oficina de forma rápida y segura.',
+          images: [
+            {
+              url: '/banner1.webp',
+              width: '800',
+              height: 600,
+              alt: 'Banner 1 Leposti',
+            },
+          ],
+        }}
+        twitter={{
+          handle: '@leposti_edictos',
+          site: '@leposti_edictos',
+          cardType: 'summary_large_image',
+        }}
         additionalLinkTags={[
           {
             rel: 'icon',
@@ -515,14 +557,34 @@ const Home = ({ products }) => {
           },
         ]}
       />
-      <LogoJsonLd logo='/logoprincipalBlanco' url='https://www.leposti.com' />
+      <LogoJsonLd
+        logo='/logoprincipalBlanco.webp'
+        url='https://www.leposti.com'
+      />
+      <FAQPageJsonLd mainEntity={faq} />
       <BackTop />
       <MyHeader />
       <Content className={styles.main}>
-        <Carousel autoplay>
-          <div className={styles.imgBanner1}></div>
-          <div className={styles.imgBanner2}></div>
-          <div className={styles.imgBanner3}></div>
+        <Carousel className={styles.carousel} autoplay>
+          <Image
+            src='/banner1.webp'
+            layout='responsive'
+            className={styles.imgContainer}
+            alt='banner1'
+            title='banner1'
+            width={1050}
+            height={700}
+          ></Image>
+          <Image
+            src='/banner2.webp'
+            layout='responsive'
+            className={styles.imgContainer}
+            alt='banner2'
+            title='banner2'
+            width={1050}
+            height={700}
+          ></Image>
+          {/* <img src="/banner3.webp" layout="fill" className={styles.imgContainer}></img> */}
         </Carousel>
         <div className={styles.formContainer}>
           <Form
@@ -589,21 +651,23 @@ const Home = ({ products }) => {
                   ]}
                 >
                   <Space direction='vertical' style={{ width: '100%' }}>
-                    <DatePicker
-                      ref={myRef}
-                      style={{ width: '100%' }}
-                      locale={locale}
-                      disabledDate={disabledDate}
-                      disabled={!productProvider.provider}
-                      //defaultValue={defaultDate}
-                      value={valueDate}
-                      format={dateFormat}
-                      onChange={onChangeDate}
-                    />
+                    <ConfigProvider locale={locale}>
+                      <DatePicker
+                        ref={myRef}
+                        style={{ width: '100%' }}
+                        // locale={locale}
+                        disabledDate={disabledDate}
+                        disabled={!productProvider.provider}
+                        //defaultValue={defaultDate}
+                        value={valueDate}
+                        format={dateFormat}
+                        onChange={onChangeDate}
+                      />
+                    </ConfigProvider>
                   </Space>
                 </FormItem>
                 <FormItem
-                  label='Contenido:'
+                  label='Contenido aviso a publicar:'
                   labelCol={{ span: 14 }}
                   wrapperCol={{ span: 24 }}
                   rules={[
@@ -649,12 +713,17 @@ const Home = ({ products }) => {
                     </>
                   </Responsive>
                   <Modal
-                    title='Contenido'
+                    title='Contenido aviso a publicar'
                     visible={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}
+                    okText='Aceptar'
+                    cancelText='Cancelar'
                     width='1000px'
                   >
+                    <div className={styles.editButton}>
+                      <Button onClick={handleClean}>Limpiar</Button>
+                    </div>
                     <QuillNoSSRWrapper
                       onChange={onChangeEditor}
                       theme='snow'
@@ -665,7 +734,9 @@ const Home = ({ products }) => {
                     />
                     {valueEditorText.length > 3000 ? (
                       <p style={{ color: 'red' }}>
-                        Contenido supera los 3000 caracteres
+                        Contenido supera los 3000 caracteres, Actualmente no
+                        ofrecemos este producto. Contáctanos en
+                        servicioalcliente@leposti.com o a través del chat
                       </p>
                     ) : null}
                   </Modal>
@@ -727,11 +798,28 @@ const Home = ({ products }) => {
           </Form>
         </div>
         <div>
+          <Products />
+          <Experience />
           <About></About>
           <Contact></Contact>
-          <Question></Question>
+          <Question pqrs={pqrs}></Question>
         </div>
       </Content>
+      <CookieConsent
+        buttonText='Entendido!'
+        style={{
+          background: '#002855',
+          maxWidth: '600px',
+          left: '50%',
+          transform: 'translate(-50%,0)',
+        }}
+      >
+        Al continuar navegando en este sitio web, aceptas la{' '}
+        <Link href='/cookies'>
+          <a title='Politica Cookies'>Politica de privacidad </a>
+        </Link>{' '}
+        y uso de Cookies.{' '}
+      </CookieConsent>
       <MyFooter />
       {/* <Chats /> */}
     </Layout>
@@ -739,15 +827,14 @@ const Home = ({ products }) => {
 };
 
 Home.getInitialProps = async () => {
-  const res = await fetch(`${API_URL}/products?_sort=id:ASC`, {
+  const response = await fetch(`${process.env.API_URL}/pqrs`, {
     headers: {
-      Authorization: `Bearer ${process.env.TOKEN}`,
       'Content-Type': 'application/json',
+      'Accept-Encoding': 'gzip',
     },
   });
-  const products = await res.json();
-
-  return { products };
+  const pqrResult = await response.json();
+  return { pqrs: pqrResult };
 };
 
 export default Home;

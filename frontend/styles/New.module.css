@@ -3,6 +3,27 @@
   overflow: auto;
 }
 
+.editButton {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+
+.fa,
+.fa:hover,
+.fa:focus,
+.fa:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.contact,
+.contact:focus,
+.contact:active {
+  text-decoration: none;
+  color: inherit;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -21,6 +42,7 @@
 .menu {
   background: transparent;
   color: #fff;
+  min-width: 800px;
 }
 
 .item {
@@ -77,6 +99,24 @@
   width: 100%;
   margin: 0 auto;
   position: relative;
+}
+
+.carousel {
+  /* position: relative; */
+  width: 100%;
+  /* padding-top: 66.66%; */
+}
+
+.imgContainer {
+  /* position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center; */
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .imgBanner1 {
@@ -228,7 +268,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .barsMenu {
     display: inline-block;
   }

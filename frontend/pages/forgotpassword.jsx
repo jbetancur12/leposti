@@ -17,6 +17,7 @@ import MyHeader from '@components/MyHeader';
 import MyFooter from '@components/MyFooter';
 import { Content } from 'antd/lib/layout/layout';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 const layout = {
   labelCol: { span: 8 },
@@ -40,6 +41,7 @@ const ForgotPassword = () => {
           headers: {
             Authorization: `Bearer ${process.env.TOKEN}`,
             'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip',
           },
           // body data type must match "Content-Type" header
         },
@@ -60,6 +62,7 @@ const ForgotPassword = () => {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
         Authorization: `Bearer ${process.env.TOKEN}`,
       },
       body: JSON.stringify(email), // body data type must match "Content-Type" header
@@ -115,6 +118,11 @@ const ForgotPassword = () => {
   return (
     <>
       <Layout className={styles.layout}>
+        <NextSeo
+          nofollow={true}
+          noindex={true}
+          title='Olvido Contraseña | Leposti.com'
+        />
         <MyHeader />
         <Content className={styles.content}>
           <Row justify='space-around' style={{ width: '100%' }}>

@@ -18,15 +18,34 @@ const MyFooter = () => (
             <Image
               src='/logoprincipalBlanco.webp'
               alt='logo leposti'
+              title='logo leposti'
               width={140}
               height={33}
             />
           </div>
           <div className={styles.redes}>
-            <FaTwitter />
-            <FaInstagram />
-            <FaFacebook />
-            <FaLinkedin />
+            <Link href='https://twitter.com/leposti_edictos'>
+              <a className={styles.fa}>
+                <FaTwitter />
+              </a>
+            </Link>
+            <Link href='https://www.instagram.com/leposti_edictos/'>
+              <a className={styles.fa}>
+                <FaInstagram />
+              </a>
+            </Link>
+            <Link href='https://www.facebook.com/Leposti/'>
+              <a className={styles.fa}>
+                {' '}
+                <FaFacebook />
+              </a>
+            </Link>
+            <Link href='https://www.linkedin.com/in/leposti-edictos-5b87581a9/'>
+              <a className={styles.fa}>
+                {' '}
+                <FaLinkedin />
+              </a>
+            </Link>
           </div>
         </Col>
         <Col
@@ -51,14 +70,15 @@ const MyFooter = () => (
         </Col>
         <Col span={24} sm={12} md={6} className={styles.footerCol}>
           <h3>Contacto</h3>
-          <a href='#'>email: servicioalcliente@leposti.com</a>
-          <span>Tel: +57 310 6503663</span>
+          <span>email: <a className={styles.contact} href="mailto:servicioalcliente@leposti.com?subject=Mail desde leposti.com">servicioalcliente@leposti.com</a></span>
+          <span>Tel: <a className={styles.contact} href="https://wa.me/573106503663/?text=Buen+dia%2C+estoy+interesado+en+publicar+un+aviso">+57 310 6503663</a></span>
         </Col>
         <Col span={24} sm={24} md={6} className={styles.footerImg}>
           <div className={styles.footerSuper}>
             <Image
               src='/logoSuperintendenciaIC.webp'
               alt='logo industria y comercio'
+              title='logo industria y comercio'
               width={200}
               height={45}
             />
@@ -68,6 +88,7 @@ const MyFooter = () => (
             alt='logo payu'
             width={250}
             height={140}
+            title='Logo PaYu'
           />
         </Col>
       </Row>

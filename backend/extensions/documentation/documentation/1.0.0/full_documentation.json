@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "04/26/2021 3:19:36 PM"
+    "x-generation-date": "05/05/2021 9:37:10 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -7117,10 +7117,6 @@
             "type": "string",
             "format": "date"
           },
-          "sePublico": {
-            "type": "boolean",
-            "default": false
-          },
           "ejemplar": {
             "type": "boolean",
             "default": false
@@ -7130,6 +7126,14 @@
           },
           "metodoPago": {
             "type": "string"
+          },
+          "publicado": {
+            "type": "boolean",
+            "default": false
+          },
+          "ordenado": {
+            "type": "boolean",
+            "default": false
           },
           "published_at": {
             "type": "string",
@@ -7172,10 +7176,6 @@
             "type": "string",
             "format": "date"
           },
-          "sePublico": {
-            "type": "boolean",
-            "default": false
-          },
           "ejemplar": {
             "type": "boolean",
             "default": false
@@ -7185,6 +7185,14 @@
           },
           "metodoPago": {
             "type": "string"
+          },
+          "publicado": {
+            "type": "boolean",
+            "default": false
+          },
+          "ordenado": {
+            "type": "boolean",
+            "default": false
           },
           "published_at": {
             "type": "string",
@@ -7536,9 +7544,6 @@
                 "fechaPublicacion": {
                   "type": "string"
                 },
-                "sePublico": {
-                  "type": "boolean"
-                },
                 "ejemplar": {
                   "type": "boolean"
                 },
@@ -7547,6 +7552,12 @@
                 },
                 "metodoPago": {
                   "type": "string"
+                },
+                "publicado": {
+                  "type": "boolean"
+                },
+                "ordenado": {
+                  "type": "boolean"
                 },
                 "published_at": {
                   "type": "string"
@@ -7760,9 +7771,6 @@
                 "fechaPublicacion": {
                   "type": "string"
                 },
-                "sePublico": {
-                  "type": "boolean"
-                },
                 "ejemplar": {
                   "type": "boolean"
                 },
@@ -7771,6 +7779,12 @@
                 },
                 "metodoPago": {
                   "type": "string"
+                },
+                "publicado": {
+                  "type": "boolean"
+                },
+                "ordenado": {
+                  "type": "boolean"
                 },
                 "published_at": {
                   "type": "string"
@@ -8396,9 +8410,6 @@
                 "fechaPublicacion": {
                   "type": "string"
                 },
-                "sePublico": {
-                  "type": "boolean"
-                },
                 "ejemplar": {
                   "type": "boolean"
                 },
@@ -8407,6 +8418,12 @@
                 },
                 "metodoPago": {
                   "type": "string"
+                },
+                "publicado": {
+                  "type": "boolean"
+                },
+                "ordenado": {
+                  "type": "boolean"
                 },
                 "published_at": {
                   "type": "string"

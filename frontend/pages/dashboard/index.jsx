@@ -13,7 +13,13 @@ const Dashboard = () => {
           <NextSeo
             nofollow={true}
             noindex={true}
-            title='Edictos y avisos de ley en Leposti.com'
+            title='Dashboard | Leposti.com'
+            additionalLinkTags={[
+              {
+                rel: 'icon',
+                href: '/favicon.webp',
+              },
+            ]}
           />
           <MyLayout />
         </>

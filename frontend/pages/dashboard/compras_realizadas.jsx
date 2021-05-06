@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@context/auth';
 import fetch from 'isomorphic-fetch';
 import dynamic from 'next/dynamic';
-import { Table, Spin } from 'antd';
+import { Table, Spin, Space } from 'antd';
 import { NextSeo } from 'next-seo';
+import moment from 'moment';
 
 import MyLayout from '@components/LayoutDash';
 
 //import styles from "@styles/Publications.module.css"
+
+const formatter = new Intl.NumberFormat('es-CO', {
+  style: 'currency',
+  currency: 'COP',
+});
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   ssr: false,
@@ -29,6 +35,8 @@ const columns = [
     title: 'Código',
     dataIndex: 'codigo',
     key: 'codigo',
+    defaultSortOrder: 'descend',
+    sorter: (a, b) => a.codigo - b.codigo,
   },
   {
     title: 'Monto',
@@ -44,11 +52,7 @@ const columns = [
     title: 'Fecha de Pago',
     dataIndex: 'fechaPago',
     key: 'fechaPago',
-  },
-  {
-    title: 'Fecha de Creación',
-    dataIndex: 'fecha',
-    key: 'fecha',
+    sorter: (a, b) => moment(a.fechaPago).unix() - moment(b.fechaPago).unix(),
   },
 ];
 
@@ -63,10 +67,9 @@ const SucessBuys = () => {
     paidOrders.map((paidOrder) => ({
       key: paidOrder.id,
       codigo: paidOrder.id,
-      monto: paidOrder.total,
+      monto: formatter.format(paidOrder.total),
       referencia: paidOrder.referencia,
       fechaPago: paidOrder.fechaPublicacion,
-      fecha: '22/03/2021',
     }));
 
   useEffect(() => {
@@ -119,38 +122,50 @@ const SucessBuys = () => {
       );
       return (
         <div>
-          <p>
-            <span>Producto:</span>
-            {_product[0].nombre}
-          </p>
-          <p>
-            <span>Medio:</span>
-            {_provider[0].nombre}
-          </p>
-          <p>
-            <span>Fecha Publicacion:</span>
-            {rowData[0].fechaPublicacion}
-          </p>
-          <p>
-            <span>Valor:</span>
-            {rowData[0].total}
-          </p>
-          <p>
-            <span>Publicado:</span>
-            {rowData[0].sePublico}
-          </p>
-          <p>
-            <span>contenido:</span>{' '}
-            <>
-              <QuillNoSSRWrapper
-                theme='snow'
-                modules={config.modules}
-                value={rowData[0].contenido}
-                readOnly={true}
-                placeholder='Contenido'
-              />
-            </>
-          </p>
+          <div>
+            <p>
+              <Space>
+                <span style={{ fontWeight: 'bold' }}>Producto:</span>
+                {_product[0].nombre}
+              </Space>
+            </p>
+            <p>
+              <Space>
+                <span style={{ fontWeight: 'bold' }}>Medio:</span>
+                {_provider[0].nombre}
+              </Space>
+            </p>
+            <p>
+              <Space>
+                <span style={{ fontWeight: 'bold' }}>Fecha Publicacion:</span>
+                {rowData[0].fechaPublicacion}
+              </Space>
+            </p>
+            <p>
+              <Space>
+                <span style={{ fontWeight: 'bold' }}>Valor:</span>
+                {formatter.format(rowData[0].total)}
+              </Space>
+            </p>
+            <p>
+              <Space>
+                <span style={{ fontWeight: 'bold' }}>Publicado:</span>
+                {rowData[0].sePublico}
+              </Space>
+            </p>
+            <p>
+              <span style={{ fontWeight: 'bold' }}>Aviso Publicado:</span>{' '}
+            </p>
+          </div>
+          <>
+            <QuillNoSSRWrapper
+              theme='snow'
+              modules={config.modules}
+              value={rowData[0].contenido}
+              readOnly={true}
+              placeholder='Aviso Publicado'
+            />
+          </>
         </div>
       );
     }
@@ -162,7 +177,7 @@ const SucessBuys = () => {
           <NextSeo
             nofollow={true}
             noindex={true}
-            title='Edictos y avisos de ley en Leposti.com'
+            title='Compras Realizadas | Leposti.com'
           />
           <style>
             {
@@ -177,6 +192,13 @@ const SucessBuys = () => {
             Compras Realizadas
           </h1>
           <Table
+            locale={{
+              emptyText: 'No hay compras pendientes',
+              triggerDesc: 'Click para ordernar por descendentes',
+              triggerAsc: 'Click para ordernar por ascendentes',
+              cancelSort: 'Click para ordenar por default',
+              expand: 'Mostras mas información',
+            }}
             expandable={{
               expandedRowRender: (record) => infoRow(record.key),
             }}

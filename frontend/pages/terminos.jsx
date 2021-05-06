@@ -2,10 +2,16 @@ import MyHeader from '@components/MyHeader';
 import { Layout, BackTop } from 'antd';
 import MyFooter from '@components/MyFooter';
 import styles from '@styles/Static.module.css';
+import { NextSeo } from 'next-seo';
 
 export default function terminos() {
   return (
-    <Layout>
+    <Layout className={styles.layout}>
+      <NextSeo
+        nofollow={true}
+        noindex={true}
+        title='Terminos y Condiciones | Leposti.com'
+      />
       <MyHeader />
       <BackTop />
       <div className={styles.content}>
@@ -818,7 +824,10 @@ export default function terminos() {
           del Sitio web y los datos no los puede modificar ni recuperar ningún
           servicio en otro dominio. Para más información sobre las políticas de
           Google Analytics, visitar la página
-          http://code.google.com/intl/ES/apis/analytics/docs/concepts/gaConceptsCookies.html.{' '}
+          <a href='http://code.google.com/intl/ES/apis/analytics/docs/concepts/gaConceptsCookies.html'>
+            {' '}
+            Cookies Google
+          </a>
         </p>
         <p>
           <strong>8. VERACIDAD DE LA INFORMACIÓN DEL CLIENTE </strong>

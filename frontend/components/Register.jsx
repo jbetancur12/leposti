@@ -63,7 +63,7 @@ const RegistrationForm = (props) => {
 
   const getCities = async () => {
     const res = await fetch(
-      'https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json',
+      '/cities.json',
     );
     const resCities = await res.json();
 
@@ -113,6 +113,7 @@ const RegistrationForm = (props) => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
       // body data type must match "Content-Type" header
     });
@@ -134,6 +135,7 @@ const RegistrationForm = (props) => {
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
       },
       // body data type must match "Content-Type" header
     });
@@ -480,8 +482,8 @@ const RegistrationForm = (props) => {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error('Debe aceptar terminos y condiciones'),
-                            ),
+                            new Error('Debe aceptar terminos y condiciones'),
+                          ),
                     },
                   ]}
                 >

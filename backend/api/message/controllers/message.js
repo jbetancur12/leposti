@@ -15,7 +15,7 @@ module.exports = {
     };
     try {
       await strapi.plugins["email"].services.email.sendTemplatedEmail({
-        to: 'jorge.betancur@teads.tv',
+        to: 'servicioalcliente@leposti.com',
 
       },
         emailTemplate,

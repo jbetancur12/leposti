@@ -2,10 +2,12 @@ import MyHeader from '@components/MyHeader';
 import { Layout } from 'antd';
 import MyFooter from '@components/MyFooter';
 import styles from '@styles/Static.module.css';
+import { NextSeo } from 'next-seo';
 
 export default function Politica_privacidad() {
   return (
-    <Layout>
+    <Layout className={styles.layout}>
+      <NextSeo nofollow={true} noindex={true} title='Cookies | Leposti.com' />
       <MyHeader />
       <div className={styles.content}>
         <h2 className={styles.title}>
@@ -96,8 +98,11 @@ export default function Politica_privacidad() {
           propiedad personal del dominio del CLIENTE del Sitio web y los datos
           no los puede modificar ni recuperar ningún servicio en otro dominio.
           Para más información sobre las políticas de Google Analytics, visitar
-          la página
-          http://code.google.com/intl/ES/apis/analytics/docs/concepts/gaConceptsCookies.html.{' '}
+          la siguiente página
+          <a href='http://code.google.com/intl/ES/apis/analytics/docs/concepts/gaConceptsCookies.html'>
+            {' '}
+            Cookies Google
+          </a>
         </p>
       </div>
       <MyFooter />

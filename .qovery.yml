@@ -1,0 +1,18 @@
+---
+application:
+  name: "leposti"
+  project: "leposti"
+  organization: "QoveryCommunity"
+databases:
+- type: "POSTGRESQL"
+  name: "leposti"
+  version: "12"
+routers:
+- name: "main-leposti"
+  routes:
+  - application_name: "leposti"
+    paths:
+    - /backend
+  - application_name: "leposti"
+    paths:
+    - /frontend

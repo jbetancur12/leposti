@@ -26,6 +26,7 @@ const MyHeader = () => {
         <Image
           src='/logoprincipalBlanco.webp'
           alt='Logo de Leposti'
+          title='Logo de Leposti'
           width={140}
           height={33}
         />

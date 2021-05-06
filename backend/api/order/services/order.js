@@ -20,6 +20,8 @@ module.exports = {
       currency: "COP",
     });
 
+    /* $2,500.00 */
+
     if (data.estado === "paid") {
       try {
         await strapi.plugins["email-designer"].services.email.sendTemplatedEmail(
@@ -57,7 +59,7 @@ module.exports = {
           {
             to: entry.provider.email, // required
             //from: "from@example.com", // optional if /config/plugins.js -> email.settings.defaultFrom is set
-            //replyTo: "reply@example.com", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
+            replyTo: "servicioalcliente@leposti.com", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
           },
           {
             templateId: 4, // required - you can get the template id from the admin panel
@@ -74,6 +76,39 @@ module.exports = {
                 "dd/mm/yyyy"
               ),
               contenido: entry.contenido
+            },
+          }
+        );
+
+        await strapi.plugins["email-designer"].services.email.sendTemplatedEmail(
+          {
+            to: "servicioalcliente@leposti.com", // required
+            //from: "from@example.com", // optional if /config/plugins.js -> email.settings.defaultFrom is set
+            replyTo: "jorge.betancur@teads.tv", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
+          },
+          {
+            templateId: 6, // required - you can get the template id from the admin panel
+            //subject: `Welcome to My Project`, // If provided here will override the template's subject. Can include variables like `Welcome to <%= project_name %>`
+          },
+          {
+            // this object must include all variables you're using in your email template
+            dataUser: {
+              username: `${existingEntry.user.firstname} ${existingEntry.user.lastname}`,
+              email: existingEntry.user.email,
+              referencia: existingEntry.referencia,
+              docId: existingEntry.docId,
+              order: entry.id,
+              fechaCompra: existingEntry.updated_at.toLocaleString("es-CO", {
+                timeZone: "America/Bogota",
+              }),
+              producto: existingEntry.product.nombre,
+              medio: existingEntry.provider.nombre,
+              fechaPublicacion: dateFormat(
+                existingEntry.fechaPublicacion,
+                "dd/mm/yyyy"
+              ),
+              valor: formatter.format(existingEntry.total),
+              medioPago: data.metodoPago,
             },
           }
         );
