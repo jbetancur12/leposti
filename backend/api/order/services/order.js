@@ -59,7 +59,7 @@ module.exports = {
           {
             to: entry.provider.email, // required
             //from: "from@example.com", // optional if /config/plugins.js -> email.settings.defaultFrom is set
-            replyTo: "servicioalcliente@leposti.com", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
+            cc: "servicioalcliente@leposti.com", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
           },
           {
             templateId: 4, // required - you can get the template id from the admin panel
@@ -84,7 +84,7 @@ module.exports = {
           {
             to: "servicioalcliente@leposti.com", // required
             //from: "from@example.com", // optional if /config/plugins.js -> email.settings.defaultFrom is set
-            replyTo: "jorge.betancur@teads.tv", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
+            cc: "jorge.betancur@teads.tv", // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
           },
           {
             templateId: 6, // required - you can get the template id from the admin panel
